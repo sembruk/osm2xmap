@@ -1,0 +1,9 @@
+#*.ts
+#*.qm
+#*.txt
+*.o
+*.swp
+test
+in.osm
+out.xmap
+tags
