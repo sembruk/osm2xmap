@@ -1,0 +1,5 @@
+*.o
+*.swp
+test
+in.osm
+out.xmap
