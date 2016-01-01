@@ -50,22 +50,6 @@ Coords addWayToMultipolygon(node_t * mp, node_t * way, bool reverse) {
     return previosCoords;
 }
 
-bool isMultipolygon(node_t * relation) {
-    node_t * item = roxml_get_chld(relation,NULL,0);
-    while (item != NULL) {
-        char * itemName = roxml_get_name(item,NULL,0);
-        if (strcmp(itemName,"tag")==0) {
-            if (checkTagKeyAndValue(item,"type","multipolygon")) {
-                roxml_release(itemName);
-                return true;
-            }
-        }
-        roxml_release(itemName);
-        item = roxml_get_next_sibling(item);
-    }
-    return false;
-}
-
 struct _MpWayList {
     node_t * way;
     Coords firstCoords;
@@ -254,6 +238,8 @@ namespace Main {
         for (auto it = osmRelation.begin();
              it != osmRelation.end();
              ++it) {
+            if (osmRelation.isMultipolygon()) {
+            }
             ////
         }
     }

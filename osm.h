@@ -62,7 +62,7 @@ class OsmRelation
 : public OsmObject, public OsmMemberList {
     //OsmMemberList memberList;
 public:
-    bool isMultipoligon() const;
+    bool isMultipolygon() const;
     static const char * name() { return "relation"; };
     OsmRelation(XmlElement& osmElement);
 };

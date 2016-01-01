@@ -85,7 +85,7 @@ OsmMultipolygonMember::OsmMultipolygonMember(OsmWay& osmWay, std::string& _role)
 
 OsmRelation::OsmRelation(XmlElement& osmElement)
 : OsmObject(osmElement) {
-    if (!isMultipoligon()) {
+    if (!isMultipolygon()) {
         return;
     }
     for ( XmlElement item = osmElement.getChild();
@@ -106,7 +106,7 @@ OsmRelation::OsmRelation(XmlElement& osmElement)
 }
 
 bool 
-OsmRelation::isMultipoligon() const {
+OsmRelation::isMultipolygon() const {
     return tagMap.exist(Tag("type","multipolygon"));
 }
 
