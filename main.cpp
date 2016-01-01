@@ -251,7 +251,7 @@ namespace Main {
     void handle(OsmRelation& osmRelation, XmapTree& xmapTree) {
         const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ELEM_AREA);
         XmapWay way = xmapTree.add(symbol.Id());
-        for (OsmMemberList::iterator it = osmRelation.begin();
+        for (auto it = osmRelation.begin();
              it != osmRelation.end();
              ++it) {
             ////

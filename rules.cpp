@@ -102,7 +102,7 @@ SymbolList::detect(const TagMap& tags) { ///< detectSymbol
         //info("Checked id %d",symbol.id);
         if (symbol.tagMap.tagsOk(tags)) {
             //info("%d - ok",symbol.id);
-            int id = symbol.id;
+            //int id = symbol.id;
             return symbol;
         }
     }
