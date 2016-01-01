@@ -92,6 +92,7 @@ public:
     ~XmapWay();
 
     void completeMultipolygonPart();
+	void changeFlags(int flags);
     void removeFlags();
 };
 

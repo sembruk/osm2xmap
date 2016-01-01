@@ -52,17 +52,24 @@ OsmNode::OsmNode(XmlElement& osmElement)
 
 OsmWay::OsmWay(XmlElement& osmElement)
 : OsmObject(osmElement) {
+	bool first = true;
     for ( XmlElement item = osmElement.getChild();
           !item.isEmpty();
           ++item ) {
         if (item == "nd") {
             long nodeId = item.getAttribute<long>("ref");
-            Osm::NodeMap::iterator it = Osm::nodeMap.find(nodeId);
+            auto it = Osm::nodeMap.find(nodeId);
             if (it == Osm::nodeMap.end()) {
                 warning("Node %ld didn't find",nodeId);
             }
             else {
-                nodeList.push_back(it->second);
+				OsmNode node = it->second;
+                push_back(node);
+				if (first) {
+					firstCoords = node.getCoords();
+					first = false;
+				}
+				lastCoords = node.getCoords();
             }
         }
     }

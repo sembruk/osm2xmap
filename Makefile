@@ -17,7 +17,7 @@ RM       = rm -f
 all: $(BINDIR)/$(EXECUTABLE)
 
 $(BINDIR)/$(EXECUTABLE): $(OBJECTS)
-	$(LINKER) $@ $(OBJECTS) $(LIBS) $(LDFLAGS)
+	@$(LINKER) $@ $(OBJECTS) $(LIBS) $(LDFLAGS)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp

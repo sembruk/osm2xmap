@@ -34,14 +34,16 @@ public:
 typedef std::list<OsmNode> OsmNodeList;
 
 class OsmWay
-: public OsmObject {
-    OsmNodeList nodeList;
+: public OsmObject, public OsmNodeList {
+    //OsmNodeList nodeList;
+	Coords firstCoords;
+	Coords lastCoords;
 public:
     static const char * name() { return "way"; };
     OsmWay() {};
     OsmWay(XmlElement& _osmElement);
-    OsmNodeList::iterator begin() { return nodeList.begin(); };
-    OsmNodeList::iterator end() { return nodeList.end(); };
+    //OsmNodeList::iterator begin() { return nodeList.begin(); };
+    //OsmNodeList::iterator end() { return nodeList.end(); };
 };
 
 enum Role {

@@ -13,86 +13,6 @@
 //using namespace std;
 
 /*
-Coords addWayToMultipolygon(node_t * mp, node_t * way, bool reverse) {
-    //printf("add way %ld %d\n",(long)way,reverse);
-    static Coords previosCoords = {.x=0, .y=0};
-    node_t * wayChld = roxml_get_chld(way,NULL,0);
-    if (reverse) {
-        wayChld = roxml_get_chld(way,NULL,roxml_get_chld_nb(way)-1);
-    }
-    int i = 0;
-    while (wayChld != NULL) {
-        char * chldName = roxml_get_name(wayChld,NULL,0);
-        if (strcmp(chldName,"nd") == 0) {
-            long pointId = xmlGetAttrValueL(wayChld,"ref");
-            node_t * osmPointXmlElm = getSavedPoint(pointId);
-            Coords coords = getPointCoords(osmPointXmlElm);
-            if (i == 0 && coords.x == previosCoords.x && coords.y == previosCoords.y) {
-                xmapRemoveFlags(mp);
-            }
-            else {
-                int flags = 0;
-                xmapAddCoordToObject(mp, &coords, flags);
-            }
-            previosCoords.x = coords.x;
-            previosCoords.y = coords.y;
-        }
-        roxml_release(chldName);
-        if (reverse) {
-            wayChld = roxml_get_prev_sibling(wayChld);
-        }
-        else {
-            wayChld = roxml_get_next_sibling(wayChld);
-        }
-        ++i;
-    }
-    xmapCompleteMultipolygonPart(mp);
-    return previosCoords;
-}
-
-struct _MpWayList {
-    node_t * way;
-    Coords firstCoords;
-    Coords lastCoords;
-    bool added;
-    struct _MpWayList * next;
-};
-
-typedef struct _MpWayList MpWayList;
-
-Coords mpGetWayFirstCoords(node_t * way) {
-    node_t * firstNd = roxml_get_chld(way,"nd",0);
-    long firstNdId = xmlGetAttrValueL(firstNd,"ref");
-    return getPointById(firstNdId);
-}
-
-Coords mpGetWayLastCoords(node_t * way) {
-    node_t * nextNd = roxml_get_chld(way,"nd",0);
-    long lastNdId = 0;
-    while (nextNd != NULL) {
-        char * ndName = roxml_get_name(nextNd,NULL,0);
-        if (strcmp(ndName,"nd")==0) {
-            lastNdId = xmlGetAttrValueL(nextNd,"ref");
-        }
-        else {
-            nextNd = NULL;
-        }
-        roxml_release(ndName);
-        nextNd = roxml_get_next_sibling(nextNd);
-    }
-    return getPointById(lastNdId);
-}
-
-MpWayList * mpAddWayToList(MpWayList * mpWayList, node_t * way, Coords firstCoords, Coords lastCoords) {
-    //printf("add way to list %ld %ld %ld %ld %ld\n",(long)way,(long)firstCoords.x,(long)firstCoords.y,(long)lastCoords.x,(long)lastCoords.y);
-    MpWayList * newWayList = (MpWayList*)malloc(sizeof(MpWayList));
-    newWayList->next = mpWayList;
-    newWayList->way = way;
-    newWayList->firstCoords = firstCoords;
-    newWayList->lastCoords = lastCoords;
-    return newWayList;
-}
-
 bool MpAllWaysAdded(MpWayList * mpWayList) {
     if (mpWayList) {
         if (mpWayList->added) {
@@ -211,35 +131,49 @@ namespace Main {
         }
     }
 
-    template< >
-    void handle(OsmWay& osmWay, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), ELEM_WAY);
-        XmapWay way = xmapTree.add(symbol.Id());
-        Tag ndSymbolTag = symbol.NdSymbolTag();
+    Coords addCoordsToWay(XmapWay& way, const Symbol& symbol, OsmWay osmWay, bool reverse = false) {
+        if (reverse) {
+            osmWay.reverse();
+        }
+        Tag dashSymbolTag = symbol.NdSymbolTag();
+        Coords lastGeographicCoords;
         for (OsmNodeList::iterator it = osmWay.begin();
              it != osmWay.end();
              ++it) {
             int flags = 0;
-            if (!ndSymbolTag.empty()) {
-                if(it->getTagMap().exist(ndSymbolTag)) {
+            if (!dashSymbolTag.empty()) {
+                if(it->getTagMap().exist(dashSymbolTag)) {
                     flags = 32;
                 }
             }
             Coords coords = it->getCoords();
+            lastGeographicCoords = coords;
             coords = Main::transform.geographicToMap(coords);
             way.addCoord(coords,flags);
         }
+        return lastGeographicCoords;
+    }
+
+    template< >
+    void handle(OsmWay& osmWay, XmapTree& xmapTree) {
+        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), ELEM_WAY);
+        XmapWay way = xmapTree.add(symbol.Id());
+        addCoordsToWay(way,symbol,osmWay);
     }
 
     template< >
     void handle(OsmRelation& osmRelation, XmapTree& xmapTree) {
+        if (!osmRelation.isMultipolygon()) {
+            return;
+        }
         const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ELEM_AREA);
         XmapWay way = xmapTree.add(symbol.Id());
         for (auto it = osmRelation.begin();
              it != osmRelation.end();
              ++it) {
-            if (osmRelation.isMultipolygon()) {
-            }
+            OsmWay& osmWay = *(it);
+            addCoordsToWay(way,symbol,osmWay);
+            way.completeMultipolygonPart();
             ////
         }
     }

@@ -185,6 +185,13 @@ XmapWay::removeFlags() { ///< xmapRemoveFlags()
     lastCoordElement.removeAttribute("flags");
 }
 
+/*
+void
+XmapWay::changeFlags(int flags) {
+    lastCoordElement.addAttribute("flags",flags);
+}
+*/
+
 XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& max)
 : XmapWay(xmapTree, id) { ///< xmapAddRectangle()
     Coords left (max.X(), min.Y());
