@@ -59,6 +59,7 @@ public:
 };
 
 typedef std::list<OsmMultipolygonMember> OsmMemberList;
+//typedef std::map<Coords, OsmMultipolygonMember> OsmMemberMap;
 
 class OsmRelation
 : public OsmObject, public OsmMemberList {

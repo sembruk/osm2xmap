@@ -65,7 +65,7 @@ void handleRelation(node_t * relation) {
         node_t * way = NULL;
         node_t * item = roxml_get_chld(relation,NULL,0);
         while (item != NULL) {
-        char * itemName = roxml_get_name(item,NULL,0);
+            char * itemName = roxml_get_name(item,NULL,0);
             if (strcmp(itemName,"member")==0) {
                 char * type = xmlGetAttrValueS(item,"type");
                 if (strcmp(type,"way")==0) {
@@ -168,9 +168,13 @@ namespace Main {
         }
         const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ELEM_AREA);
         XmapWay way = xmapTree.add(symbol.Id());
+        /*
         for (auto it = osmRelation.begin();
              it != osmRelation.end();
              ++it) {
+        */
+        {
+            ///TODO use OsmMemberMap
             OsmWay& osmWay = *(it);
             addCoordsToWay(way,symbol,osmWay);
             way.completeMultipolygonPart();
