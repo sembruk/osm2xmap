@@ -1,5 +1,5 @@
 *.o
 *.swp
-test
+osm2xmap
 in.osm
 out.xmap
