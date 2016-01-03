@@ -44,6 +44,8 @@ public:
     OsmWay(XmlElement& _osmElement);
     //OsmNodeList::iterator begin() { return nodeList.begin(); };
     //OsmNodeList::iterator end() { return nodeList.end(); };
+    const Coords& getFirstCoords() const { return firstCoords; };
+    const Coords& getLastCoords() const { return lastCoords; };
 };
 
 enum Role {

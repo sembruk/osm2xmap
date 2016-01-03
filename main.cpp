@@ -168,17 +168,37 @@ namespace Main {
         }
         const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ELEM_AREA);
         XmapWay way = xmapTree.add(symbol.Id());
-        /*
-        for (auto it = osmRelation.begin();
-             it != osmRelation.end();
-             ++it) {
-        */
-        {
-            ///TODO use OsmMemberMap
-            OsmWay& osmWay = *(it);
-            addCoordsToWay(way,symbol,osmWay);
+        OsmMemberList memberList = osmRelation;
+        OsmWay& osmWay = memberList.front();
+        Coords lastCoords = addCoordsToWay(way,symbol,osmWay);
+        memberList.pop_front();
+        while (!memberList.empty()) {
+            bool found = false;
+            for (auto it = memberList.begin();
+                 it != memberList.end();
+                 ++it) {
+                OsmWay& osmWay = *(it);
+                if (lastCoords == osmWay.getFirstCoords()) {
+                    addCoordsToWay(way,symbol,osmWay,false);
+                    lastCoords = osmWay.getLastCoords();
+                    memberList.erase(it);
+                    found = true;
+                    break;
+                }
+                if (lastCoords == osmWay.getLastCoords()) {
+                    addCoordsToWay(way,symbol,osmWay,true);
+                    lastCoords = osmWay.getFirstCoords();
+                    memberList.erase(it);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                OsmWay& osmWay = memberList.front();
+                lastCoords = addCoordsToWay(way,symbol,osmWay);
+                memberList.pop_front();
+            }
             way.completeMultipolygonPart();
-            ////
         }
     }
 
