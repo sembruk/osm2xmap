@@ -2,7 +2,7 @@ CC          = g++
 CFLAGS      = -Wall -std=c++11
 LDFLAGS     = -lproj
 LINKER      = $(CC) -o
-EXECUTABLE  = test
+EXECUTABLE  = osm2xmap
 
 SRCDIR      = .
 OBJDIR      = obj
