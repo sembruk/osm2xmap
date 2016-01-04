@@ -44,16 +44,14 @@ namespace Main {
         }
         Tag dashSymbolTag = symbol.NdSymbolTag();
         Coords lastGeographicCoords;
-        for (OsmNodeList::iterator it = osmWay.begin();
-             it != osmWay.end();
-             ++it) {
+        for (const auto& osmNode : osmWay) {
             int flags = 0;
             if (!dashSymbolTag.empty()) {
-                if(it->getTagMap().exist(dashSymbolTag)) {
+                if(osmNode.getTagMap().exist(dashSymbolTag)) {
                     flags = 32;
                 }
             }
-            Coords coords = it->getCoords();
+            Coords coords = osmNode.getCoords();
             lastGeographicCoords = coords;
             coords = Main::transform.geographicToMap(coords);
             way.addCoord(coords,flags);
@@ -175,7 +173,7 @@ void printUsage(const char* programName) {
 
 //FIXME
 void checkFileName(const char* fileName, const char* programName) {
-    if (fileName == NULL) {
+    if (fileName == nullptr) {
         printUsage(programName);
         error("empty filename");
     }

@@ -93,7 +93,7 @@ XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
 
 
 XmapObject::XmapObject(XmapTree* xmapTree, int id) {
-    if (xmapTree == NULL) {
+    if (xmapTree == nullptr) {
         error("xmap tree not inited");
     }
     objectElement = XmlElement(xmapTree->objects.addChild("object"));
@@ -162,7 +162,7 @@ XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& 
 
 XmapText::XmapText(XmapTree* xmapTree, int id, Coords& coords, const char * text)
 : XmapPoint(xmapTree, id, coords) { ///< xmapAddText()
-    if (text == NULL) {
+    if (text == nullptr) {
         return;
     }
     objectElement.addAttribute("type",4);

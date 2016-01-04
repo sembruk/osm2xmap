@@ -3,10 +3,10 @@
 #include "timer.h"
 
 Timer::Timer() {
-    startTime = std::time(NULL);
+    startTime = std::time(nullptr);
 }
 
 double Timer::getCurTime() {
-    return std::time(NULL) - startTime;
+    return std::time(nullptr) - startTime;
 }
 

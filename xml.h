@@ -20,7 +20,7 @@ private:
 public:
     XmlElement(node_t * _node);
     XmlElement(const XmlElement& e): node(e.node), name(e.name) {};
-    XmlElement(): node(NULL), name("") {};
+    XmlElement(): node(nullptr), name("") {};
 
     bool operator==(const char * str);
 
@@ -34,7 +34,7 @@ public:
     int getChildNumber();
 
     bool isEmpty() { 
-        if (node == NULL) 
+        if (node == nullptr) 
             return true; 
         else 
             return false;

@@ -56,7 +56,7 @@ namespace RulesCpp {
 
 Symbol::Symbol(XmlElement& symbolElement)
 : id(invalid_sym_id), textId(invalid_sym_id) {
-    if (RulesCpp::symbolIds == NULL) {
+    if (RulesCpp::symbolIds == nullptr) {
         error("Symbols ID-code map not inited");
     }
     std::string code = symbolElement.getAttribute<std::string>("code");
@@ -150,7 +150,7 @@ GroupList::detect(const TagMap& tags, int elemType) { ///< detectGroup
             return &(group);
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 const Symbol& 
@@ -159,7 +159,7 @@ GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
         error("Rules not inited!");
     }
     Group * group = detect(checkedTags, elemType);
-    if (group != NULL) {
+    if (group != nullptr) {
         return group->symbols.detect(checkedTags);
     }
     return invalidSymbol;

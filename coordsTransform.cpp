@@ -48,7 +48,7 @@ CoordsTransform::geographicToMap(Coords& coords) {
     coords *= DEG_TO_RAD;
     double x = coords.X();
     double y = coords.Y();
-    if (pj_transform(geographic_crs, projected_crs, 1, 1, &x, &y, NULL )) {
+    if (pj_transform(geographic_crs, projected_crs, 1, 1, &x, &y, nullptr)) {
         throw "geographic to map transform failed";
     }
     coords = Coords(x,y);

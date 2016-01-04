@@ -13,7 +13,7 @@ protected:
 public:
     OsmObject() {};
     OsmObject(XmlElement& osmElement);
-    const TagMap& getTagMap() { return tagMap; };
+    const TagMap& getTagMap() const { return tagMap; };
     const std::string getName() const;
 };
 

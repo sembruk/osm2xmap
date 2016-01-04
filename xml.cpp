@@ -14,7 +14,7 @@ XmlElement::operator==(const char* str) {
 std::string
 XmlElement::getName() {
     if (node) {
-        char * cName = roxml_get_name(node,NULL,0);
+        char * cName = roxml_get_name(node,nullptr,0);
         name = cName;
         roxml_release(cName);
     }
@@ -29,13 +29,13 @@ XmlElement::getChild(std::string childName) {
 
 XmlElement
 XmlElement::getChild(int nb) {
-    XmlElement child(roxml_get_chld(node, NULL, nb));
+    XmlElement child(roxml_get_chld(node, nullptr, nb));
     return child;
 }
 
 XmlElement 
 XmlElement::getChild() {
-    XmlElement child(roxml_get_chld(node, NULL, 0));
+    XmlElement child(roxml_get_chld(node, nullptr, 0));
     return child;
 }
 
@@ -49,8 +49,8 @@ class Attribute {
 public:
     Attribute(node_t * node, std::string& attrName) {
         node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
-        value = roxml_get_content(attr,NULL,0,NULL);
-        if (value == NULL) {
+        value = roxml_get_content(attr,nullptr,0,nullptr);
+        if (value == nullptr) {
             error("no attribute named %s",attrName.c_str());
         }
     };
@@ -88,9 +88,9 @@ template < >
 std::string
 XmlElement::getAttribute(std::string attrName) {
     node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
-    char * value = roxml_get_content(attr,NULL,0,NULL);
+    char * value = roxml_get_content(attr,nullptr,0,nullptr);
     std::string ret;
-    if (value != NULL) {
+    if (value != nullptr) {
         ret = std::string(value);
     }
     /*
@@ -119,13 +119,13 @@ XmlElement::getChildNumber() {
 
 node_t * 
 XmlElement::addChild(const char * name) {
-    return roxml_add_node(node,0,ROXML_ELM_NODE,(char*)name,NULL);
+    return roxml_add_node(node,0,ROXML_ELM_NODE,(char*)name,nullptr);
 }
 
 void
 XmlElement::removeAttribute(const char * name) {
     node_t * attr = roxml_get_attr(node,(char*)name,0);
-    if (attr != NULL) {
+    if (attr != nullptr) {
         roxml_del_node(attr);
     }
 }
@@ -140,7 +140,7 @@ XmlElement::addAttribute(const char * name, int value) {
 
 void
 XmlElement::addContent(const char * text) {
-    roxml_add_node(node,0,ROXML_TXT_NODE,NULL,(char*)text);
+    roxml_add_node(node,0,ROXML_TXT_NODE,nullptr,(char*)text);
 }
 
 XmlTree::XmlTree(const char * inFilename) : XmlElement::XmlElement(roxml_load_doc((char*)inFilename)) {
@@ -157,6 +157,6 @@ XmlTree::~XmlTree() {
 
 void 
 XmlTree::saveInFile(const char * outFilename) {
-    roxml_commit_changes(node,(char*)outFilename,NULL,1);
+    roxml_commit_changes(node,(char*)outFilename,nullptr,1);
 }
 
