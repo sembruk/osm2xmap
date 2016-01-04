@@ -163,6 +163,28 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
     xmapTree.save(outXmapFilename);
 }
 
+void printUsage(const char* programName) {
+    info("Usage:");
+    info("\t%s [options]",programName);
+    info("\tOptions:");
+    info("\t\t-i filename - input OSM filename;");
+    info("\t\t-o filename - output XMAP filename;");
+    info("\t\t-t filename - template XMAP filename;");
+    info("\t\t-r filename - XML rules filename;");
+}
+
+//FIXME
+void checkFileName(const char* fileName, const char* programName) {
+    if (fileName == NULL) {
+        printUsage(programName);
+        error("empty filename");
+    }
+    if (fileName[0] == '-') {
+        printUsage(programName);
+        error("bad filename");
+    }
+}
+
 int main(int argc, const char* argv[]) 
 { 
     try {
@@ -174,14 +196,35 @@ int main(int argc, const char* argv[])
         const char* outXmapFileName  = "./out.xmap";
 
         if (argc > 1) {
+            for (int i = 1; i < argc; ++i) {
+                if (std::string(argv[i]) == "-i") {
+                    inOsmFileName = argv[++i];
+                    checkFileName(inOsmFileName,argv[0]);
+                }
+                else if (std::string(argv[i]) == "-o") {
+                    outXmapFileName = argv[++i];
+                    checkFileName(outXmapFileName,argv[0]);
+                }
+                else if (std::string(argv[i]) == "-t") {
+                    templateFileName = argv[++i];
+                    checkFileName(templateFileName,argv[0]);
+                }
+                else if (std::string(argv[i]) == "-r") {
+                    rulesFileName = argv[++i];
+                    checkFileName(rulesFileName,argv[0]);
+                }
+                else {
+                    printUsage(argv[0]);
+                    error("Unknown option '%s'",argv[i]);
+                }
+            }
         }
-        else {
-            info("Using default values:");
-            info("\t* input OSM file     - %s",inOsmFileName);
-            info("\t* output XMAP file   - %s",outXmapFileName);
-            info("\t* template XMAP file - %s",templateFileName);
-            info("\t* rules file         - %s",rulesFileName);
-        }
+
+        info("Using files:");
+        info("\t* input OSM file     - %s",inOsmFileName);
+        info("\t* output XMAP file   - %s",outXmapFileName);
+        info("\t* template XMAP file - %s",templateFileName);
+        info("\t* rules file         - %s",rulesFileName);
 
         XmlTree inXmapDoc(templateFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
