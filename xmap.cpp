@@ -59,22 +59,12 @@ SymbolIdByCodeMap::get(std::string code) const {
     if (code.empty()) {
         return invalid_sym_id;
     }
-    const_iterator it = find(code);
+    auto it = find(code);
     if (it == end()) {
         error("Symbol with code %s didn't find", code.c_str());
     }
     return it->second;
 }
-/*
-const Symbol&
-SymbolsCodes::get(std::string code) const {
-    SymbolsCodes::const_iterator it = find(code);
-    if (it == end()) {
-        error("Symbol with code %s didn't find", code.c_str());
-    }
-    return it->second;
-}
-*/
 
 XmapTree::XmapTree(const char * templateFilename)
 : tree(templateFilename) {

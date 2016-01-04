@@ -27,29 +27,29 @@ public:
         y *= d;
     };
     friend Coords operator*(const Coords& coords, double d);
-    friend double maxX(Coords& first, Coords& second);
-    friend double maxY(Coords& first, Coords& second);
-    friend double minX(Coords& first, Coords& second);
-    friend double minY(Coords& first, Coords& second);
+    friend double maxX(const Coords& first, const Coords& second);
+    friend double maxY(const Coords& first, const Coords& second);
+    friend double minX(const Coords& first, const Coords& second);
+    friend double minY(const Coords& first, const Coords& second);
 };
 
 inline double
-maxX(Coords& first, Coords& second) {
+maxX(const Coords& first, const Coords& second) {
     return ((first.x > second.x) ? first.x : second.x);
 }
 
 inline double
-maxY(Coords& first, Coords& second) {
+maxY(const Coords& first, const Coords& second) {
     return ((first.y > second.y) ? first.y : second.y);
 }
 
 inline double
-minX(Coords& first, Coords& second) {
+minX(const Coords& first, const Coords& second) {
     return ((first.x < second.x) ? first.x : second.x);
 }
 
 inline double
-minY(Coords& first, Coords& second) {
+minY(const Coords& first, const Coords& second) {
     return ((first.y < second.y) ? first.y : second.y);
 }
 
@@ -73,17 +73,20 @@ public:
     std::vsprintf(buf, format, args);       \
     va_end(args);
 
-inline void info(const char* format, ...) {
+inline void
+info(const char* format, ...) {
     VSPRINTF(format);
     std::cout << std::string(buf) << std::endl;
 }
 
-inline void warning(const char* format, ...) {
+inline void
+warning(const char* format, ...) {
     VSPRINTF(format);
     std::cout << "WARNING: " << std::string(buf) << std::endl;
 }
 
-inline void error(const char* format, ...) {
+inline void
+error(const char* format, ...) {
     VSPRINTF(format);
     throw std::string(buf).c_str();
 }

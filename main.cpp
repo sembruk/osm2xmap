@@ -151,10 +151,7 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
 
     Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);
 
-    for (BackgroundList::iterator it = Main::rules.backgroundList.begin();
-         it != Main::rules.backgroundList.end();
-         ++it) {
-        int id = *it;
+    for (const auto id : Main::rules.backgroundList) {
         xmapTree.add(id, min, max);
     }
 
