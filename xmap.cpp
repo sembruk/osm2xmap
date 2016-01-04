@@ -140,7 +140,8 @@ XmapWay::~XmapWay() { ///< xmapCompleteWay()
 
 void
 XmapWay::completeMultipolygonPart() {
-    lastCoordElement.addAttribute("flags",16);
+    //lastCoordElement.addAttribute("flags",16);
+    lastCoordElement.addAttribute("flags",18);
 }
 
 void
