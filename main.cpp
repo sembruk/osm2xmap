@@ -175,26 +175,28 @@ namespace Main {
         ///TODO check member role
         while (!memberList.empty()) {
             bool found = false;
+            bool reverse = false;
+            OsmMemberList::iterator iterator;
             for (auto it = memberList.begin();
                  it != memberList.end();
                  ++it) {
-                OsmWay& osmWay = *(it);
-                if (lastCoords == osmWay.getFirstCoords()) {
-                    addCoordsToWay(way,symbol,osmWay,false);
-                    lastCoords = osmWay.getLastCoords();
-                    memberList.erase(it);
+                iterator = it;
+                if (lastCoords == iterator->getFirstCoords()) {
                     found = true;
+                    reverse = false;
                     break;
                 }
-                if (lastCoords == osmWay.getLastCoords()) {
-                    addCoordsToWay(way,symbol,osmWay,true);
-                    lastCoords = osmWay.getFirstCoords();
-                    memberList.erase(it);
+                if (lastCoords == iterator->getLastCoords()) {
                     found = true;
+                    reverse = true;
                     break;
                 }
             }
-            if (!found) {
+            if (found) {
+                lastCoords = addCoordsToWay(way,symbol,*iterator,reverse);
+                memberList.erase(iterator);
+            }
+            else {
                 way.completeMultipolygonPart();
                 OsmWay& osmWay = memberList.front();
                 lastCoords = addCoordsToWay(way,symbol,osmWay);
