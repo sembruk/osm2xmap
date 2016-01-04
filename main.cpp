@@ -172,6 +172,7 @@ namespace Main {
         OsmWay& osmWay = memberList.front();
         Coords lastCoords = addCoordsToWay(way,symbol,osmWay);
         memberList.pop_front();
+        ///TODO check member role
         while (!memberList.empty()) {
             bool found = false;
             for (auto it = memberList.begin();
@@ -194,11 +195,11 @@ namespace Main {
                 }
             }
             if (!found) {
+                way.completeMultipolygonPart();
                 OsmWay& osmWay = memberList.front();
                 lastCoords = addCoordsToWay(way,symbol,osmWay);
                 memberList.pop_front();
             }
-            way.completeMultipolygonPart();
         }
     }
 
