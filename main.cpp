@@ -12,99 +12,6 @@
 #include "common.h"
 //using namespace std;
 
-/*
-bool MpAllWaysAdded(MpWayList * mpWayList) {
-    if (mpWayList) {
-        if (mpWayList->added) {
-            return MpAllWaysAdded(mpWayList->next);
-        }
-        else {
-            return false;
-        }
-    }
-    return true;
-}
-
-Coords mpAddWayToMp(node_t * mp, MpWayList * mpWayList, Coords lastAddedCoords) {
-    if (mpWayList != NULL) {
-        if (coordsEqual(&lastAddedCoords,&defCoords)) {
-            if (mpWayList->added) {
-                return mpAddWayToMp(mp, mpWayList->next, lastAddedCoords);
-            }
-            else {
-                mpWayList->added = true;
-                return addWayToMultipolygon(mp,mpWayList->way,false);
-            }
-        }
-        if (mpWayList->added) {
-            return mpAddWayToMp(mp, mpWayList->next, lastAddedCoords);
-        }
-        if (coordsEqual(&mpWayList->firstCoords,&lastAddedCoords)) {
-            mpWayList->added = true;
-            return addWayToMultipolygon(mp,mpWayList->way,false);
-        }
-        else if (coordsEqual(&mpWayList->lastCoords,&lastAddedCoords)) {
-            mpWayList->added = true;
-            return addWayToMultipolygon(mp,mpWayList->way,true);
-        }
-        return mpAddWayToMp(mp, mpWayList->next, lastAddedCoords);
-    }
-    return defCoords;
-}
-
-void handleRelation(node_t * relation) {
-    if (isMultipolygon(relation)) {
-        int id = rulesGetSymId(relation,ELEM_POLYGON);
-        if (id == INVALID_SYM_ID) {
-            return;
-        }
-        node_t * mp = xmapAddWay();
-        xmapSetObjectSymbolId(mp,id);
-
-        MpWayList * mpWayList = NULL;
-        node_t * way = NULL;
-        node_t * item = roxml_get_chld(relation,NULL,0);
-        while (item != NULL) {
-            char * itemName = roxml_get_name(item,NULL,0);
-            if (strcmp(itemName,"member")==0) {
-                char * type = xmlGetAttrValueS(item,"type");
-                if (strcmp(type,"way")==0) {
-                    long memberId = xmlGetAttrValueL(item,"ref");
-                    way = getSavedWay(memberId);
-                    if (way != NULL) {
-                        Coords first = mpGetWayFirstCoords(way);
-                        Coords last = mpGetWayLastCoords(way);
-                        if (coordsEqual(&first,&last)) {
-                            addWayToMultipolygon(mp,way,false);
-                        }
-                        else {
-                            mpWayList = mpAddWayToList(mpWayList,way,first,last);
-                        }
-                    }
-                }
-                roxml_release(type);
-            }
-            roxml_release(itemName);
-            item = roxml_get_next_sibling(item);
-        }
-
-        Coords lastAddedCoords = mpAddWayToMp(mp, mpWayList, defCoords);
-        while (lastAddedCoords.x != 0 && lastAddedCoords.y != 0) {
-            lastAddedCoords = mpAddWayToMp(mp, mpWayList, lastAddedCoords);
-            if (coordsEqual(&lastAddedCoords,&defCoords)) {
-                lastAddedCoords = mpAddWayToMp(mp, mpWayList, lastAddedCoords);
-            }
-            //printf("%ld %ld\n",(long)lastAddedCoords.x,(long)lastAddedCoords.y);
-        }
-        if (! MpAllWaysAdded(mpWayList) ) {
-            ERROR("some ways not added");
-        }
-
-        xmapCompleteWay(mp);
-    }
-}
-*/
-
 namespace Main {
     CoordsTransform transform;
     Rules rules;
@@ -240,10 +147,8 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
     Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree);
 
     Coords min = OsmNode::getMinCoords();
-    //info("Min (%f,%f)",min.X(),min.Y());
     min = Main::transform.geographicToMap(min);
     Coords max = OsmNode::getMaxCoords();
-    //info("Max (%f,%f)",max.X(),max.Y());
     max = Main::transform.geographicToMap(max);
 
     Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);

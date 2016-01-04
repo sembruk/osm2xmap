@@ -9,8 +9,6 @@
 #include <map>
 #include <list>
 #include "xmap.h"
-//#include "common.h"
-
 
 enum ElemType {
     ELEM_NODE    = 1,
@@ -41,7 +39,6 @@ class TagMap ///< TagList
 : public std::map<std::string, Tag> {
 public:
     TagMap() {};
-    //TagMap(XmlElement& osmElement);
     bool exist(const Tag& tag) const;
     bool tagsOk(const TagMap& checkedTags) const;
     void insert(Tag& tag);
@@ -93,7 +90,6 @@ class GroupList
     void insert(Group& group) { push_back(group); };
 public:
     GroupList() {};
-    //GroupList(XmlElement& root);
     GroupList(XmlElement& rules);
     Group * detect(const TagMap& tags, int elemType);
     const Symbol& getSymbol(const TagMap& checkedTags, int elemType);

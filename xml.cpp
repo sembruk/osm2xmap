@@ -6,15 +6,6 @@ XmlElement::XmlElement(node_t * _node): node(_node) {
     name = getName();
 }
 
-/*
-XmlElement& 
-XmlElement::operator=(const XmlElement& e) {
-    node = e.node;
-    name = getName();
-    return *this;
-}
-*/
-
 bool 
 XmlElement::operator==(const char* str) {
     return name == str;
@@ -47,14 +38,6 @@ XmlElement::getChild() {
     XmlElement child(roxml_get_chld(node, NULL, 0));
     return child;
 }
-
-/*
-XmlElement 
-XmlElement::getNext() {
-    XmlElement next(roxml_get_next_sibling(node));
-    return next;
-}
-*/
 
 XmlElement&
 XmlElement::operator++() {
@@ -176,22 +159,4 @@ void
 XmlTree::saveInFile(const char * outFilename) {
     roxml_commit_changes(node,(char*)outFilename,NULL,1);
 }
-/*
-
-void xmlGetAttrValueSBuff(node_t * node, char * attrName, char * buff, int buffSize) {
-    node_t * attr = roxml_get_attr(node,attrName,0);
-    roxml_get_content(attr,buff,buffSize,NULL);
-}
-
-double xmlGetChldAttrValueF(node_t * patternNode, char * chldName, char * attrName) {
-    node_t * chld = roxml_get_chld(patternNode, chldName, 0);
-    return xmlGetAttrValueF(chld, attrName);
-}
-
-void xmlPrintNodeName(node_t *node) {
-    char * name = roxml_get_name(node, NULL, 0);
-    printf("%s\n",name);
-    roxml_release(name);
-}
-*/
 

@@ -88,29 +88,5 @@ inline void error(const char* format, ...) {
     throw std::string(buf).c_str();
 }
 
-
-/*
-#define MAX_SYMBOL_CODE_LEN 8
-#define MAX_SYMBOLS_NUM 200
-
-typedef enum _bool{false=0, true=1} bool;
-
-#define WARNING(...)     \
-    printf("WARNING: "); \
-    printf(__VA_ARGS__); \
-    printf("\n");
-
-#define ERROR(...)        \
-    printf("ERROR: ");    \
-    printf(__VA_ARGS__);  \
-    printf("\n");         \
-    exit(1);                            
-
-typedef struct _SymbolCode {
-    char * code;
-    bool isText;
-} SymbolCode;
-*/
-
 #endif // COMMON_H_INCLUDED
 

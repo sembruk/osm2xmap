@@ -36,43 +36,6 @@ Georeferencing::Georeferencing(XmlElement& root) {
 #endif // DEBUG
 }
 
-/*
-SymbolsCodes::SymbolsCodes(XmlElement& root) {
-    XmlElement symbolsNode = root.getChild("symbols");
-    //int nSymbols = symbolsNode.getAttribute<int>("count");
-
-    for ( XmlElement item = symbolsNode.getChild();
-          !item.isEmpty();
-          ++item ) {
-        if (item == "symbol") {
-            int id = item.getAttribute<int>("id");
-            if (id < 0 || id > 9000) {
-                error("invalid symbol ID %d",id);
-            }
-            std::string code = item.getAttribute<std::string>("code");
-            int type = item.getAttribute<int>("type");
-            std::string name = item.getAttribute<std::string>("name");
-            //info("%d %s %s %d",id,code.c_str(),name.c_str(),type);
-            (*this)[code] = Symbol(name, id, type);
-        };
-    }
-#ifdef DEBUG
-    for (iterator sym = begin(); sym != end(); sym++) {
-        std::cout 
-        << "Symbol " 
-        << (*sym).first 
-        << ", " 
-        << (*sym).second.id
-        << ", " 
-        << (*sym).second.name 
-        << ", " 
-        << (*sym).second.type 
-        << std::endl;
-    }
-#endif // DEBUG
-}
-*/
-
 SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
     XmlElement symbolsNode = root.getChild("symbols");
     //int nSymbols = symbolsNode.getAttribute<int>("count");
@@ -184,13 +147,6 @@ void
 XmapWay::removeFlags() { ///< xmapRemoveFlags()
     lastCoordElement.removeAttribute("flags");
 }
-
-/*
-void
-XmapWay::changeFlags(int flags) {
-    lastCoordElement.addAttribute("flags",flags);
-}
-*/
 
 XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& max)
 : XmapWay(xmapTree, id) { ///< xmapAddRectangle()

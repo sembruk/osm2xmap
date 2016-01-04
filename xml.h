@@ -22,7 +22,6 @@ public:
     XmlElement(const XmlElement& e): node(e.node), name(e.name) {};
     XmlElement(): node(NULL), name("") {};
 
-    //XmlElement& operator=(const XmlElement& e);
     bool operator==(const char * str);
 
     XmlElement getChild(std::string childName);

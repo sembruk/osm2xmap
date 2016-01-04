@@ -11,7 +11,6 @@ bool TagMap::exist(const Tag& tag) const {
     const_iterator it = find(tag.key);
     if (it != end()) {
         Tag tagInMap = it->second;
-        //info("%s=%s %s=%s",tagInMap.key.c_str(),tagInMap.value.c_str(),tag.key.c_str(),tag.value.c_str());
         if (tag.value == tagInMap.value) {
             return true;
         }
@@ -27,7 +26,6 @@ bool TagMap::tagsOk(const TagMap& checkedTags) const {
          it != end();
          ++it) {
         Tag tag = it->second;
-        //info("%s=%s",tag.key.c_str(),tag.value.c_str());
         if (checkedTags.exist(tag) ^ tag.exist) {
             return false;
         }
@@ -62,9 +60,7 @@ Symbol::Symbol(XmlElement& symbolElement)
         error("Symbols ID-code map not inited");
     }
     std::string code = symbolElement.getAttribute<std::string>("code");
-    //info("code %s",code.c_str());
     id = RulesCpp::symbolIds->get(code);
-    //info("%d",id);
     std::string textCode = symbolElement.getAttribute<std::string>("textCode");
     textId = RulesCpp::symbolIds->get(textCode);
     if (id == invalid_sym_id && textId == invalid_sym_id) {
@@ -99,10 +95,7 @@ SymbolList::detect(const TagMap& tags) { ///< detectSymbol
          it != end();
          ++it) {
         Symbol& symbol = *it;
-        //info("Checked id %d",symbol.id);
         if (symbol.tagMap.tagsOk(tags)) {
-            //info("%d - ok",symbol.id);
-            //int id = symbol.id;
             return symbol;
         }
     }
@@ -130,7 +123,6 @@ Group::Group(XmlElement& groupElement)
           ++item ) {
         if (item == "tag") {
             Tag tag(item);
-            //info("group tag %s=%s",tag.getKey().c_str(),tag.getValue().c_str());
             keyTagsMap.insert(tag);
         }
         else if (item == "symbol") {
@@ -153,8 +145,6 @@ GroupList::detect(const TagMap& tags, int elemType) { ///< detectGroup
          it != end();
          ++it) {
         Group& group(*it);
-        //info("\n");
-        //info("Current group: %s, node allowed %d",group.name.c_str(),group.isTypeAllowed(elemType));
         if ( group.isTypeAllowed(elemType) 
              && group.keyTagsMap.tagsOk(tags)) {
             return &(group);
@@ -162,14 +152,6 @@ GroupList::detect(const TagMap& tags, int elemType) { ///< detectGroup
     }
     return NULL;
 }
-
-/*
-int
-GroupList::getSymbolId(TagMap& checkedTags, int elemType) { ///< rulesGetSym()
-    return getSymbol(checkedTags, elemType).id;
-}
-*/
-
 
 const Symbol& 
 GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
@@ -182,17 +164,6 @@ GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
     }
     return invalidSymbol;
 }
-
-/*
-int
-GroupList::getTextId(TagMap& checkedTags, int elemType) {
-    if (!isInited()) {
-        error("Rules not inited!");
-    }
-    //FIXME: yes
-    return invalid_sym_id;
-}
-*/
 
 GroupList::GroupList(XmlElement& rules)
 : TrueInit(true) { /// rulesLoadGroupList()
@@ -225,20 +196,4 @@ Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds)
     groupList = GroupList(rules);
     std::cout << "ok" << std::endl;
 }
-
-/*
-bool isSpecPointNode(node_t * osmPointElement, int waySymbolId) {
-    TagList * pointTags = getTags(osmPointElement);
-    if (pointTags == NULL) {
-        return false;
-    }
-    if (waySymbolId < 0 || waySymbolId >= MAX_SYMBOLS_NUM) {
-        return false;
-    }
-    if (tagsOk(ndSymbolsTbl[waySymbolId],pointTags)) {
-        return true;
-    }
-    return false;
-}
-*/
 
