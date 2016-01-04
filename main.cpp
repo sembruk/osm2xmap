@@ -163,21 +163,36 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
     xmapTree.save(outXmapFilename);
 }
 
-int main() 
+int main(int argc, const char* argv[]) 
 { 
     try {
         Timer timer;
 
-        XmlTree inXmapDoc("template.xmap");
+        const char* templateFileName = "./template.xmap";
+        const char* rulesFileName    = "./rules.xml";
+        const char* inOsmFileName    = "./in.osm";
+        const char* outXmapFileName  = "./out.xmap";
+
+        if (argc > 1) {
+        }
+        else {
+            info("Using default values:");
+            info("\t* input OSM file     - %s",inOsmFileName);
+            info("\t* output XMAP file   - %s",outXmapFileName);
+            info("\t* template XMAP file - %s",templateFileName);
+            info("\t* rules file         - %s",rulesFileName);
+        }
+
+        XmlTree inXmapDoc(templateFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
 
         Georeferencing georef(inXmapRoot);
 
         Main::transform = CoordsTransform(georef);
         SymbolIdByCodeMap symbolIds(inXmapRoot);
-        Main::rules = Rules("rules.xml",symbolIds);
+        Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap("in.osm","out.xmap","template.xmap");
+        osmToXmap(inOsmFileName,outXmapFileName,templateFileName);
 
         info("\nВремя выполнения: %.0f сек.",timer.getCurTime());
     }
