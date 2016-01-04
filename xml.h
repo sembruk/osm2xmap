@@ -24,16 +24,16 @@ public:
 
     bool operator==(const char * str);
 
-    XmlElement getChild(std::string childName);
-    XmlElement getChild(int nb);
-    XmlElement getChild();
+    XmlElement getChild(const std::string childName) const;
+    XmlElement getChild(int nb) const;
+    XmlElement getChild() const;
     XmlElement& operator++();
     template< typename T >
-    T getAttribute(std::string attrName);
-    std::string getContent();
-    int getChildNumber();
+    T getAttribute(const std::string attrName) const;
+    const std::string getContent() const;
+    int getChildNumber() const;
 
-    bool isEmpty() { 
+    bool isEmpty() const { 
         if (node == nullptr) 
             return true; 
         else 

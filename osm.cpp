@@ -5,7 +5,7 @@ namespace Osm {
     WayMap  wayMap;
 };
 
-OsmObject::OsmObject(XmlElement& osmElement) {
+OsmObject::OsmObject(const XmlElement& osmElement) {
     for ( XmlElement item = osmElement.getChild();
           !item.isEmpty();
           ++item ) {

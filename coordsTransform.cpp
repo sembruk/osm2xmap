@@ -1,6 +1,6 @@
 #include "coordsTransform.h"
 
-TransformData::TransformData(Georeferencing& _georef) : Georeferencing(_georef) {
+TransformData::TransformData(const Georeferencing& _georef) : Georeferencing(_georef) {
     if (!(projected_crs = pj_init_plus(projectedCrsDesc.c_str())) ) {
         throw "projected coordinate system init failed!";
     }
@@ -9,7 +9,7 @@ TransformData::TransformData(Georeferencing& _georef) : Georeferencing(_georef) 
     }
 }
 
-void Linear::translate(Coords& delta) {
+void Linear::translate(const Coords& delta) {
     x -= delta.X();
     y -= delta.Y();
 }

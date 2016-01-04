@@ -22,21 +22,18 @@ XmlElement::getName() {
 }
 
 XmlElement 
-XmlElement::getChild(std::string childName) {
-    XmlElement child(roxml_get_chld(node, (char*)childName.c_str(), 0));
-    return child;
+XmlElement::getChild(const std::string childName) const {
+    return XmlElement(roxml_get_chld(node, (char*)childName.c_str(), 0));
 }
 
 XmlElement
-XmlElement::getChild(int nb) {
-    XmlElement child(roxml_get_chld(node, nullptr, nb));
-    return child;
+XmlElement::getChild(int nb) const {
+    return XmlElement(roxml_get_chld(node, nullptr, nb));
 }
 
 XmlElement 
-XmlElement::getChild() {
-    XmlElement child(roxml_get_chld(node, nullptr, 0));
-    return child;
+XmlElement::getChild() const {
+    return XmlElement(roxml_get_chld(node, nullptr, 0));
 }
 
 XmlElement&
@@ -47,7 +44,7 @@ XmlElement::operator++() {
 class Attribute {
     char * value;
 public:
-    Attribute(node_t * node, std::string& attrName) {
+    Attribute(node_t * node, const std::string& attrName) {
         node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
         value = roxml_get_content(attr,nullptr,0,nullptr);
         if (value == nullptr) {
@@ -62,21 +59,21 @@ public:
 
 template < >
 double
-XmlElement::getAttribute(std::string attrName) {
+XmlElement::getAttribute(const std::string attrName) const {
     Attribute attribute(node,attrName);
     return atof(attribute.Value());
 }
 
 template < >
 int
-XmlElement::getAttribute(std::string attrName) {
+XmlElement::getAttribute(const std::string attrName) const {
     Attribute attribute(node,attrName);
     return atoi(attribute.Value());
 }
 
 template < >
 long
-XmlElement::getAttribute(std::string attrName) {
+XmlElement::getAttribute(const std::string attrName) const {
     if (node) {
         Attribute attribute(node,attrName);
         return atol(attribute.Value());
@@ -86,7 +83,7 @@ XmlElement::getAttribute(std::string attrName) {
 
 template < >
 std::string
-XmlElement::getAttribute(std::string attrName) {
+XmlElement::getAttribute(const std::string attrName) const {
     node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
     char * value = roxml_get_content(attr,nullptr,0,nullptr);
     std::string ret;
@@ -102,18 +99,17 @@ XmlElement::getAttribute(std::string attrName) {
     return ret;
 }
 
-std::string
-XmlElement::getContent() {
+const std::string
+XmlElement::getContent() const {
     const int crs_desc_len = 64;
     int size;
     char str[crs_desc_len];
     roxml_get_content(node, str, crs_desc_len, &size);
-    std::string content(str);
-    return content;
+    return std::string(str);
 }
 
 int
-XmlElement::getChildNumber() {
+XmlElement::getChildNumber() const {
     return roxml_get_chld_nb(node);
 }
 
@@ -133,9 +129,7 @@ XmlElement::removeAttribute(const char * name) {
 void
 XmlElement::addAttribute(const char * name, int value) {
     removeAttribute(name);
-    char valueStr[256] = {0};
-    std::sprintf(valueStr,"%d",value);
-    roxml_add_node(node,0,ROXML_ATTR_NODE,(char*)name,valueStr);
+    roxml_add_node(node,0,ROXML_ATTR_NODE,(char*)name,(char*)std::to_string(value).c_str());
 }
 
 void

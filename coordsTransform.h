@@ -18,14 +18,14 @@ protected:
     projPJ geographic_crs;
 public:
     TransformData() {};
-    TransformData(Georeferencing& georef);
+    TransformData(const Georeferencing& georef);
 };
 
 class Linear
 : public Coords {
 public:
     Linear(Coords& coords) : Coords(coords) {};
-    void translate(Coords& delta);
+    void translate(const Coords& delta);
     void rotate(double angle); ///< angle in radians!!!
     void scale(double scaleX, double scaleY);
 };
@@ -35,7 +35,7 @@ class CoordsTransform
     Coords& projToMap(Coords& coords);
 public:
     CoordsTransform() {};
-    CoordsTransform(Georeferencing& georef) : TransformData(georef), TrueInit(true) {};
+    CoordsTransform(const Georeferencing& georef) : TransformData(georef), TrueInit(true) {};
     Coords& geographicToMap(Coords& coords);
 };
 
