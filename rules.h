@@ -10,10 +10,10 @@
 #include <list>
 #include "xmap.h"
 
-enum ElemType {
-    ELEM_NODE    = 1,
-    ELEM_WAY     = 2,
-    ELEM_AREA    = 4
+enum class ElemType : int {
+    node    = 1<<0,
+    way     = 1<<1,
+    area    = 1<<2
 };
 
 class TagMap;

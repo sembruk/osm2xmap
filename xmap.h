@@ -29,11 +29,11 @@ public:
     Georeferencing() {};
 };
 
-enum SymType {
-    SYMTYPE_UNDEF = -1,
-    SYMTYPE_POINT = 1,
-    SYMTYPE_WAY   = 2,
-    SYMTYPE_TEXT  = 8,
+enum class SymType : int {
+    undef = -1,
+    point = 1,
+    way   = 2,
+    text  = 8,
 };
 
 const int invalid_sym_id = -3;

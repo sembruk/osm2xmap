@@ -103,19 +103,19 @@ SymbolList::detect(const TagMap& tags) { ///< detectSymbol
 }
 
 Group::Group(XmlElement& groupElement)
-: allowedElements(ELEM_NODE | ELEM_WAY | ELEM_AREA) { ///< enterGroup
+: allowedElements(int(ElemType::node) | int(ElemType::way) | int(ElemType::area)) { ///< enterGroup
     name = groupElement.getAttribute<std::string>("name");
     std::string allowedElementsStr = groupElement.getAttribute<std::string>("type");
     if (!allowedElementsStr.empty()) {
         allowedElements = 0;
         if (allowedElementsStr.find('n') != std::string::npos) {
-            allowedElements |= ELEM_NODE;
+            allowedElements |= int(ElemType::node);
         }
         if (allowedElementsStr.find('w') != std::string::npos) {
-            allowedElements |= ELEM_WAY;
+            allowedElements |= int(ElemType::way);
         }
         if (allowedElementsStr.find('a') != std::string::npos) {
-            allowedElements |= ELEM_AREA;
+            allowedElements |= int(ElemType::area);
         }
     }
     for ( XmlElement item = groupElement.getChild();

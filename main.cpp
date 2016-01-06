@@ -21,7 +21,7 @@ namespace Main {
 
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmNode.getTagMap(), ELEM_NODE);
+        const Symbol symbol = Main::rules.groupList.getSymbol(osmNode.getTagMap(), int(ElemType::node));
         //info("sym id %d",id);
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
@@ -61,7 +61,7 @@ namespace Main {
 
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), ELEM_WAY);
+        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), int(ElemType::way));
         XmapWay way = xmapTree.add(symbol.Id());
         addCoordsToWay(way,symbol,osmWay);
     }
@@ -71,7 +71,7 @@ namespace Main {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ELEM_AREA);
+        const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), int(ElemType::area));
         XmapWay way = xmapTree.add(symbol.Id());
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();

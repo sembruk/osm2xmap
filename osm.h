@@ -48,9 +48,9 @@ public:
     const Coords& getLastCoords() const { return lastCoords; };
 };
 
-enum Role {
-    OUTER = 0,
-    INNER = 1,
+enum class Role {
+    outer = 0,
+    inner = 1,
 };
 
 class OsmMultipolygonMember

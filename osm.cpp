@@ -80,10 +80,10 @@ OsmWay::OsmWay(XmlElement& osmElement)
 OsmMultipolygonMember::OsmMultipolygonMember(OsmWay& osmWay, std::string& _role)
 : OsmWay(osmWay) {
     if (_role == "inner") {
-        role = INNER;
+        role = Role::inner;
     }
     else if (_role == "outer") {
-        role = OUTER;
+        role = Role::outer;
     }
     else {
         error("no role");
