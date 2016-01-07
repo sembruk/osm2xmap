@@ -43,7 +43,7 @@ CoordsTransform::projToMap(Coords& coords) {
 Coords&
 CoordsTransform::geographicToMap(Coords& coords) {
     if (!isInited()) {
-        error("CoordsTransform not inited!");
+        throw Error("CoordsTransform not inited!");
     }
     coords *= DEG_TO_RAD;
     double x = coords.X();

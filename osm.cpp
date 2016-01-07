@@ -86,7 +86,7 @@ OsmMultipolygonMember::OsmMultipolygonMember(OsmWay& osmWay, std::string& _role)
         role = Role::outer;
     }
     else {
-        error("no role");
+        Error("no role");
     }
 }
 

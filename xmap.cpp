@@ -61,7 +61,7 @@ SymbolIdByCodeMap::get(std::string code) const {
     }
     auto it = find(code);
     if (it == end()) {
-        error("Symbol with code %s didn't find", code.c_str());
+        throw Error("Symbol with code %s didn't find", code.c_str());
     }
     return it->second;
 }
@@ -84,7 +84,7 @@ XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
 
 XmapObject::XmapObject(XmapTree* xmapTree, int id) {
     if (xmapTree == nullptr) {
-        error("xmap tree not inited");
+        throw Error("xmap tree not inited");
     }
     objectElement = XmlElement(xmapTree->objects.addChild("object"));
     coordsElement = XmlElement(objectElement.addChild("coords"));

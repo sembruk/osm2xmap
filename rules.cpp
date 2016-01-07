@@ -36,7 +36,7 @@ bool TagMap::tagsOk(const TagMap& checkedTags) const {
 void TagMap::insert(Tag& tag) {
     iterator it = find(tag.key);
     if (it != end()) {
-        error("Tag with key '%s' already exist",tag.key.c_str());
+        throw Error("Tag with key '%s' already exist",tag.key.c_str());
     }
     (*this)[tag.key] = tag;
 }
@@ -57,7 +57,7 @@ namespace RulesCpp {
 Symbol::Symbol(XmlElement& symbolElement)
 : id(invalid_sym_id), textId(invalid_sym_id) {
     if (RulesCpp::symbolIds == nullptr) {
-        error("Symbols ID-code map not inited");
+        throw Error("Symbols ID-code map not inited");
     }
     std::string code = symbolElement.getAttribute<std::string>("code");
     id = RulesCpp::symbolIds->get(code);
@@ -156,7 +156,7 @@ GroupList::detect(const TagMap& tags, int elemType) { ///< detectGroup
 const Symbol& 
 GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
     if (!isInited()) {
-        error("Rules not inited!");
+        throw Error("Rules not inited!");
     }
     Group * group = detect(checkedTags, elemType);
     if (group != nullptr) {

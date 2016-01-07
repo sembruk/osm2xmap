@@ -85,11 +85,33 @@ warning(const char* format, ...) {
     std::cout << "WARNING: " << std::string(buf) << std::endl;
 }
 
-inline void
-error(const char* format, ...) {
-    VSPRINTF(format);
-    throw std::string(buf).c_str();
-}
+class Error {
+    std::string* msg;
+    void init() {
+        msg = new std::string;
+    }
+public:
+    Error(const std::string& str) {
+        init();
+        *msg = str;
+    };
+    Error(const char* format, ...) {
+        init();
+        va_list args;
+        va_start(args,format);
+        const int buf_size = 256;
+        char buf[buf_size];
+        std::vsnprintf(buf, buf_size, format, args);
+        va_end(args);
+        *msg = std::string(buf);
+    };
+    ~Error() {
+        delete msg;
+    };
+    void print() const {
+        std::cerr << "ERROR: " << *msg << std::endl;
+    }
+};
 
 #endif // COMMON_H_INCLUDED
 

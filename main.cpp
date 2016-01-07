@@ -132,7 +132,7 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
 
     double version = inOsmRoot.getAttribute<double>("version");
     if (version < min_supported_version || version > max_supported_version) {
-        error("OSM data version %.1f isn't supported",version);
+        throw Error("OSM data version %.1f isn't supported" + std::to_string(version));
     }
 
     XmlElement bounds = inOsmRoot.getChild("bounds");
@@ -172,11 +172,11 @@ void printUsage(const char* programName) {
 void checkFileName(const char* fileName, const char* programName) {
     if (fileName == nullptr) {
         printUsage(programName);
-        error("empty filename");
+        throw Error("empty filename");
     }
     if (fileName[0] == '-') {
         printUsage(programName);
-        error("bad filename");
+        throw Error("bad filename");
     }
 }
 
@@ -184,7 +184,7 @@ int main(int argc, const char* argv[])
 { 
     try {
         Timer timer;
-
+        
         const char* templateFileName = "./template.xmap";
         const char* rulesFileName    = "./rules.xml";
         const char* inOsmFileName    = "./in.osm";
@@ -210,7 +210,7 @@ int main(int argc, const char* argv[])
                 }
                 else {
                     printUsage(argv[0]);
-                    error("Unknown option '%s'",argv[i]);
+                    throw Error("Unknown option '%s'",argv[i]);
                 }
             }
         }
@@ -234,9 +234,14 @@ int main(int argc, const char* argv[])
 
         info("\nВремя выполнения: %.0f сек.",timer.getCurTime());
     }
+    /*
     catch (const char * msg) {
         std::cerr << "ERROR: " << msg << std::endl;
     }
+    */
+    catch (Error& error) {
+        error.print();
+        return 1;
+    }
     std::cout << "Пока!" << std::endl;
-    return 0; 
 }
