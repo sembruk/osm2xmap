@@ -82,7 +82,7 @@ info(const char* format, ...) {
 inline void
 warning(const char* format, ...) {
     VSPRINTF(format);
-    std::cout << "WARNING: " << std::string(buf) << std::endl;
+    std::cerr << "WARNING: " << std::string(buf) << std::endl;
 }
 
 class Error {
