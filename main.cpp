@@ -232,7 +232,7 @@ int main(int argc, const char* argv[])
 
         osmToXmap(inOsmFileName,outXmapFileName,templateFileName);
 
-        info("\nВремя выполнения: %.0f сек.",timer.getCurTime());
+        info("\nExecution time: %.0f sec.",timer.getCurTime());
     }
     /*
     catch (const char * msg) {
