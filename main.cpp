@@ -243,5 +243,4 @@ int main(int argc, const char* argv[])
         error.print();
         return 1;
     }
-    std::cout << "Пока!" << std::endl;
 }
