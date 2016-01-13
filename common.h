@@ -35,22 +35,22 @@ public:
 
 inline double
 maxX(const Coords& first, const Coords& second) {
-    return ((first.x > second.x) ? first.x : second.x);
+    return std::max<double>(first.x, second.x);
 }
 
 inline double
 maxY(const Coords& first, const Coords& second) {
-    return ((first.y > second.y) ? first.y : second.y);
+    return std::max<double>(first.y, second.y);
 }
 
 inline double
 minX(const Coords& first, const Coords& second) {
-    return ((first.x < second.x) ? first.x : second.x);
+    return std::min<double>(first.x, second.x);
 }
 
 inline double
 minY(const Coords& first, const Coords& second) {
-    return ((first.y < second.y) ? first.y : second.y);
+    return std::min<double>(first.y, second.y);
 }
 
 inline Coords
@@ -73,10 +73,17 @@ public:
     std::vsprintf(buf, format, args);       \
     va_end(args);
 
+/*
 inline void
 info(const char* format, ...) {
     VSPRINTF(format);
     std::cout << std::string(buf) << std::endl;
+}
+*/
+
+inline void
+info(const std::string& str) {
+    std::cout << str << std::endl;
 }
 
 inline void

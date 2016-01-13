@@ -31,7 +31,7 @@ public:
     const std::string& getValue() const { return value; };
     bool empty() const { return key.empty(); };
     void print() const {
-        info("%s=%s",key.c_str(),value.c_str());
+        info(key + "=" + value);
     };
 };
 
@@ -60,7 +60,7 @@ public:
     int TextId() const { return textId; };
     const Tag& NdSymbolTag() const { return ndSymbolTag; };
     void print() const {
-        info("id %d",id);
+        info("id " + std::to_string(id));
         tagMap.print();
     };
 };

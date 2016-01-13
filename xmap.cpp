@@ -27,12 +27,12 @@ Georeferencing::Georeferencing(XmlElement& root) {
 
 #ifdef DEBUG
     info("Loaded georeferencing:");
-    info("\tscaleFactor %d",scaleFactor);
-    info("\tgrivation %f",grivation);
-    info("\tmapRefPoint %f %f",mapRefPoint.X(),mapRefPoint.Y());
-    info("\tprojectedRefPoint %f %f",projectedRefPoint.X(),projectedRefPoint.Y());
-    info("\tprojectedCrsDesc '%s'",projectedCrsDesc.c_str());
-    info("\tgeographicCrsDesc '%s'",geographicCrsDesc.c_str());
+    info("\tscaleFactor " + std::to_string(scaleFactor));
+    info("\tgrivation " + std::to_string(grivation));
+    info("\tmapRefPoint " + std::to_string(mapRefPoint.X()) + " " + std::to_string(mapRefPoint.Y()));
+    info("\tprojectedRefPoint " + std::to_string(projectedRefPoint.X()) + " " + std::to_string(projectedRefPoint.Y()));
+    info("\tprojectedCrsDesc '" + projectedCrsDesc + "'");
+    info("\tgeographicCrsDesc '" + geographicCrsDesc + "'");
 #endif // DEBUG
 }
 

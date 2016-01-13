@@ -135,21 +135,29 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
         throw Error("OSM data version %.1f isn't supported" + std::to_string(version));
     }
 
+    /*
     XmlElement bounds = inOsmRoot.getChild("bounds");
     if (!bounds.isEmpty()) {
         info("Have bounds");
     }
+    */
     XmapTree xmapTree(xmapTemplateFilename);
  
+    info("Converting nodes...");
     Main::handleOsmData<OsmNode>(inOsmRoot,xmapTree);
+    info("Ok");
+    info("Converting ways...");
     Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree);
+    info("Ok");
 
     Coords min = OsmNode::getMinCoords();
     min = Main::transform.geographicToMap(min);
     Coords max = OsmNode::getMaxCoords();
     max = Main::transform.geographicToMap(max);
 
+    info("Converting relations...");
     Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);
+    info("Ok");
 
     for (const auto id : Main::rules.backgroundList) {
         xmapTree.add(id, min, max);
@@ -160,7 +168,7 @@ void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const c
 
 void printUsage(const char* programName) {
     info("Usage:");
-    info("\t%s [options]",programName);
+    info("\t" + std::string(programName) + " [options]");
     info("\tOptions:");
     info("\t\t-i filename - input OSM filename;");
     info("\t\t-o filename - output XMAP filename;");
@@ -216,10 +224,10 @@ int main(int argc, const char* argv[])
         }
 
         info("Using files:");
-        info("\t* input OSM file     - %s",inOsmFileName);
-        info("\t* output XMAP file   - %s",outXmapFileName);
-        info("\t* template XMAP file - %s",templateFileName);
-        info("\t* rules file         - %s",rulesFileName);
+        info("\t* input OSM file     - " + std::string(inOsmFileName));
+        info("\t* output XMAP file   - " + std::string(outXmapFileName));
+        info("\t* template XMAP file - " + std::string(templateFileName));
+        info("\t* rules file         - " + std::string(rulesFileName));
 
         XmlTree inXmapDoc(templateFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
@@ -232,7 +240,7 @@ int main(int argc, const char* argv[])
 
         osmToXmap(inOsmFileName,outXmapFileName,templateFileName);
 
-        info("\nExecution time: %.0f sec.",timer.getCurTime());
+        info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }
     /*
     catch (const char * msg) {

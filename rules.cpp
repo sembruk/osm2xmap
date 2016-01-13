@@ -183,7 +183,7 @@ Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds)
     XmlTree rulesDoc(rulesFileName);
     XmlElement rules = rulesDoc.getChild("rules");
     std::string name = rules.getAttribute<std::string>("name");
-    std::cout << "Loading rules " << name << "... ";
+    info("Loading rules '" + name + "'... ");
     for ( XmlElement item = rules.getChild();
           !item.isEmpty();
           ++item ) {
@@ -194,6 +194,6 @@ Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds)
         }
     }
     groupList = GroupList(rules);
-    std::cout << "ok" << std::endl;
+    info("Ok");
 }
 
