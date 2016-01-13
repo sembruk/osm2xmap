@@ -51,7 +51,7 @@ class XmlTree
 public:
     XmlTree(const char * inFilename);
     ~XmlTree();
-    void saveInFile(const char * outFilename);
+    void saveInFile(const char * outFilename, bool humanReadable = true);
 };
 
 #endif // XML_PARSER_H_INCLUDED

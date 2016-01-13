@@ -78,7 +78,7 @@ XmapTree::XmapTree(const char * templateFilename)
 void 
 XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
     objects.addAttribute("count",objectsCount);
-    tree.saveInFile(outXmapFilename);
+    tree.saveInFile(outXmapFilename,false);
 }
 
 

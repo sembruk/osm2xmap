@@ -150,7 +150,7 @@ XmlTree::~XmlTree() {
 }
 
 void 
-XmlTree::saveInFile(const char * outFilename) {
-    roxml_commit_changes(node,(char*)outFilename,nullptr,1);
+XmlTree::saveInFile(const char * outFilename, bool humanReadable) {
+    roxml_commit_changes(node,(char*)outFilename,nullptr,humanReadable);
 }
 
