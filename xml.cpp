@@ -48,7 +48,7 @@ public:
         node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
         value = roxml_get_content(attr,nullptr,0,nullptr);
         if (value == nullptr) {
-            throw Error("no attribute named %s",attrName.c_str());
+            throw Error("No attribute named " + attrName);
         }
     };
     ~Attribute() {
@@ -139,7 +139,7 @@ XmlElement::addContent(const char * text) {
 
 XmlTree::XmlTree(const char * inFilename) : XmlElement::XmlElement(roxml_load_doc((char*)inFilename)) {
     if (XmlElement::isEmpty()) {
-        throw Error("opening XML file \"%s\" failed",inFilename);
+        throw Error("opening XML file '" + std::string(inFilename) + "' failed");
     }
 }
 

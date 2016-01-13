@@ -36,7 +36,7 @@ bool TagMap::tagsOk(const TagMap& checkedTags) const {
 void TagMap::insert(Tag& tag) {
     iterator it = find(tag.key);
     if (it != end()) {
-        throw Error("Tag with key '%s' already exist",tag.key.c_str());
+        throw Error("Tag with key '" + tag.key + "' already exist");
     }
     (*this)[tag.key] = tag;
 }

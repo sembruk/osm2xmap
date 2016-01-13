@@ -60,7 +60,7 @@ OsmWay::OsmWay(XmlElement& osmElement)
             long nodeId = item.getAttribute<long>("ref");
             auto it = Osm::nodeMap.find(nodeId);
             if (it == Osm::nodeMap.end()) {
-                warning("Node %ld didn't find",nodeId);
+                warning("Node " + std::to_string(nodeId) + " didn't find");
             }
             else {
 				OsmNode node = it->second;
@@ -102,7 +102,7 @@ OsmRelation::OsmRelation(XmlElement& osmElement)
             long memberId = item.getAttribute<long>("ref");
             Osm::WayMap::iterator it = Osm::wayMap.find(memberId);
             if (it == Osm::wayMap.end()) {
-                warning("Way %ld didn't find",memberId);
+                warning("Way " + std::to_string(memberId) + " didn't find");
             }
             else {
                 std::string role = item.getAttribute<std::string>("role");

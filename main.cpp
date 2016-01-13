@@ -218,7 +218,7 @@ int main(int argc, const char* argv[])
                 }
                 else {
                     printUsage(argv[0]);
-                    throw Error("Unknown option '%s'",argv[i]);
+                    throw Error("Unknown option '" + std::string(argv[i]) + "'");
                 }
             }
         }

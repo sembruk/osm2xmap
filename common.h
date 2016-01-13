@@ -66,51 +66,22 @@ public:
     bool isInited() const { return inited; };
 };
 
-#define VSPRINTF(format)                    \
-    va_list args;                           \
-    va_start(args,format);                  \
-    char buf[256];                          \
-    std::vsprintf(buf, format, args);       \
-    va_end(args);
-
-/*
-inline void
-info(const char* format, ...) {
-    VSPRINTF(format);
-    std::cout << std::string(buf) << std::endl;
-}
-*/
-
 inline void
 info(const std::string& str) {
     std::cout << str << std::endl;
 }
 
 inline void
-warning(const char* format, ...) {
-    VSPRINTF(format);
-    std::cerr << "WARNING: " << std::string(buf) << std::endl;
+warning(const std::string& str) {
+    std::cerr << "WARNING: " << str << std::endl;
 }
 
 class Error {
     std::string* msg;
-    void init() {
-        msg = new std::string;
-    }
 public:
     Error(const std::string& str) {
-        init();
+        msg = new std::string;
         *msg = str;
-    };
-    Error(const char* format, ...) {
-        init();
-        va_list args;
-        va_start(args,format);
-        const int buf_size = 256;
-        char buf[buf_size];
-        std::vsnprintf(buf, buf_size, format, args);
-        va_end(args);
-        *msg = std::string(buf);
     };
     ~Error() {
         delete msg;

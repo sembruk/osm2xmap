@@ -61,7 +61,7 @@ SymbolIdByCodeMap::get(std::string code) const {
     }
     auto it = find(code);
     if (it == end()) {
-        throw Error("Symbol with code %s didn't find", code.c_str());
+        throw Error("Symbol with code " + code + " didn't find");
     }
     return it->second;
 }
