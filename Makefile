@@ -1,6 +1,6 @@
 CC          = g++
 CFLAGS      = -Wall -std=c++11
-LDFLAGS     = -lproj
+LDFLAGS     = -lproj -lroxml
 LINKER      = $(CC) -o
 EXECUTABLE  = osm2xmap
 
@@ -11,13 +11,12 @@ BINDIR      = bin
 SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-LIBS     := libroxml.a
 RM       = rm -f
 
 all: $(BINDIR)/$(EXECUTABLE)
 
 $(BINDIR)/$(EXECUTABLE): $(OBJECTS)
-	@$(LINKER) $@ $(OBJECTS) $(LIBS) $(LDFLAGS)
+	@$(LINKER) $@ $(OBJECTS) $(LDFLAGS)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp

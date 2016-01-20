@@ -8,7 +8,7 @@
 #include <string>
 
 extern "C" {
-#include "roxml.h"
+#include <roxml.h>
 }
 
 class XmlElement {
