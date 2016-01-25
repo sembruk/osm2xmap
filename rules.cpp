@@ -103,19 +103,19 @@ SymbolList::detect(const TagMap& tags) { ///< detectSymbol
 }
 
 Group::Group(XmlElement& groupElement)
-: allowedElements(int(ElemType::node) | int(ElemType::way) | int(ElemType::area)) { ///< enterGroup
+: allowedElements(ElemType::node | ElemType::way | ElemType::area) { ///< enterGroup
     name = groupElement.getAttribute<std::string>("name");
     std::string allowedElementsStr = groupElement.getAttribute<std::string>("type");
     if (!allowedElementsStr.empty()) {
         allowedElements = 0;
         if (allowedElementsStr.find('n') != std::string::npos) {
-            allowedElements |= int(ElemType::node);
+            allowedElements |= ElemType::node;
         }
         if (allowedElementsStr.find('w') != std::string::npos) {
-            allowedElements |= int(ElemType::way);
+            allowedElements |= ElemType::way;
         }
         if (allowedElementsStr.find('a') != std::string::npos) {
-            allowedElements |= int(ElemType::area);
+            allowedElements |= ElemType::area;
         }
     }
     for ( XmlElement item = groupElement.getChild();
@@ -140,7 +140,7 @@ bool Group::isTypeAllowed(int elemType) {
 }
 
 Group *
-GroupList::detect(const TagMap& tags, int elemType) { ///< detectGroup
+GroupList::detect(const TagMap& tags, int elemType) {
     for (iterator it = begin();
          it != end();
          ++it) {

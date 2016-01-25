@@ -10,11 +10,11 @@
 #include <list>
 #include "xmap.h"
 
-enum class ElemType : int {
-    node    = 1<<0,
-    way     = 1<<1,
-    area    = 1<<2
-};
+namespace ElemType {
+    const int node    = 1<<0;
+    const int way     = 1<<1;
+    const int area    = 1<<2;
+}
 
 class TagMap;
 
