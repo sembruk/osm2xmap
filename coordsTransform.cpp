@@ -2,10 +2,10 @@
 
 TransformData::TransformData(const Georeferencing& _georef) : Georeferencing(_georef) {
     if (!(projected_crs = pj_init_plus(projectedCrsDesc.c_str())) ) {
-        throw "projected coordinate system init failed!";
+        throw Error("projected coordinate system init failed!");
     }
     if (!(geographic_crs = pj_init_plus(geographicCrsDesc.c_str())) ) {
-        throw "geographic coordinate system init failed!";
+        throw Error("geographic coordinate system init failed!");
     }
 }
 
@@ -49,7 +49,7 @@ CoordsTransform::geographicToMap(Coords& coords) {
     double x = coords.X();
     double y = coords.Y();
     if (pj_transform(geographic_crs, projected_crs, 1, 1, &x, &y, nullptr)) {
-        throw "geographic to map transform failed";
+        throw Error("geographic to map transform failed");
     }
     coords = Coords(x,y);
     coords = projToMap(coords);
