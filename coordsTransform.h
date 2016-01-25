@@ -11,14 +11,24 @@ extern "C" {
 #include "xmap.h"
 #include "common.h"
 
-class TransformData 
-: public Georeferencing {
+class CoordsTransform;
+
+class Georeferencing {
 protected:
+    Coords mapRefPoint;
+    Coords projectedRefPoint;
+    double mapScale;
+    double grivation; ///< deg
+    std::string geographicCrsDesc;
+    std::string projectedCrsDesc;
+
     projPJ projected_crs;
     projPJ geographic_crs;
+
+    friend class CoordsTransform;
 public:
-    TransformData() {};
-    TransformData(const Georeferencing& georef);
+    Georeferencing(XmlElement& root, const Coords& geographic_ref_point);
+    Georeferencing() {};
 };
 
 class Linear
@@ -31,11 +41,11 @@ public:
 };
 
 class CoordsTransform
-: public TransformData, TrueInit {
+: public Georeferencing, TrueInit {
     Coords& projToMap(Coords& coords);
 public:
     CoordsTransform() {};
-    CoordsTransform(const Georeferencing& georef) : TransformData(georef), TrueInit(true) {};
+    CoordsTransform(const Georeferencing& georef) : Georeferencing(georef), TrueInit(true) {};
     Coords& geographicToMap(Coords& coords);
 };
 

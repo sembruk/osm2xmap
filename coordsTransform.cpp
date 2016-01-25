@@ -1,12 +1,27 @@
 #include "coordsTransform.h"
 
-TransformData::TransformData(const Georeferencing& _georef) : Georeferencing(_georef) {
+Georeferencing::Georeferencing(XmlElement& root, const Coords& geographic_ref_point) {
+    XmlElement georeferencingNode = root.getChild("georeferencing");
+    mapScale = 1000.0 / georeferencingNode.getAttribute<double>("scale");
+
+    projectedCrsDesc = "";
+    geographicCrsDesc = "+proj=latlong +datum=WGS84";
+
     if (!(projected_crs = pj_init_plus(projectedCrsDesc.c_str())) ) {
         throw Error("projected coordinate system init failed!");
     }
     if (!(geographic_crs = pj_init_plus(geographicCrsDesc.c_str())) ) {
         throw Error("geographic coordinate system init failed!");
     }
+#ifdef DEBUG
+    info("Loaded georeferencing:");
+    info("\tmapScale" + std::to_string(mapScale));
+    info("\tgrivation " + std::to_string(grivation));
+    info("\tmapRefPoint " + std::to_string(mapRefPoint.X()) + " " + std::to_string(mapRefPoint.Y()));
+    info("\tprojectedRefPoint " + std::to_string(projectedRefPoint.X()) + " " + std::to_string(projectedRefPoint.Y()));
+    info("\tprojectedCrsDesc '" + projectedCrsDesc + "'");
+    info("\tgeographicCrsDesc '" + geographicCrsDesc + "'");
+#endif // DEBUG
 }
 
 void Linear::translate(const Coords& delta) {
@@ -32,7 +47,6 @@ CoordsTransform::projToMap(Coords& coords) {
     Coords delta = projectedRefPoint;
     linear.translate(delta);
     linear.rotate(grivation * DEG_TO_RAD);
-    double mapScale = 1000.0 / (scaleFactor);
     linear.scale(mapScale, -mapScale);
     Coords mapDelta = mapRefPoint * -1;
     linear.translate(mapDelta);

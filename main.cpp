@@ -123,24 +123,8 @@ namespace Main {
     }
 }
 
-void osmToXmap(const char * inOsmFilename, const char * outXmapFilename, const char * xmapTemplateFilename) {
-    const double min_supported_version = 0.5;
-    const double max_supported_version = 0.6;
+void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapTemplateFilename) {
 
-    XmlTree inOsmDoc(inOsmFilename);
-    XmlElement inOsmRoot = inOsmDoc.getChild("osm");
-
-    double version = inOsmRoot.getAttribute<double>("version");
-    if (version < min_supported_version || version > max_supported_version) {
-        throw Error("OSM data version %.1f isn't supported" + std::to_string(version));
-    }
-
-    /*
-    XmlElement bounds = inOsmRoot.getChild("bounds");
-    if (!bounds.isEmpty()) {
-        info("Have bounds");
-    }
-    */
     XmapTree xmapTree(xmapTemplateFilename);
  
     info("Converting nodes...");
@@ -232,13 +216,36 @@ int main(int argc, const char* argv[])
         XmlTree inXmapDoc(templateFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
 
-        Georeferencing georef(inXmapRoot);
+        XmlTree inOsmDoc(inOsmFileName);
+        XmlElement inOsmRoot = inOsmDoc.getChild("osm");
+
+        const double min_supported_version = 0.5;
+        const double max_supported_version = 0.6;
+
+        double version = inOsmRoot.getAttribute<double>("version");
+        if (version < min_supported_version || version > max_supported_version) {
+            throw Error("OSM data version %.1f isn't supported" + std::to_string(version));
+        }
+
+        XmlElement bounds = inOsmRoot.getChild("bounds");
+        if (bounds.isEmpty()) {
+            throw Error("No bounds");
+        }
+        double x = bounds.getAttribute<double>("minlon") +
+                   bounds.getAttribute<double>("maxlon");
+        x /= 2;
+        double y = bounds.getAttribute<double>("minlat") +
+                   bounds.getAttribute<double>("maxlat");
+        y /= 2;
+        Coords geographic_ref_point(x,y);
+
+        Georeferencing georef(inXmapRoot, geographic_ref_point);
 
         Main::transform = CoordsTransform(georef);
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap(inOsmFileName,outXmapFileName,templateFileName);
+        osmToXmap(inOsmRoot,outXmapFileName,templateFileName);
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }

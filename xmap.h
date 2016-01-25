@@ -12,13 +12,14 @@
 
 const unsigned crs_desc_len = 64;
 
+/*
 class CoordsTransform;
 
 class Georeferencing {
 protected:
     Coords mapRefPoint;
     Coords projectedRefPoint;
-    int scaleFactor; ///< for example 15000 (1:15000)
+    double mapScale;
     double grivation; ///< deg
     std::string geographicCrsDesc;
     std::string projectedCrsDesc;
@@ -28,6 +29,7 @@ public:
     Georeferencing(XmlElement& root);
     Georeferencing() {};
 };
+*/
 
 enum class SymType : int {
     undef = -1,

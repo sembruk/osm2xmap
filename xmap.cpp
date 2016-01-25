@@ -3,39 +3,6 @@
 #include "xml.h"
 #include "xmap.h"
 
-Georeferencing::Georeferencing(XmlElement& root) {
-
-    XmlElement georeferencingNode = root.getChild("georeferencing");
-    scaleFactor = georeferencingNode.getAttribute<double>("scale");
-    grivation = georeferencingNode.getAttribute<double>("grivation");
-
-    XmlElement mapRefPointNode = georeferencingNode.getChild("ref_point");
-    mapRefPoint = Coords(mapRefPointNode.getAttribute<double>("x"),
-                         mapRefPointNode.getAttribute<double>("y"));
-
-    XmlElement projRefPointNode = georeferencingNode.getChild("projected_crs"); 
-    XmlElement projRefPointChldNode = projRefPointNode.getChild("ref_point");
-    projectedRefPoint = Coords(projRefPointChldNode.getAttribute<double>("x"),
-                               projRefPointChldNode.getAttribute<double>("y"));
-
-    XmlElement projRefPointSpecNode = projRefPointNode.getChild("spec");
-    projectedCrsDesc = projRefPointSpecNode.getContent();
-
-    XmlElement geographicCrsNode = georeferencingNode.getChild("geographic_crs");
-    XmlElement geographicSpecNode = geographicCrsNode.getChild("spec");
-    geographicCrsDesc = geographicSpecNode.getContent();
-
-#ifdef DEBUG
-    info("Loaded georeferencing:");
-    info("\tscaleFactor " + std::to_string(scaleFactor));
-    info("\tgrivation " + std::to_string(grivation));
-    info("\tmapRefPoint " + std::to_string(mapRefPoint.X()) + " " + std::to_string(mapRefPoint.Y()));
-    info("\tprojectedRefPoint " + std::to_string(projectedRefPoint.X()) + " " + std::to_string(projectedRefPoint.Y()));
-    info("\tprojectedCrsDesc '" + projectedCrsDesc + "'");
-    info("\tgeographicCrsDesc '" + geographicCrsDesc + "'");
-#endif // DEBUG
-}
-
 SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
     XmlElement symbolsNode = root.getChild("symbols");
     //int nSymbols = symbolsNode.getAttribute<int>("count");
