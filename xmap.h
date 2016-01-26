@@ -95,6 +95,7 @@ class Georeferencing;
 
 class XmapTree {
     XmlTree tree;
+    XmlElement map;
     XmlElement objects;
     int objectsCount;
     friend class XmapObject;

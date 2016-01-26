@@ -17,6 +17,15 @@ protected:
 private:
     std::string name;
     std::string getName();
+
+    template < typename T >
+    void _addAttribute(const char * name, T value, std::true_type) {
+        roxml_add_node(node,0,ROXML_ATTR_NODE,(char*)name,(char*)std::to_string(value).c_str());
+    }
+    template < typename T >
+    void _addAttribute(const char * name, T value, std::false_type) {
+        roxml_add_node(node,0,ROXML_ATTR_NODE,(char*)name,(char*)std::string(value).c_str());
+    }
 public:
     XmlElement(node_t * _node);
     XmlElement(const XmlElement& e): node(e.node), name(e.name) {};
@@ -41,7 +50,12 @@ public:
     };
 
     node_t* addChild(const char * name);
-    void addAttribute(const char * name, int value);
+    void removeChild(const char * name);
+    template< typename T >
+    void addAttribute(const char * name, T value) {
+        removeAttribute(name);
+        _addAttribute(name, value, std::is_arithmetic<T>());
+    }
     void removeAttribute(const char * name);
     void addContent(const char * text);
 };

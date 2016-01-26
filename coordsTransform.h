@@ -17,8 +17,11 @@ class Georeferencing {
 protected:
     Coords mapRefPoint;
     Coords projectedRefPoint;
+    Coords geographicRefPoint;
     double mapScale;
+    double declination;
     double grivation; ///< deg
+    unsigned parameter;
     std::string geographicCrsDesc;
     std::string projectedCrsDesc;
 
@@ -26,6 +29,7 @@ protected:
     projPJ geographic_crs;
 
     friend class CoordsTransform;
+    friend void XmapTree::setGeoreferencing(const Georeferencing& georef);
 public:
     Georeferencing(XmlElement& root, const Coords& geographic_ref_point);
     Georeferencing() {};

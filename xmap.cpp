@@ -36,7 +36,7 @@ SymbolIdByCodeMap::get(std::string code) const {
 
 XmapTree::XmapTree(const char * templateFilename)
 : tree(templateFilename) {
-    XmlElement map = tree.getChild("map");
+    map = tree.getChild("map");
     XmlElement parts = map.getChild("parts");
     XmlElement part = parts.getChild("part");
     objects = part.getChild("objects");
@@ -45,13 +45,48 @@ XmapTree::XmapTree(const char * templateFilename)
 
 void 
 XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
-    objects.addAttribute("count",objectsCount);
+    objects.addAttribute<int>("count",objectsCount);
     tree.saveInFile(outXmapFilename,false);
 }
 
 void
 XmapTree::setGeoreferencing(const Georeferencing& georef) {
-    //TODO
+    XmlElement georef_elem = map.getChild("georeferencing");
+    georef_elem.addAttribute<int>("scale",int(1000.0/georef.mapScale));
+    georef_elem.addAttribute("declination",georef.declination);
+    georef_elem.addAttribute("grivation",georef.grivation);
+    georef_elem.removeChild("ref_point");
+    XmlElement ref_point = georef_elem.addChild("ref_point");
+    ref_point.addAttribute<int>("x",georef.mapRefPoint.X());
+    ref_point.addAttribute<int>("y",georef.mapRefPoint.Y());
+
+    georef_elem.removeChild("projected_crs");
+    XmlElement proj_crs_elem = georef_elem.addChild("projected_crs");
+    proj_crs_elem.addAttribute("id","EPSG");
+
+    XmlElement proj_ref_point = proj_crs_elem.addChild("ref_point");
+    proj_ref_point.addAttribute("x",georef.projectedRefPoint.X());
+    proj_ref_point.addAttribute("y",georef.projectedRefPoint.Y());
+
+    XmlElement proj_spec_elem = proj_crs_elem.addChild("spec");
+    proj_spec_elem.addAttribute("language","PROJ.4");
+    proj_spec_elem.addContent(georef.projectedCrsDesc.c_str());
+
+    XmlElement parameter_elem = proj_crs_elem.addChild("parameter");
+    parameter_elem.addContent(std::to_string(georef.parameter).c_str());
+
+    georef_elem.removeChild("geographic_crs");
+    XmlElement geographic_crs_elem = georef_elem.addChild("geographic_crs");
+    geographic_crs_elem.addAttribute("id","Geographic coordinates");
+
+    XmlElement geographic_ref_point = geographic_crs_elem.addChild("ref_point_deg");
+    geographic_ref_point.addAttribute("lat",georef.geographicRefPoint.Y());
+    geographic_ref_point.addAttribute("lon",georef.geographicRefPoint.X());
+
+
+    XmlElement geographic_spec_elem = geographic_crs_elem.addChild("spec");
+    geographic_spec_elem.addAttribute("language","PROJ.4");
+    geographic_spec_elem.addContent(georef.geographicCrsDesc.c_str());
 }
 
 XmapObject::XmapObject(XmapTree* xmapTree, int id) {
@@ -70,8 +105,8 @@ XmapObject::addCoord(const Coords& coords, int flags=0) {
         first = coords;
     }
     XmlElement coord(coordsElement.addChild("coord"));
-    coord.addAttribute("x", coords.X());
-    coord.addAttribute("y", coords.Y());
+    coord.addAttribute<int>("x", coords.X());
+    coord.addAttribute<int>("y", coords.Y());
     if (flags != 0) {
         coord.addAttribute("flags", flags);
     }

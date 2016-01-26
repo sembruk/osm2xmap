@@ -119,17 +119,19 @@ XmlElement::addChild(const char * name) {
 }
 
 void
+XmlElement::removeChild(const char * name) {
+    node_t * chld = roxml_get_chld(node, (char*)name, 0);
+    if (chld != nullptr) {
+        roxml_del_node(chld);
+    }
+}
+
+void
 XmlElement::removeAttribute(const char * name) {
     node_t * attr = roxml_get_attr(node,(char*)name,0);
     if (attr != nullptr) {
         roxml_del_node(attr);
     }
-}
-
-void
-XmlElement::addAttribute(const char * name, int value) {
-    removeAttribute(name);
-    roxml_add_node(node,0,ROXML_ATTR_NODE,(char*)name,(char*)std::to_string(value).c_str());
 }
 
 void

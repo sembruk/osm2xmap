@@ -123,9 +123,10 @@ namespace Main {
     }
 }
 
-void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapTemplateFilename) {
+void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapTemplateFilename, const Georeferencing& georef) {
 
     XmapTree xmapTree(xmapTemplateFilename);
+    xmapTree.setGeoreferencing(georef);
  
     info("Converting nodes...");
     Main::handleOsmData<OsmNode>(inOsmRoot,xmapTree);
@@ -245,7 +246,7 @@ int main(int argc, const char* argv[])
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap(inOsmRoot,outXmapFileName,templateFileName);
+        osmToXmap(inOsmRoot,outXmapFileName,templateFileName,georef);
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }

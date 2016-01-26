@@ -6,13 +6,13 @@ Georeferencing::Georeferencing(XmlElement& root, const Coords& geographic_ref_po
     mapScale = 1000.0 / georeferencingNode.getAttribute<double>("scale");
 
     unsigned zone = std::floor(geographic_ref_point.X() / 6) + 1;
-
-    const int buf_size = 10;
-    char zone_buf[buf_size];
-    std::snprintf(zone_buf,buf_size,"%.2d",zone);
+    if (zone > 99) {
+        throw Error("invalid zone " + std::to_string(zone));
+    }
+    parameter = 28400 + zone;
 
     // Pulkovo 42 datum (EPSG:284xx)
-    projectedCrsDesc = "+init=epsg:284" + std::string(zone_buf); 
+    projectedCrsDesc = "+init=epsg:" + std::to_string(parameter); 
     geographicCrsDesc = "+proj=latlong +datum=WGS84";
 
     if (!(projected_crs = pj_init_plus(projectedCrsDesc.c_str())) ) {
@@ -23,6 +23,7 @@ Georeferencing::Georeferencing(XmlElement& root, const Coords& geographic_ref_po
     }
     projectedRefPoint = geographic_ref_point;
     projectedRefPoint = geographicToProj(projectedRefPoint);
+    geographicRefPoint = geographic_ref_point;
 #ifdef DEBUG
     info("Loaded georeferencing:");
     info("\tmapScale " + std::to_string(mapScale));
