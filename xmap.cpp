@@ -29,7 +29,8 @@ SymbolIdByCodeMap::get(std::string code) const {
     }
     auto it = find(code);
     if (it == end()) {
-        throw Error("Symbol with code " + code + " didn't find");
+        warning("Symbol with code " + code + " didn't find");
+        return invalid_sym_id;
     }
     return it->second;
 }
@@ -39,8 +40,10 @@ XmapTree::XmapTree(const char * templateFilename)
     map = tree.getChild("map");
     XmlElement parts = map.getChild("parts");
     XmlElement part = parts.getChild("part");
-    objects = part.getChild("objects");
-    objectsCount = objects.getAttribute<int>("count");
+    part.removeChild("objects");
+    objects = part.addChild("objects");
+    //objectsCount = objects.getAttribute<int>("count");
+    objectsCount = 0;
 }
 
 void 

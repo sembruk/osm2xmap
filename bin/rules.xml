@@ -416,12 +416,14 @@
             <tag k="barrier" v="fence" exist="1"/>
             <!--<tag k="landuse" v="construction" exist="0"/>-->
         </symbol>
+        <!--
         <symbol code="708">
             <tag k="barrier" v="gate" exist="1"/>
         </symbol>
         <symbol code="708">
             <tag k="barrier" v="entrance" exist="1"/>
         </symbol>
+        -->
         <symbol code="110">
             <tag k="barrier" v="ditch" exist="1"/>
         </symbol>

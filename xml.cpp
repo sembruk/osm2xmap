@@ -48,7 +48,7 @@ public:
         node_t * attr = roxml_get_attr(node,(char*)attrName.c_str(),0);
         value = roxml_get_content(attr,nullptr,0,nullptr);
         if (value == nullptr) {
-            throw Error("No attribute named " + attrName);
+            throw Error("No attribute '" + attrName + "'");
         }
     };
     ~Attribute() {
@@ -90,11 +90,6 @@ XmlElement::getAttribute(const std::string attrName) const {
     if (value != nullptr) {
         ret = std::string(value);
     }
-    /*
-    else {
-        warning("no attribute named %s",attrName.c_str());
-    }
-    */
     roxml_release(value);
     return ret;
 }
