@@ -24,15 +24,16 @@ Georeferencing::Georeferencing(XmlElement& root, const Coords& geographic_ref_po
     projectedRefPoint = geographic_ref_point;
     projectedRefPoint = geographicToProj(projectedRefPoint);
     geographicRefPoint = geographic_ref_point;
-#ifdef DEBUG
-    info("Loaded georeferencing:");
-    info("\tmapScale " + std::to_string(mapScale));
-    info("\tgrivation " + std::to_string(grivation));
-    info("\tmapRefPoint " + std::to_string(mapRefPoint.X()) + " " + std::to_string(mapRefPoint.Y()));
-    info("\tprojectedRefPoint " + std::to_string(projectedRefPoint.X()) + " " + std::to_string(projectedRefPoint.Y()));
-    info("\tprojectedCrsDesc '" + projectedCrsDesc + "'");
-    info("\tgeographicCrsDesc '" + geographicCrsDesc + "'");
-#endif // DEBUG
+
+    info("Using georeferencing:");
+    info("\tmapScale           " + std::to_string(mapScale));
+    info("\tdeclination        " + std::to_string(declination));
+    info("\tgrivation          " + std::to_string(grivation));
+    info("\tmapRefPoint        " + mapRefPoint.getAsString());
+    info("\tprojectedRefPoint  " + projectedRefPoint.getAsString());
+    info("\tgeographicRefPoint " + geographicRefPoint.getAsString());
+    info("\tprojectedCrsDesc   '" + projectedCrsDesc + "'");
+    info("\tgeographicCrsDesc  '" + geographicCrsDesc + "'");
 }
 
 Coords&

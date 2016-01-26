@@ -26,6 +26,9 @@ public:
         x *= d;
         y *= d;
     };
+    std::string getAsString() {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
     friend Coords operator*(const Coords& coords, double d);
     friend double maxX(const Coords& first, const Coords& second);
     friend double maxY(const Coords& first, const Coords& second);

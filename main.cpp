@@ -123,9 +123,9 @@ namespace Main {
     }
 }
 
-void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapTemplateFilename, const Georeferencing& georef) {
+void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapSymbolFilename, const Georeferencing& georef) {
 
-    XmapTree xmapTree(xmapTemplateFilename);
+    XmapTree xmapTree(xmapSymbolFilename);
     xmapTree.setGeoreferencing(georef);
  
     info("Converting nodes...");
@@ -157,7 +157,7 @@ void printUsage(const char* programName) {
     info("\tOptions:");
     info("\t\t-i filename - input OSM filename;");
     info("\t\t-o filename - output XMAP filename;");
-    info("\t\t-t filename - template XMAP filename;");
+    info("\t\t-s filename - symbol set XMAP filename;");
     info("\t\t-r filename - XML rules filename;");
 }
 
@@ -178,7 +178,7 @@ int main(int argc, const char* argv[])
     try {
         Timer timer;
         
-        const char* templateFileName = "./template.xmap";
+        const char* symbolFileName = "./symbols.xmap";
         const char* rulesFileName    = "./rules.xml";
         const char* inOsmFileName    = "./in.osm";
         const char* outXmapFileName  = "./out.xmap";
@@ -193,9 +193,9 @@ int main(int argc, const char* argv[])
                     outXmapFileName = argv[++i];
                     checkFileName(outXmapFileName,argv[0]);
                 }
-                else if (std::string(argv[i]) == "-t") {
-                    templateFileName = argv[++i];
-                    checkFileName(templateFileName,argv[0]);
+                else if (std::string(argv[i]) == "-s") {
+                    symbolFileName = argv[++i];
+                    checkFileName(symbolFileName,argv[0]);
                 }
                 else if (std::string(argv[i]) == "-r") {
                     rulesFileName = argv[++i];
@@ -209,12 +209,12 @@ int main(int argc, const char* argv[])
         }
 
         info("Using files:");
-        info("\t* input OSM file     - " + std::string(inOsmFileName));
-        info("\t* output XMAP file   - " + std::string(outXmapFileName));
-        info("\t* template XMAP file - " + std::string(templateFileName));
-        info("\t* rules file         - " + std::string(rulesFileName));
+        info("\t* input OSM file       - " + std::string(inOsmFileName));
+        info("\t* output XMAP file     - " + std::string(outXmapFileName));
+        info("\t* symbol set XMAP file - " + std::string(symbolFileName));
+        info("\t* rules file           - " + std::string(rulesFileName));
 
-        XmlTree inXmapDoc(templateFileName);
+        XmlTree inXmapDoc(symbolFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
 
         XmlTree inOsmDoc(inOsmFileName);
@@ -246,7 +246,7 @@ int main(int argc, const char* argv[])
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap(inOsmRoot,outXmapFileName,templateFileName,georef);
+        osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }
