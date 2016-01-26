@@ -1,6 +1,7 @@
 #include <iostream>
 #include "common.h"
 #include "xml.h"
+#include "coordsTransform.h"
 #include "xmap.h"
 
 SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
@@ -48,6 +49,10 @@ XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
     tree.saveInFile(outXmapFilename,false);
 }
 
+void
+XmapTree::setGeoreferencing(const Georeferencing& georef) {
+    //TODO
+}
 
 XmapObject::XmapObject(XmapTree* xmapTree, int id) {
     if (xmapTree == nullptr) {

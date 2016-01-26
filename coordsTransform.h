@@ -29,6 +29,7 @@ protected:
 public:
     Georeferencing(XmlElement& root, const Coords& geographic_ref_point);
     Georeferencing() {};
+    Coords& geographicToProj(Coords& coords);
 };
 
 class Linear

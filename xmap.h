@@ -91,6 +91,8 @@ public:
     XmapText(XmapTree* xmapTree, int id, Coords& coords, const char * text);
 };
 
+class Georeferencing;
+
 class XmapTree {
     XmlTree tree;
     XmlElement objects;
@@ -99,6 +101,7 @@ class XmapTree {
 public:
     XmapTree(const char * templateFilename);
     void save(const char * outXmapFilename);
+    void setGeoreferencing(const Georeferencing& georef);
     XmapPoint      add(int id, Coords& coords)           { return XmapPoint(this,id,coords); };
     XmapWay        add(int id)                           { return XmapWay(this,id); };
     XmapRectagngle add(int id, Coords& min, Coords& max) { return XmapRectagngle(this,id,min,max); };
