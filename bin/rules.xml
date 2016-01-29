@@ -2,21 +2,12 @@
 <rules name="ISOM2000 adapeted for cyclogaine">
     <background code="401"/>
     <background code="601.3"/>
-    <group>
-        <tag k="contour_ext" exist="1"/>
-        <symbol code="101">
-            <tag k="contour_ext" v="elevation_minor" exist="1"/>
-        </symbol>
-        <symbol code="102">
-            <tag k="contour_ext" v="elevation_medium" exist="1"/>
-        </symbol>
-    </group>
-    <group>
-        <tag k="building" exist="1"/>
-        <symbol code="526">
-            <tag k="building" v="no" exist="0"/>
-        </symbol>
-    </group>
+    <symbol code="101">
+        contour_ext=elevation_minor
+    </symbol>
+    <symbol code="526">
+        building!=no
+    </symbol>
     <!--
     <group>
         <tag k="bridge" exist="1"/>
@@ -29,11 +20,9 @@
             <tag k="layer" v="1" exist="1"/>
         </symbol>
     </group>
-    -->
     <group>
         <tag k="highway" exist="1"/>
         <tag k="surface" v="asphalt" exist="1"/>
-        <!-- <tag k="bridge" exist="0"/> -->
         <symbol code="501.0">
             <tag k="highway" v="motorway" exist="1"/>
         </symbol>
@@ -295,11 +284,6 @@
         <symbol code="713.1">
             <tag k="natural" v="spring" exist="1"/>
         </symbol>
-        <!--
-        <symbol code="419">
-            <tag k="natural" v="tree" exist="1"/>
-        </symbol>
-        -->
     </group>
     <group name="natural-way-area" type="wa">
         <tag k="natural" exist="1"/>
@@ -332,20 +316,12 @@
     </group>
     <group name="landuse">
         <tag k="landuse" exist="1"/>
-        <!-- <tag k="landuse" v="construction" exist="0"/> -->
         <symbol code="527">
             <tag k="landuse" v="residential" exist="1"/>
         </symbol>
         <symbol code="527">
             <tag k="landuse" v="allotments" exist="1"/>
         </symbol>
-        <!--
-        <symbol code="527" textCode="998">
-            <tag k="landuse" v="allotments" exist="1"/>
-            <tag k="place" v="allotments" exist="1"/>
-            <tag k="name"/>
-        </symbol>
-        -->
         <symbol code="412">
             <tag k="landuse" v="orchard" exist="1"/>
         </symbol>
@@ -358,14 +334,6 @@
         <symbol code="527.2">
             <tag k="landuse" v="construction" exist="1"/>
         </symbol>
-        <!--
-        <symbol code="415">
-            <tag k="landuse" v="farm" exist="1"/>
-        </symbol>
-        <symbol code="415">
-            <tag k="landuse" v="farmland" exist="1"/>
-        </symbol>
-        -->
         <symbol code="709">
             <tag k="landuse" v="military" exist="1"/>
         </symbol>
@@ -414,16 +382,7 @@
         </symbol>
         <symbol code="524">
             <tag k="barrier" v="fence" exist="1"/>
-            <!--<tag k="landuse" v="construction" exist="0"/>-->
         </symbol>
-        <!--
-        <symbol code="708">
-            <tag k="barrier" v="gate" exist="1"/>
-        </symbol>
-        <symbol code="708">
-            <tag k="barrier" v="entrance" exist="1"/>
-        </symbol>
-        -->
         <symbol code="110">
             <tag k="barrier" v="ditch" exist="1"/>
         </symbol>
@@ -518,4 +477,5 @@
             <tag k="name" exist="1"/>
         </symbol>
     </group>
+-->
 </rules>
