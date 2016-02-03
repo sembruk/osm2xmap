@@ -1,6 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <typeinfo>
 #include <map>
+
+#include "yaml-cpp/yaml.h"
 
 #include "timer.h"
 #include "xml.h"
@@ -178,6 +181,7 @@ int main(int argc, const char* argv[])
     try {
         Timer timer;
         
+        /*
         const char* symbolFileName = "./symbols.xmap";
         const char* rulesFileName    = "./rules.xml";
         const char* inOsmFileName    = "./in.osm";
@@ -247,6 +251,38 @@ int main(int argc, const char* argv[])
         Main::rules = Rules(rulesFileName,symbolIds);
 
         osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
+        */
+
+        std::ifstream rulesFile("rules.yaml");
+        YAML::Parser  parser(rulesFile);
+        YAML::Node    doc;
+        if (parser.GetNextDocument(doc)) {
+            for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
+                std::string scalar;
+                *it >> scalar;
+                info(scalar);
+            }
+        }
+
+        /*
+        switch (rules.Type()) {
+        case Null:
+            info("Null");
+            break;
+        case Scalar: // ...
+            info("Scalar");
+            break;
+        case Sequence: // ...
+            info("Sequence");
+            break;
+        case Map: // ...
+            info("Map");
+            break;
+        case Undefined: // ...
+            info("Undefined");
+            break;
+        }
+        */
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }
