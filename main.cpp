@@ -253,6 +253,7 @@ int main(int argc, const char* argv[])
         osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
         */
 
+        // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
         std::ifstream rulesFile("rules.yaml");
         YAML::Parser  parser(rulesFile);
         YAML::Node    doc;
@@ -263,26 +264,6 @@ int main(int argc, const char* argv[])
                 info(scalar);
             }
         }
-
-        /*
-        switch (rules.Type()) {
-        case Null:
-            info("Null");
-            break;
-        case Scalar: // ...
-            info("Scalar");
-            break;
-        case Sequence: // ...
-            info("Sequence");
-            break;
-        case Map: // ...
-            info("Map");
-            break;
-        case Undefined: // ...
-            info("Undefined");
-            break;
-        }
-        */
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }
