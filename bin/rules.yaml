@@ -1,0 +1,7 @@
+---
+- 305:
+    waterway: river
+- 306:
+    waterway: stream
+- 503:
+    highway: track
