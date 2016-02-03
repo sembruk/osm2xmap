@@ -255,8 +255,9 @@ int main(int argc, const char* argv[])
         std::cerr << "ERROR: " << msg << std::endl;
     }
     */
-    catch (Error& error) {
-        error.print();
+    catch (std::exception& error) {
+        std::cerr << "ERROR: " << error.what() << std::endl;
         return 1;
     }
 }
+

@@ -79,18 +79,13 @@ warning(const std::string& str) {
     std::cerr << "WARNING: " << str << std::endl;
 }
 
-class Error {
-    std::string* msg;
+class Error
+: public std::exception {
+    const std::string msg;
 public:
-    Error(const std::string& str) {
-        msg = new std::string;
-        *msg = str;
-    };
-    ~Error() {
-        delete msg;
-    };
-    void print() const {
-        std::cerr << "ERROR: " << *msg << std::endl;
+    Error(const std::string& str) : msg(str) {};
+    const char * what() const noexcept(true) {
+        return msg.c_str();
     }
 };
 
