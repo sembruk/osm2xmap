@@ -2,12 +2,6 @@
 <rules name="ISOM2000 adapeted for cyclogaine">
     <background code="401"/>
     <background code="601.3"/>
-    <symbol code="101">
-        contour_ext=elevation_minor
-    </symbol>
-    <symbol code="526">
-        building!=no
-    </symbol>
     <!--
     <group>
         <tag k="bridge" exist="1"/>
@@ -257,34 +251,6 @@
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="very_horrible" exist="1"/>
         </symbol>
-    </group>
-    <group>
-        <tag k="highway" v="footway" exist="1"/>
-        <symbol code="812">
-            <tag k="highway" v="footway" exist="1"/>
-        </symbol>
-    </group>
-    <group name="waterway">
-        <tag k="waterway" exist="1"/>
-        <symbol code="305">
-            <tag k="waterway" v="river" exist="1"/>
-        </symbol>
-        <symbol code="306">
-            <tag k="waterway" v="stream" exist="1"/>
-        </symbol>
-        <symbol code="306">
-            <tag k="waterway" v="drain" exist="1"/>
-        </symbol>
-        <symbol code="307">
-            <tag k="waterway" v="ditch" exist="1"/>
-        </symbol>
-    </group>
-    <group name="natural" type="n">
-        <tag k="natural" exist="1"/>
-        <symbol code="713.1">
-            <tag k="natural" v="spring" exist="1"/>
-        </symbol>
-    </group>
     <group name="natural-way-area" type="wa">
         <tag k="natural" exist="1"/>
         <symbol code="211">
@@ -316,45 +282,7 @@
     </group>
     <group name="landuse">
         <tag k="landuse" exist="1"/>
-        <symbol code="527">
-            <tag k="landuse" v="residential" exist="1"/>
-        </symbol>
-        <symbol code="527">
-            <tag k="landuse" v="allotments" exist="1"/>
-        </symbol>
-        <symbol code="412">
-            <tag k="landuse" v="orchard" exist="1"/>
-        </symbol>
-        <symbol code="301.2">
-            <tag k="landuse" v="reservoir" exist="1"/>
-        </symbol>
-        <symbol code="527.2">
-            <tag k="landuse" v="industrial" exist="1"/>
-        </symbol>
-        <symbol code="527.2">
-            <tag k="landuse" v="construction" exist="1"/>
-        </symbol>
-        <symbol code="709">
-            <tag k="landuse" v="military" exist="1"/>
-        </symbol>
-        <symbol code="211">
-            <tag k="landuse" v="quarry" exist="1"/>
-            <tag k="resource" v="sand" exist="1"/>
-        </symbol>
-        <symbol code="710">
-            <tag k="landuse" v="quarry" exist="1"/>
-            <tag exist="0" k="resource" v="sand"/>
-        </symbol>
-        <symbol code="710">
-            <tag k="landuse" v="landfill" exist="1"/>
-        </symbol>
-        <symbol code="532.2">
-            <tag k="landuse" v="cemetery" exist="1"/>
-        </symbol>
-        <symbol code="405">
-            <tag k="landuse" v="forest" exist="1"/>
-        </symbol>
-    </group>
+   </group>
     <group name="man_made">
         <tag k="man_made" exist="1"/>
         <tag exist="0" k="highway"/>
