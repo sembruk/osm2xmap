@@ -270,6 +270,7 @@ int main(int argc, const char* argv[])
         */
 
         // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
+        // See https://github.com/liosha/osm2mp/blob/master/cfg/polish-mp/ways-roads-common-univ.yml 
         std::ifstream rulesFile("rules.yaml");
         YAML::Parser  parser(rulesFile);
         YAML::Node    doc;
