@@ -282,13 +282,15 @@ int main(int argc, const char* argv[])
                 info(code);
                 //info(YamlRules::type(it.second().Type()));
                 const YAML::Node& tags = it.second();
-                for (YAML::Iterator it = tags.begin(); it != tags.end(); ++it) {
-                    //info(YamlRules::type(it.first().Type()));
-                    //info(YamlRules::type(it.second().Type()));
-                    std::string key, value;
-                    it.first() >> key;
-                    it.second() >> value;
-                    info(key + " = " + value);
+                if (tags.Type() == YAML::NodeType::Map) {
+                    for (YAML::Iterator it = tags.begin(); it != tags.end(); ++it) {
+                        //info(YamlRules::type(it.first().Type()));
+                        //info(YamlRules::type(it.second().Type()));
+                        std::string key, value;
+                        it.first() >> key;
+                        it.second() >> value;
+                        info(key + " = " + value);
+                    }
                 }
             }
         }

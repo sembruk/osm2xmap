@@ -1,43 +1,156 @@
 #
-# Description
+# ISOM2000 adapeted for cyclogaine
 #
 101:
-   contour_ext: elevation_minor
+    - contour_ext: elevation_minor
+    - iof_contour: 101
+102:
+    iof_contour: index
+103:
+    iof_contour: form
+110:
+    barrier: ditch
+    not waterway:
 211:
-    landuse: quarry
-    resource: sand
+    - landuse: quarry
+      resource: sand
+    - natural: sand
+    - natural: beach
 301.2:
-    landuse: reservoir
+    - landuse: reservoir
+    - natural: water
 305:
     waterway: river
 306:
     waterway: stream or drain
 307:
     waterway: ditch
+310:
+    natural: wetland
+    wetland: marsh
+311:
+    natural: wetland
+    wetland: no marsh
+#401:
+#    leisure: pitch
+##FIXME
+401:
+    background
 405:
-    landuse: forest
+    - landuse: forest
+    - natural: wood
+405.1:
+    natural: tree_row
+409:
+    natural: scrub
 412:
     landuse: orchard
+501.0:
+    highway: motorway
+502:
+    - highway: primary
+    - highway: trunk
+      lanes: 2
+    - highway: trunk_link
+      lanes: 1
+    - highway: secondary
+    - highway: tertiary
 503:
-    highway: track
+    highway: residential or unclassified or living_street
+    surface: asphalt
+503.1:
+    highway: service or track
+    surface: asphalt
+503.2:
+    highway: unclassified or residential or service or living_street
+    surface: concrete:plates or concrete:lanes
+503.3:
+    highway: unclassified or residential or service or living_street
+    surface: compacted or gravel
+509:
+    man_made: cutline
+    not highway:
+515:
+    railway: rail
+516:
+    power: minor_line
+516-dash:
+    power: pole
+517:
+    power: line
+517-dash:
+    power: tower
+521:
+    barrier: wall
+524:
+    barrier: fence
 526:
     building: not no
 527:
     landuse: residential or allotments
 527.2:
     landuse: industrial or construction
+529.2:
+    amenity: parking
 532.2:
     landuse: cemetery
+535:
+    man_made: tower or water_tower or chimney
+536:
+    amenity: hunting_stand
+601.3:
+    background
+701:
+    checkpoint: start
+702:
+    checkpoint: yes
+    not name:
+703:
+    checkpoint: yes
+    name:
 709:
-    landuse: military
+    - landuse: military
+    - amenity: prison
 710:
-#FIXME
-    landuse: quarry
-    resource: not sand
-#or
-    landuse: landfill
+    - landuse: quarry
+      resource: not sand
+    - landuse: landfill
+713:
+    shop: convenience
 713.1:
-    natural: spring
+    - natural: spring
+    - man_made: water_well
+811:
+    - highway: unclassified or residential or service or living_street
+      surface: ground or sand or unpaved
+    - highway: unclassified or residential or service or living_street
+      not surface:
+    - highway: track
+      smoothness: good or intermediate
 812:
-    highway: footway
+    - highway: footway
+    - highway: path
+      smoothness: good or intermediate
+813:
+    - highway: unclassified or residential
+      surface: grass or dirt
+    - highway: track
+      not smoothness:
+    - highway: track
+      smoothness: bad or very_bad
+814:
+    - highway: path
+      smoothness: bad or very_bad
+    - highway: path
+      not smoothness:
+815:
+    highway: track
+    smoothness: horrible or very_horrible
+816:
+    highway: path
+    smoothness: horrible or very_horrible
+998:
+    place: village or hamlet or allotments
+    name:
+    not landuse:
 
