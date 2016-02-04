@@ -1,1 +1,2 @@
-osm2xmap simple converter
+# osm2xmap
+Converter [OpenSteerMap](http://www.openstreetmap.org) data to [OpenOrienteering Mapper](https://github.com/OpenOrienteering/mapper) format.
