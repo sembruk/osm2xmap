@@ -1,7 +1,43 @@
----
-- 305:
+#
+# Description
+#
+101:
+   contour_ext: elevation_minor
+211:
+    landuse: quarry
+    resource: sand
+301.2:
+    landuse: reservoir
+305:
     waterway: river
-- 306:
-    waterway: stream
-- 503:
+306:
+    waterway: stream or drain
+307:
+    waterway: ditch
+405:
+    landuse: forest
+412:
+    landuse: orchard
+503:
     highway: track
+526:
+    building: not no
+527:
+    landuse: residential or allotments
+527.2:
+    landuse: industrial or construction
+532.2:
+    landuse: cemetery
+709:
+    landuse: military
+710:
+#FIXME
+    landuse: quarry
+    resource: not sand
+#or
+    landuse: landfill
+713.1:
+    natural: spring
+812:
+    highway: footway
+

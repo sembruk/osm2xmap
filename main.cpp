@@ -176,6 +176,22 @@ void checkFileName(const char* fileName, const char* programName) {
     }
 }
 
+namespace YamlRules {
+    const char* type(YAML::NodeType::value t) {
+        switch (t) {
+        case YAML::NodeType::Null:
+            return "Null";
+        case YAML::NodeType::Scalar:
+            return "Scalar";
+        case YAML::NodeType::Sequence:
+            return "Sequence";
+        case YAML::NodeType::Map:
+            return "Map";
+        }
+        return "";
+    }
+}
+
 int main(int argc, const char* argv[]) 
 { 
     try {
@@ -259,9 +275,20 @@ int main(int argc, const char* argv[])
         YAML::Node    doc;
         if (parser.GetNextDocument(doc)) {
             for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
-                std::string scalar;
-                *it >> scalar;
-                info(scalar);
+                //info(YamlRules::type(it.first().Type()));
+                std::string code;
+                it.first() >> code;
+                info(code);
+                //info(YamlRules::type(it.second().Type()));
+                const YAML::Node& tags = it.second();
+                for (YAML::Iterator it = tags.begin(); it != tags.end(); ++it) {
+                    //info(YamlRules::type(it.first().Type()));
+                    //info(YamlRules::type(it.second().Type()));
+                    std::string key, value;
+                    it.first() >> key;
+                    it.second() >> value;
+                    info(key + " = " + value);
+                }
             }
         }
 
