@@ -276,11 +276,9 @@ int main(int argc, const char* argv[])
         YAML::Node    doc;
         if (parser.GetNextDocument(doc)) {
             for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
-                //info(YamlRules::type(it.first().Type()));
                 std::string code;
                 it.first() >> code;
                 info(code);
-                //info(YamlRules::type(it.second().Type()));
                 const YAML::Node& tags = it.second();
                 if (tags.Type() == YAML::NodeType::Map) {
                     for (YAML::Iterator it = tags.begin(); it != tags.end(); ++it) {
@@ -291,6 +289,14 @@ int main(int argc, const char* argv[])
                         it.second() >> value;
                         info(key + " = " + value);
                     }
+                }
+                else if (tags.Type() == YAML::NodeType::Scalar) {
+                    std::string str;
+                    tags >> str;
+                    info("is " + str);
+                }
+                else {
+                    info("undefined");
                 }
             }
         }
