@@ -31,6 +31,27 @@
     </group>
     -->
     <group>
+        <tag k="highway" v="secondary" exist="1"/>
+        <tag exist="0" k="surface"/>
+        <symbol code="502">
+            <tag k="highway" v="secondary" exist="1"/>
+        </symbol>
+    </group>
+    <group>
+        <tag k="highway" v="tertiary" exist="1"/>
+        <tag exist="0" k="surface"/>
+        <symbol code="502">
+            <tag k="highway" v="tertiary" exist="1"/>
+        </symbol>
+    </group>
+    <group>
+        <tag k="highway" v="primary" exist="1"/>
+        <tag exist="0" k="surface"/>
+        <symbol code="502">
+            <tag k="highway" v="primary" exist="1"/>
+        </symbol>
+    </group>
+    <group>
         <tag k="highway" exist="1"/>
         <tag k="surface" v="asphalt" exist="1"/>
         <!-- <tag k="bridge" exist="0"/> -->
@@ -79,6 +100,9 @@
         <symbol code="503.2">
             <tag k="surface" v="concrete:lanes" exist="1"/>
         </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
+        </symbol>
         <symbol code="503.3">
             <tag k="surface" v="compacted" exist="1"/>
         </symbol>
@@ -112,6 +136,9 @@
         </symbol>
         <symbol code="503.2">
             <tag k="surface" v="concrete:lanes" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
         </symbol>
         <symbol code="503.3">
             <tag k="surface" v="compacted" exist="1"/>
@@ -147,6 +174,9 @@
         <symbol code="503.2">
             <tag k="surface" v="concrete:lanes" exist="1"/>
         </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
+        </symbol>
         <symbol code="503.3">
             <tag k="surface" v="compacted" exist="1"/>
         </symbol>
@@ -180,6 +210,9 @@
         </symbol>
         <symbol code="503.2">
             <tag k="surface" v="concrete:lanes" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
         </symbol>
         <symbol code="503.3">
             <tag k="surface" v="compacted" exist="1"/>
@@ -326,10 +359,19 @@
         <symbol code="405.1">
             <tag k="natural" v="tree_row" exist="1"/>
         </symbol>
-        <symbol code="409">
+        <symbol code="410">
             <tag k="natural" v="scrub" exist="1"/>
         </symbol>
     </group>
+    <!--
+    <group type="a">
+        <tag k="place" exist="1"/>
+        <tag k="landuse" exist="0"/>
+        <symbol code="527">
+            <tag k="place" v="hamlet" exist="1"/>
+        </symbol>
+    </group>
+    -->
     <group name="landuse">
         <tag k="landuse" exist="1"/>
         <!-- <tag k="landuse" v="construction" exist="0"/> -->
@@ -354,6 +396,9 @@
         </symbol>
         <symbol code="527.2">
             <tag k="landuse" v="industrial" exist="1"/>
+        </symbol>
+        <symbol code="527.2">
+            <tag k="landuse" v="garages" exist="1"/>
         </symbol>
         <symbol code="527.2">
             <tag k="landuse" v="construction" exist="1"/>
@@ -442,6 +487,9 @@
             <ndSymbol>
                 <tag k="power" v="tower" exist="1"/>
             </ndSymbol>
+        </symbol>
+        <symbol code="527.2">
+            <tag k="power" v="substation" exist="1"/>
         </symbol>
     </group>
     <group>

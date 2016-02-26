@@ -21,19 +21,20 @@ namespace Main {
 
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmNode.getTagMap(), ElemType::node);
+        auto& tagMap = osmNode.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::node);
         //info("sym id %d",id);
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
         int id = symbol.Id();
         if (id != invalid_sym_id) {
-            xmapTree.add(id, coords);
+            xmapTree.add(id, tagMap, coords);
         }
         int textId = symbol.TextId();
         if (textId != invalid_sym_id) {
             const std::string text = osmNode.getName();
             if (!text.empty()) {
-                xmapTree.add(textId, coords, text.c_str());
+                xmapTree.add(textId, tagMap, coords, text.c_str());
             }
         }
     }
@@ -61,8 +62,9 @@ namespace Main {
 
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), ElemType::way);
-        XmapWay way = xmapTree.add(symbol.Id());
+        auto& tagMap = osmWay.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::way);
+        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
         addCoordsToWay(way,symbol,osmWay);
     }
 
@@ -71,8 +73,9 @@ namespace Main {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ElemType::area);
-        XmapWay way = xmapTree.add(symbol.Id());
+        auto& tagMap = osmRelation.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::area);
+        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
         Coords lastCoords = addCoordsToWay(way,symbol,osmWay);

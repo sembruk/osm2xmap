@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include "xml.h"
+//#include "rules.h"
 #include "common.h"
 
 const unsigned crs_desc_len = 64;
@@ -38,8 +39,6 @@ enum class SymType : int {
     text  = 8,
 };
 
-const int invalid_sym_id = -3;
-
 class SymbolIdByCodeMap
 : public std::map<std::string, int> {
 public:
@@ -58,7 +57,7 @@ protected:
     Coords first;
     Coords last;
  
-    XmapObject(XmapTree* xmapTree, int id);
+    XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap);
 public:
     void addCoord(const Coords& coords, int flags);
 };
@@ -66,13 +65,13 @@ public:
 class XmapPoint
 : public XmapObject {
 public:
-    XmapPoint(XmapTree* xmapTree, int id, Coords& coords);
+    XmapPoint(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords);
 };
 
 class XmapWay
 : public XmapObject {
 public:
-    XmapWay(XmapTree* xmapTree, int id);
+    XmapWay(XmapTree* xmapTree, int id, const TagMap& tagMap);
     ~XmapWay();
 
     void completeMultipolygonPart();
@@ -88,7 +87,7 @@ public:
 class XmapText
 : public XmapPoint {
 public:
-    XmapText(XmapTree* xmapTree, int id, Coords& coords, const char * text);
+    XmapText(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords, const char * text);
 };
 
 class Georeferencing;
@@ -103,10 +102,10 @@ public:
     XmapTree(const char * templateFilename);
     void save(const char * outXmapFilename);
     void setGeoreferencing(const Georeferencing& georef);
-    XmapPoint      add(int id, Coords& coords)           { return XmapPoint(this,id,coords); };
-    XmapWay        add(int id)                           { return XmapWay(this,id); };
-    XmapRectagngle add(int id, Coords& min, Coords& max) { return XmapRectagngle(this,id,min,max); };
-    XmapText       add(int id, Coords& coords, const char * text) { return XmapText(this,id,coords,text); };
+    XmapPoint      add(int id, const TagMap& tagMap, Coords& coords)           { return XmapPoint(this,id,tagMap,coords); };
+    XmapWay        add(int id, const TagMap& tagMap)                           { return XmapWay(this,id,tagMap); };
+    XmapRectagngle add(int id, Coords& min, Coords& max)                       { return XmapRectagngle(this,id,min,max); };
+    XmapText       add(int id, const TagMap& tagMap, Coords& coords, const char * text) { return XmapText(this,id,tagMap,coords,text); };
 };
 
 #endif // XMAP_H_INCLUD;

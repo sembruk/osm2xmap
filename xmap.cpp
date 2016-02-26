@@ -92,7 +92,7 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
     geographic_spec_elem.addContent(georef.geographicCrsDesc.c_str());
 }
 
-XmapObject::XmapObject(XmapTree* xmapTree, int id) {
+XmapObject::XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap) {
     if (xmapTree == nullptr) {
         throw Error("xmap tree not inited");
     }
@@ -100,6 +100,13 @@ XmapObject::XmapObject(XmapTree* xmapTree, int id) {
     coordsElement = XmlElement(objectElement.addChild("coords"));
     objectElement.addAttribute("symbol",id);
     xmapTree->objectsCount++;
+
+    XmlElement tagsElement(objectElement.addChild("tags"));
+    for (auto& tag : tagMap) {
+        XmlElement tElement(tagsElement.addChild("t"));
+        tElement.addAttribute("k",tag.second.getKey());
+        tElement.addContent(tag.second.getValue().c_str());
+    }
 }
 
 void
@@ -117,14 +124,15 @@ XmapObject::addCoord(const Coords& coords, int flags=0) {
     last = coords;
 }
 
-XmapPoint::XmapPoint(XmapTree* xmapTree, int id, Coords& coords)
-: XmapObject(xmapTree,id) {
+XmapPoint::XmapPoint(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords)
+: XmapObject(xmapTree,id,tagMap) {
     objectElement.addAttribute("type",0);
     coordsElement.addAttribute("count",1);
     addCoord(coords);
 }
 
-XmapWay::XmapWay(XmapTree* xmapTree, int id) : XmapObject(xmapTree,id) {
+XmapWay::XmapWay(XmapTree* xmapTree, int id, const TagMap& tagMap = {})
+: XmapObject(xmapTree,id,tagMap) {
     objectElement.addAttribute("type",1);
     XmlElement patternElement(objectElement.addChild("pattern"));
     patternElement.addAttribute("rotation",0);
@@ -160,8 +168,8 @@ XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& 
     addCoord(min); ///< close way
 }
 
-XmapText::XmapText(XmapTree* xmapTree, int id, Coords& coords, const char * text)
-: XmapPoint(xmapTree, id, coords) { ///< xmapAddText()
+XmapText::XmapText(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords, const char * text)
+: XmapPoint(xmapTree, id, tagMap, coords) { ///< xmapAddText()
     if (text == nullptr) {
         return;
     }

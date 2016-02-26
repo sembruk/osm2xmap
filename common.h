@@ -9,8 +9,11 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdarg>
+#include <map>
 
 #define DEBUG
+
+const int invalid_sym_id = -3;
 
 class Coords{
 protected:
@@ -87,6 +90,36 @@ public:
     const char * what() const noexcept(true) {
         return msg.c_str();
     }
+};
+
+class XmlElement;
+class TagMap;
+
+class Tag {
+    std::string key;
+    std::string value;
+    bool exist;
+    friend class TagMap;
+public:
+    Tag() : key(""), value(""), exist(true) {};
+    Tag(std::string k, std::string v, bool e=true) : key(k), value(v), exist(e) {}; 
+    Tag(XmlElement& tagElement);
+    const std::string& getKey() const { return key; };
+    const std::string& getValue() const { return value; };
+    bool empty() const { return key.empty(); };
+    void print() const {
+        info(key + "=" + value);
+    };
+};
+
+class TagMap ///< TagList
+: public std::map<std::string, Tag> {
+public:
+    TagMap() {};
+    bool exist(const Tag& tag) const;
+    bool tagsOk(const TagMap& checkedTags) const;
+    void insert(Tag& tag);
+    void print() const;
 };
 
 #endif // COMMON_H_INCLUDED
