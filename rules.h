@@ -45,6 +45,7 @@ public:
     void print() const;
 };
 
+/*
 class SymbolList;
 
 class Symbol { ///< Symbol
@@ -95,16 +96,16 @@ public:
     const Symbol& getSymbol(const TagMap& checkedTags, int elemType);
     int getSymbolId(TagMap& checkedTags, int elemType);
 };
-
+*/
 typedef std::list<int> BackgroundList;
 
 class Rules
 : public TrueInit {
 public:
-    GroupList groupList;
+    //GroupList groupList;
     BackgroundList backgroundList;
     Rules() {};
-    Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds);
+    Rules(const std::string&, SymbolIdByCodeMap&);
 };
 
 #endif // RULES_H_INCLUDED

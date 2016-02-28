@@ -2,4 +2,5 @@
 *.swp
 *.osm
 *.xmap
+*.omap
 osm2xmap

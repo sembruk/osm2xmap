@@ -1,4 +1,6 @@
 #include <iostream> 
+#include <fstream>
+#include "yaml-cpp/yaml.h"
 #include "rules.h"
 
 Tag::Tag(XmlElement& tagElement) {
@@ -51,9 +53,10 @@ void TagMap::print() const {
 }
 
 namespace RulesCpp {
-    SymbolIdByCodeMap* symbolIds;
+    SymbolIdByCodeMap* symbol_ids;
 };
 
+/*
 Symbol::Symbol(XmlElement& symbolElement)
 : id(invalid_sym_id), textId(invalid_sym_id) {
     if (RulesCpp::symbolIds == nullptr) {
@@ -176,7 +179,57 @@ GroupList::GroupList(XmlElement& rules)
         }
     }
 }
+*/
 
+namespace Yaml {
+    const char* type(YAML::NodeType::value t) {
+        switch (t) {
+        case YAML::NodeType::Null:
+            return "Null";
+        case YAML::NodeType::Scalar:
+            return "Scalar";
+        case YAML::NodeType::Sequence:
+            return "Sequence";
+        case YAML::NodeType::Map:
+            return "Map";
+        }
+        return "";
+    }
+}
+
+Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
+: TrueInit(true) {
+    RulesCpp::symbol_ids = &symbol_ids;
+    std::ifstream rules_file("rules.yaml");
+    YAML::Parser  parser(rules_file);
+    YAML::Node    doc;
+    //std::string name = rules.getAttribute<std::string>("name");
+    //info("Loading rules '" + name + "'... ");
+
+    if (parser.GetNextDocument(doc)) {
+        if (doc.Type() != YAML::NodeType::Map) {
+            throw Error("invalid rules file format");
+        }
+        for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
+            std::string code;
+            it.first() >> code;
+            int id = RulesCpp::symbol_ids->get(code);
+            const YAML::Node& symbol_definition = it.second();
+            info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
+            switch (symbol_definition.Type()) {
+            case YAML::NodeType::Scalar:
+                std::string description;
+                it.second() >> description;
+                if (description == "background" || description == "bg") {
+                    backgroundList.push_back(id);
+                    info("background: "+code);
+                }
+                break;
+            }
+        }
+    }
+}
+/*
 Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds) 
 : TrueInit(true) {
     RulesCpp::symbolIds = &symbolIds;
@@ -196,4 +249,5 @@ Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds)
     groupList = GroupList(rules);
     info("Ok");
 }
+*/
 

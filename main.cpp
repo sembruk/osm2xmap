@@ -19,6 +19,7 @@ namespace Main {
     CoordsTransform transform;
     Rules rules;
 
+/*
     template< typename T >
     void handle(T&, XmapTree&);
 
@@ -111,8 +112,10 @@ namespace Main {
                 memberList.pop_front();
             }
         }
+        */
     }
 
+    /*
     template< typename T >
     void handleOsmData(XmlElement& osmRoot, XmapTree& xmapTree) {
         for ( XmlElement item = osmRoot.getChild();
@@ -153,6 +156,7 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 
     xmapTree.save(outXmapFilename);
 }
+*/
 
 void printUsage(const char* programName) {
     info("Usage:");
@@ -176,30 +180,13 @@ void checkFileName(const char* fileName, const char* programName) {
     }
 }
 
-namespace YamlRules {
-    const char* type(YAML::NodeType::value t) {
-        switch (t) {
-        case YAML::NodeType::Null:
-            return "Null";
-        case YAML::NodeType::Scalar:
-            return "Scalar";
-        case YAML::NodeType::Sequence:
-            return "Sequence";
-        case YAML::NodeType::Map:
-            return "Map";
-        }
-        return "";
-    }
-}
-
 int main(int argc, const char* argv[]) 
 { 
     try {
         Timer timer;
         
-        /*
         const char* symbolFileName = "./symbols.xmap";
-        const char* rulesFileName    = "./rules.xml";
+        const char* rulesFileName    = "./rules.yaml";
         const char* inOsmFileName    = "./in.osm";
         const char* outXmapFileName  = "./out.xmap";
 
@@ -266,11 +253,11 @@ int main(int argc, const char* argv[])
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
-        */
+        //osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
 
         // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
         // See https://github.com/liosha/osm2mp/blob/master/cfg/polish-mp/ways-roads-common-univ.yml 
+        /*
         std::ifstream rulesFile("rules.yaml");
         YAML::Parser  parser(rulesFile);
         YAML::Node    doc;
@@ -300,6 +287,7 @@ int main(int argc, const char* argv[])
                 }
             }
         }
+        */
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }
