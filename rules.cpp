@@ -205,6 +205,7 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
     YAML::Node    doc;
     //std::string name = rules.getAttribute<std::string>("name");
     //info("Loading rules '" + name + "'... ");
+    info("Loading rules...");
 
     if (parser.GetNextDocument(doc)) {
         if (doc.Type() != YAML::NodeType::Map) {
@@ -213,17 +214,38 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
         for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
             std::string code;
             it.first() >> code;
+            /// TODO: parse dash symbols
             int id = RulesCpp::symbol_ids->get(code);
             const YAML::Node& symbol_definition = it.second();
             info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
             switch (symbol_definition.Type()) {
             case YAML::NodeType::Scalar:
-                std::string description;
-                it.second() >> description;
-                if (description == "background" || description == "bg") {
-                    backgroundList.push_back(id);
-                    info("background: "+code);
+                {
+                    std::string description;
+                    it.second() >> description;
+                    if (description == "background" || description == "bg") {
+                        backgroundList.push_back(id);
+                        info("background: "+code);
+                    }
                 }
+                break;
+            case YAML::NodeType::Map:
+                {
+                    for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
+                        std::string key, value;
+                        it.first() >> key;
+                        it.second() >> value;
+                        /// TODO
+                    }
+                }
+                break;
+            case YAML::NodeType::Sequence:
+                {
+                    /// TODO
+                }
+                break;
+            default:
+                throw Error("Illegal YAML node type");
                 break;
             }
         }
