@@ -197,6 +197,21 @@ namespace Yaml {
     }
 }
 
+void parseValueString(std::string& value) {
+    /// TODO
+}
+
+void parseTagMap(const YAML::Node& yaml_map) {
+    for (auto it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+        std::string key, value;
+        it.first() >> key;
+        it.second() >> value;
+        parseValueString(value);
+        info("\t"+key+"="+value);
+        /// TODO
+    }
+}
+
 Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
 : TrueInit(true) {
     RulesCpp::symbol_ids = &symbol_ids;
@@ -231,17 +246,15 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
                 break;
             case YAML::NodeType::Map:
                 {
-                    for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
-                        std::string key, value;
-                        it.first() >> key;
-                        it.second() >> value;
-                        /// TODO
-                    }
+                    parseTagMap(symbol_definition);
                 }
                 break;
             case YAML::NodeType::Sequence:
                 {
-                    /// TODO
+                    for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
+                        parseTagMap(*it);
+                        /// TODO
+                    }
                 }
                 break;
             default:
