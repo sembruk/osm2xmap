@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include "yaml-cpp/yaml.h"
 #include "xmap.h"
 
 namespace ElemType {
@@ -99,11 +100,21 @@ public:
 */
 typedef std::list<int> BackgroundList;
 
+typedef std::list<int> SymbolIdList;
+
+class IdMap
+: public std::map<std::string, SymbolIdList> {
+public:
+    void debugPrint();
+};
+
 class Rules
 : public TrueInit {
+    void parseTagMap(const YAML::Node& yaml_map, int id);
 public:
     //GroupList groupList;
     BackgroundList backgroundList;
+    IdMap idMap;
     Rules() {};
     Rules(const std::string&, SymbolIdByCodeMap&);
 };

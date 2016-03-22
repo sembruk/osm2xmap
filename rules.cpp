@@ -1,6 +1,5 @@
 #include <iostream> 
 #include <fstream>
-#include "yaml-cpp/yaml.h"
 #include "rules.h"
 
 Tag::Tag(XmlElement& tagElement) {
@@ -201,14 +200,26 @@ void parseValueString(std::string& value) {
     /// TODO
 }
 
-void parseTagMap(const YAML::Node& yaml_map) {
-    for (auto it = yaml_map.begin(); it != yaml_map.end(); ++it) {
+void IdMap::debugPrint() {
+    for (auto it : *this) {
+        info("===+ "+it.first);
+        for (auto id : it.second) {
+            info("\t"+std::to_string(id));
+        }
+    }
+}
+
+void
+Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
+    for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
         std::string key, value;
-        it.first() >> key;
-        it.second() >> value;
-        parseValueString(value);
-        info("\t"+key+"="+value);
+        yaml_map_it.first() >> key;
+        yaml_map_it.second() >> value;
         /// TODO
+        parseValueString(value);
+        std::string key_value(key+"="+value);
+        info("\t"+key_value);
+        idMap[key_value].push_back(id);
     }
 }
 
@@ -246,13 +257,13 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
                 break;
             case YAML::NodeType::Map:
                 {
-                    parseTagMap(symbol_definition);
+                    parseTagMap(symbol_definition, id);
                 }
                 break;
             case YAML::NodeType::Sequence:
                 {
                     for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
-                        parseTagMap(*it);
+                        parseTagMap(*it,id);
                         /// TODO
                     }
                 }
@@ -263,6 +274,7 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
             }
         }
     }
+    idMap.debugPrint();
 }
 /*
 Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds) 
