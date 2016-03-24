@@ -155,18 +155,6 @@ GroupList::detect(const TagMap& tags, int elemType) {
     return nullptr;
 }
 
-const Symbol& 
-GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
-    if (!isInited()) {
-        throw Error("Rules not inited!");
-    }
-    Group * group = detect(checkedTags, elemType);
-    if (group != nullptr) {
-        return group->symbols.detect(checkedTags);
-    }
-    return invalidSymbol;
-}
-
 GroupList::GroupList(XmlElement& rules)
 : TrueInit(true) { /// rulesLoadGroupList()
     for ( XmlElement item = rules.getChild();
@@ -209,6 +197,8 @@ void IdMap::debugPrint() {
     }
 }
 
+enum class NextWord { AS_OR, AS_NOT };
+
 void
 Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
     for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
@@ -216,10 +206,30 @@ Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
         yaml_map_it.first() >> key;
         yaml_map_it.second() >> value;
         /// TODO
-        parseValueString(value);
-        std::string key_value(key+"="+value);
-        info("\t"+key_value);
-        idMap[key_value].push_back(id);
+        std::stringstream ss_value(value);
+        std::string word;
+        NextWord flags;
+        while (ss_value >> word) {
+            if (word == "or") {
+                flags = NextWord::AS_OR;
+                continue;
+            }
+            else if (word == "not") {
+                flags = NextWord::AS_NOT;
+                continue;
+            }
+            switch (flags) {
+            case NextWord::AS_NOT:
+                break;
+            case NextWord::AS_OR:
+            default:
+                {
+                    std::string key_value(key+"="+word);
+                    idMap[key_value].push_back(id);
+                }
+                break;
+            }
+        }
     }
 }
 
@@ -276,7 +286,36 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
     }
     idMap.debugPrint();
 }
+
+int 
+Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
+    if (!isInited()) {
+        throw Error("Rules not inited!");
+    }
+    for (auto it : checkedTags) {
+        std::string kv = it.second.getKey() + "=" + it.second.getValue();
+        auto it_id_list = idMap.find(kv);
+        if (it_id_list == idMap.end()) {
+            break;
+        }
+        SymbolIdList id_list = it_id_list->second;
+        /// TODO
+    }
+    return invalid_sym_id;
+}
 /*
+const Symbol& 
+GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
+    if (!isInited()) {
+        throw Error("Rules not inited!");
+    }
+    Group * group = detect(checkedTags, elemType);
+    if (group != nullptr) {
+        return group->symbols.detect(checkedTags);
+    }
+    return invalidSymbol;
+}
+
 Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds) 
 : TrueInit(true) {
     RulesCpp::symbolIds = &symbolIds;

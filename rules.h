@@ -117,6 +117,7 @@ public:
     IdMap idMap;
     Rules() {};
     Rules(const std::string&, SymbolIdByCodeMap&);
+    int getSymbolId(const TagMap& checkedTags, int elemType);
 };
 
 #endif // RULES_H_INCLUDED
