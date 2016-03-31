@@ -179,7 +179,7 @@ void printUsage(const char* programName) {
     info("\tOptions:");
     info("\t\t-i filename - input OSM filename;");
     info("\t\t-o filename - output XMAP filename;");
-    info("\t\t-s filename - symbol set XMAP filename;");
+    info("\t\t-s filename - symbol set XMAP or OMAP filename;");
     info("\t\t-r filename - XML rules filename;");
 }
 
