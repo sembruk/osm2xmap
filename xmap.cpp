@@ -84,7 +84,8 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
 
     georef_elem.removeChild("projected_crs");
     XmlElement proj_crs_elem = georef_elem.addChild("projected_crs");
-    proj_crs_elem.addAttribute("id","EPSG");
+    //proj_crs_elem.addAttribute("id","EPSG");
+    proj_crs_elem.addAttribute("id","UTM");
 
     XmlElement proj_ref_point = proj_crs_elem.addChild("ref_point");
     proj_ref_point.addAttribute("x",georef.projectedRefPoint.X());
@@ -95,7 +96,7 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
     proj_spec_elem.addContent(georef.projectedCrsDesc.c_str());
 
     XmlElement parameter_elem = proj_crs_elem.addChild("parameter");
-    parameter_elem.addContent(std::to_string(georef.parameter).c_str());
+    parameter_elem.addContent(georef.parameter.c_str());
 
     georef_elem.removeChild("geographic_crs");
     XmlElement geographic_crs_elem = georef_elem.addChild("geographic_crs");

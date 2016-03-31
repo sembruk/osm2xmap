@@ -40,7 +40,7 @@ protected:
     double mapScale;
     double declination;
     double grivation; ///< deg
-    unsigned parameter;
+    std::string parameter;
     std::string geographicCrsDesc;
     std::string projectedCrsDesc;
 
