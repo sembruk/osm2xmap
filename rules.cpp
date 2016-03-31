@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <fstream>
+#include <algorithm>
 #include "rules.h"
 
 Tag::Tag(XmlElement& tagElement) {
@@ -225,7 +226,7 @@ Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
             default:
                 {
                     std::string key_value(key+"="+word);
-                    idMap[key_value].push_back(id);
+                    idMap[key_value].insert(id);
                 }
                 break;
             }
@@ -292,14 +293,40 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
     if (!isInited()) {
         throw Error("Rules not inited!");
     }
+    SymbolIdSet intersection;
+    bool started = false;
     for (auto it : checkedTags) {
         std::string kv = it.second.getKey() + "=" + it.second.getValue();
         auto it_id_list = idMap.find(kv);
-        if (it_id_list == idMap.end()) {
-            break;
+        if (it_id_list != idMap.end()) {
+            const SymbolIdSet& id_set = it_id_list->second;
+            if (!started) {
+                intersection = id_set;
+                started = true;
+            }
+            else {
+                SymbolIdSet tmp;
+                std::set_intersection(id_set.begin(), id_set.end(),
+                          intersection.begin(), intersection.end(),
+                          std::inserter(tmp, tmp.begin()));
+                intersection = tmp;
+            }
+            /// TODO
         }
-        SymbolIdList id_list = it_id_list->second;
-        /// TODO
+    }
+    auto it = intersection.begin();
+    int id = *it;
+    intersection.erase(it);
+    if (!intersection.empty()) {
+        warning("intersecrion size more 1");
+        /*
+        for (auto it : *this) {
+            info("===+ "+it.first);
+            for (auto id : it.second) {
+                info("\t"+std::to_string(id));
+            }
+        }
+        */
     }
     return invalid_sym_id;
 }

@@ -100,10 +100,10 @@ public:
 */
 typedef std::list<int> BackgroundList;
 
-typedef std::list<int> SymbolIdList;
+typedef std::set<int> SymbolIdSet;
 
 class IdMap
-: public std::map<std::string, SymbolIdList> {
+: public std::map<std::string, SymbolIdSet> {
 public:
     void debugPrint();
 };
