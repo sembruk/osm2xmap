@@ -179,8 +179,9 @@ void printUsage(const char* programName) {
     info("\tOptions:");
     info("\t\t-i filename - input OSM filename;");
     info("\t\t-o filename - output XMAP filename;");
-    info("\t\t-s filename - symbol set XMAP or OMAP filename;");
+    info("\t\t-s filename - symbol set XMAP or OMAP filename (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
     info("\t\t-r filename - XML rules filename;");
+    info("\t\t--help, -h or help - this usage.");
 }
 
 //FIXME
@@ -222,6 +223,12 @@ int main(int argc, const char* argv[])
                 else if (std::string(argv[i]) == "-r") {
                     rulesFileName = argv[++i];
                     checkFileName(rulesFileName,argv[0]);
+                }
+                else if (std::string(argv[i]) == "--help" ||
+                         std::string(argv[i]) == "-h" ||
+                         std::string(argv[i]) == "help") {
+                    printUsage(argv[0]);
+                    return 0;
                 }
                 else {
                     printUsage(argv[0]);
