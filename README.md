@@ -23,7 +23,7 @@ sudo apt-get install libproj0 libproj-dev
 
 ## Usage
 
-Run compiled binary with `-h` option for detailed instructions.
+Run compiled binary with `--help` option for detailed instructions.
 
 ## Todo
 
