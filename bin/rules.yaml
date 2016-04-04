@@ -1,239 +1,238 @@
-#
-# ISOM2000 adapeted for cyclogaine
-#
+rules_name: ISOM2000 adapeted for cyclogaine
 
-- 101:
-    contour_ext: elevation_minor
+codes:
+    - 101:
+        contour_ext: elevation_minor
 
-- 101:
-    iof_contour: 101
+    - 101:
+        iof_contour: 101
 
-- 102:
-    iof_contour: index
+    - 102:
+        iof_contour: index
 
-- 103:
-    iof_contour: form
+    - 103:
+        iof_contour: form
 
-- 110:
-    barrier: ditch
-    not waterway:
+    - 110:
+        barrier: ditch
+        not waterway:
 
-- 211:
-    landuse: quarry
-    resource: sand
+    - 211:
+        landuse: quarry
+        resource: sand
 
-- 211:
-    natural: sand
+    - 211:
+        natural: sand
 
-- 211:
-    natural: beach
+    - 211:
+        natural: beach
 
-- 301.2:
-    landuse: reservoir
+    - 301.2:
+        landuse: reservoir
 
-- 301.2:
-    natural: water
+    - 301.2:
+        natural: water
 
-- 305:
-    waterway: river
+    - 305:
+        waterway: river
 
-- 306:
-    waterway: stream or drain
+    - 306:
+        waterway: stream or drain
 
-- 307:
-    waterway: ditch
+    - 307:
+        waterway: ditch
 
-- 310:
-    natural: wetland
-    wetland: marsh
+    - 310:
+        natural: wetland
+        wetland: marsh
 
-- 311:
-    natural: wetland
-    wetland: not marsh
+    - 311:
+        natural: wetland
+        wetland: not marsh
 
-- 401: background
+    - 401: background
 
-- 405:
-    landuse: forest
+    - 405:
+        landuse: forest
 
-- 405:
-    natural: wood
+    - 405:
+        natural: wood
 
-- 405.1:
-    natural: tree_row
+    - 405.1:
+        natural: tree_row
 
-- 409:
-    natural: scrub
+    - 409:
+        natural: scrub
 
-- 412:
-    landuse: orchard
+    - 412:
+        landuse: orchard
 
-- 501.0:
-    highway: motorway
+    - 501.0:
+        highway: motorway
 
-- 502:
-    highway: primary
+    - 502:
+        highway: primary
 
-- 502:
-    highway: trunk
-    lanes: 2
+    - 502:
+        highway: trunk
+        lanes: 2
 
-- 502:
-    highway: trunk_link
-    lanes: 1
+    - 502:
+        highway: trunk_link
+        lanes: 1
 
-- 502:
-    highway: secondary
+    - 502:
+        highway: secondary
 
-- 502:
-    highway: tertiary
+    - 502:
+        highway: tertiary
 
-- 503:
-    highway: residential or unclassified or living_street
-    surface: asphalt
+    - 503:
+        highway: residential or unclassified or living_street
+        surface: asphalt
 
-- 503.4:
-    highway: service or track
-    surface: asphalt
+    - 503.4:
+        highway: service or track
+        surface: asphalt
 
-- 503.2:
-    highway: unclassified or residential or service or living_street
-    surface: concrete:plates or concrete:lanes
+    - 503.2:
+        highway: unclassified or residential or service or living_street
+        surface: concrete:plates or concrete:lanes
 
-- 503.3:
-    highway: unclassified or residential or service or living_street
-    surface: compacted or gravel
+    - 503.3:
+        highway: unclassified or residential or service or living_street
+        surface: compacted or gravel
 
-- 509:
-    man_made: cutline
-    not highway:
+    - 509:
+        man_made: cutline
+        not highway:
 
-- 515:
-    railway: rail
+    - 515:
+        railway: rail
 
-- 516:
-    power: minor_line
+    - 516:
+        power: minor_line
 
-- 516-dash:
-    power: pole
+    - 516-dash:
+        power: pole
 
-- 517:
-    power: line
+    - 517:
+        power: line
 
-- 517-dash:
-    power: tower
+    - 517-dash:
+        power: tower
 
-- 521:
-    barrier: wall
+    - 521:
+        barrier: wall
 
-- 524:
-    barrier: fence
+    - 524:
+        barrier: fence
 
-- 526:
-    building: not no
+    - 526:
+        building: not no
 
-- 527:
-    landuse: residential or allotments
+    - 527:
+        landuse: residential or allotments
 
-- 527.2:
-    landuse: industrial or construction
+    - 527.2:
+        landuse: industrial or construction
 
-- 529.2:
-    amenity: parking
+    - 529.2:
+        amenity: parking
 
-- 532.2:
-    landuse: cemetery
+    - 532.2:
+        landuse: cemetery
 
-- 535:
-    man_made: tower or water_tower or chimney
+    - 535:
+        man_made: tower or water_tower or chimney
 
-- 536:
-    amenity: hunting_stand
+    - 536:
+        amenity: hunting_stand
 
-- 601.3: background
+    - 601.3: background
 
-- 701:
-    checkpoint: start
+    - 701:
+        checkpoint: start
 
-- 702:
-    checkpoint: yes
-    not name:
+    - 702:
+        checkpoint: yes
+        not name:
 
-- 703:
-    checkpoint: yes
-    name:
+    - 703:
+        checkpoint: yes
+        name:
 
-- 709:
-    landuse: military
+    - 709:
+        landuse: military
 
-- 709:
-    amenity: prison
+    - 709:
+        amenity: prison
 
-- 710:
-    landuse: quarry
-    resource: not sand
+    - 710:
+        landuse: quarry
+        resource: not sand
 
-- 710:
-    landuse: landfill
+    - 710:
+        landuse: landfill
 
-- 713:
-    shop: convenience
+    - 713:
+        shop: convenience
 
-- 713.1:
-    natural: spring
+    - 713.1:
+        natural: spring
 
-- 713.1:
-    man_made: water_well
+    - 713.1:
+        man_made: water_well
 
-- 811:
-    highway: unclassified or residential or service or living_street
-    surface: ground or sand or unpaved
+    - 811:
+        highway: unclassified or residential or service or living_street
+        surface: ground or sand or unpaved
 
-- 811:
-    highway: unclassified or residential or service or living_street
-    not surface:
+    - 811:
+        highway: unclassified or residential or service or living_street
+        not surface:
 
-- 811:
-    highway: track
-    smoothness: good or intermediate
+    - 811:
+        highway: track
+        smoothness: good or intermediate
 
-- 812:
-    highway: footway
+    - 812:
+        highway: footway
 
-- 812:
-    highway: path
-    smoothness: good or intermediate
+    - 812:
+        highway: path
+        smoothness: good or intermediate
 
-- 813:
-    highway: unclassified or residential
-    surface: grass or dirt
+    - 813:
+        highway: unclassified or residential
+        surface: grass or dirt
 
-- 813:
-    highway: track
-    not smoothness:
+    - 813:
+        highway: track
+        not smoothness:
 
-- 813:
-    highway: track
-    smoothness: bad or very_bad
+    - 813:
+        highway: track
+        smoothness: bad or very_bad
 
-- 814:
-    highway: path
-    smoothness: bad or very_bad
+    - 814:
+        highway: path
+        smoothness: bad or very_bad
 
-- 814:
-    highway: path
-    not smoothness:
+    - 814:
+        highway: path
+        not smoothness:
 
-- 815:
-    highway: track
-    smoothness: horrible or very_horrible
+    - 815:
+        highway: track
+        smoothness: horrible or very_horrible
 
-- 816:
-    highway: path
-    smoothness: horrible or very_horrible
+    - 816:
+        highway: path
+        smoothness: horrible or very_horrible
 
-- 998:
-    place: village or hamlet or allotments
-    name:
-    not landuse:
+    - 998:
+        place: village or hamlet or allotments
+        name:
+        not landuse:
 

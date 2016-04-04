@@ -243,24 +243,41 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
     YAML::Node    doc;
     //std::string name = rules.getAttribute<std::string>("name");
     //info("Loading rules '" + name + "'... ");
-    info("Loading rules...");
 
     if (parser.GetNextDocument(doc)) {
         if (doc.Type() != YAML::NodeType::Map) {
             throw Error("invalid rules file format");
         }
-        for (YAML::Iterator it = doc.begin(); it != doc.end(); ++it) {
+
+        if(const YAML::Node *pName = doc.FindValue("rules_name")) {
+            std::string rules_name;
+            *pName >> rules_name;
+            if (!rules_name.empty() && rules_name != "") {
+                info("Loading rules '" + rules_name + "'... ");
+            }
+        }
+        else {
+            info("Loading rules...");
+        }
+
+        const YAML::Node *pCodes = doc.FindValue("codes");
+        if (pCodes->Type() != YAML::NodeType::Sequence) {
+            throw Error("Codes list in the rules file not a YAML sequence");
+        }
+        for (YAML::Iterator it = pCodes->begin(); it != pCodes->end(); ++it) {
+            YAML::Iterator code_map = it->begin();
+            /// TODO check members number in list
             std::string code;
-            it.first() >> code;
+            code_map.first() >> code;
             /// TODO: parse dash symbols
             int id = RulesCpp::symbol_ids->get(code);
-            const YAML::Node& symbol_definition = it.second();
+            const YAML::Node& symbol_definition = code_map.second();
             info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
             switch (symbol_definition.Type()) {
             case YAML::NodeType::Scalar:
                 {
                     std::string description;
-                    it.second() >> description;
+                    symbol_definition >> description;
                     if (description == "background" || description == "bg") {
                         backgroundList.push_back(id);
                         info("background: "+code);
@@ -333,37 +350,4 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
     }
     return invalid_sym_id;
 }
-/*
-const Symbol& 
-GroupList::getSymbol(const TagMap& checkedTags, int elemType) {
-    if (!isInited()) {
-        throw Error("Rules not inited!");
-    }
-    Group * group = detect(checkedTags, elemType);
-    if (group != nullptr) {
-        return group->symbols.detect(checkedTags);
-    }
-    return invalidSymbol;
-}
-
-Rules::Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds) 
-: TrueInit(true) {
-    RulesCpp::symbolIds = &symbolIds;
-    XmlTree rulesDoc(rulesFileName);
-    XmlElement rules = rulesDoc.getChild("rules");
-    std::string name = rules.getAttribute<std::string>("name");
-    info("Loading rules '" + name + "'... ");
-    for ( XmlElement item = rules.getChild();
-          !item.isEmpty();
-          ++item ) {
-        if (item == "background") {
-            std::string code = item.getAttribute<std::string>("code");
-            int id = RulesCpp::symbolIds->get(code);
-            backgroundList.push_back(id);
-        }
-    }
-    groupList = GroupList(rules);
-    info("Ok");
-}
-*/
 
