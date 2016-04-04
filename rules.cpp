@@ -221,6 +221,7 @@ Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
             }
             switch (flags) {
             case NextWord::AS_NOT:
+                /// TODO
                 break;
             case NextWord::AS_OR:
             default:
@@ -314,19 +315,21 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
             /// TODO
         }
     }
-    auto it = intersection.begin();
-    int id = *it;
-    intersection.erase(it);
     if (!intersection.empty()) {
-        warning("intersecrion size more 1");
-        /*
-        for (auto it : *this) {
-            info("===+ "+it.first);
-            for (auto id : it.second) {
-                info("\t"+std::to_string(id));
+        auto it = intersection.begin();
+        int id = *it;
+        intersection.erase(it);
+        if (id != 0) {
+            if (!intersection.empty()) {
+                warning("intersecrion size more 1");
+                /*
+                for (int _id : intersection) {
+                    info(">>>> "+std::to_string(_id));
+                }
+                */
             }
+            return id;
         }
-        */
     }
     return invalid_sym_id;
 }

@@ -74,7 +74,7 @@
     highway: residential or unclassified or living_street
     surface: asphalt
 
-503.1:
+503.4:
     highway: service or track
     surface: asphalt
 

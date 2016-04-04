@@ -19,20 +19,18 @@ namespace Main {
     CoordsTransform transform;
     Rules rules;
 
-/*
     template< typename T >
     void handle(T&, XmapTree&);
 
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmNode.getTagMap(), ElemType::node);
-        //info("sym id %d",id);
+        int id = Main::rules.getSymbolId(osmNode.getTagMap(), ElemType::node);
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
-        int id = symbol.Id();
         if (id != invalid_sym_id) {
             xmapTree.add(id, coords);
         }
+        /*
         int textId = symbol.TextId();
         if (textId != invalid_sym_id) {
             const std::string text = osmNode.getName();
@@ -40,21 +38,24 @@ namespace Main {
                 xmapTree.add(textId, coords, text.c_str());
             }
         }
+        */
     }
 
-    Coords addCoordsToWay(XmapWay& way, const Symbol& symbol, OsmWay osmWay, bool reverse = false) {
+    Coords addCoordsToWay(XmapWay& way, int id, OsmWay osmWay, bool reverse = false) {
         if (reverse) {
             osmWay.reverse();
         }
-        Tag dashSymbolTag = symbol.NdSymbolTag();
+        //Tag dashSymbolTag = symbol.NdSymbolTag();
         Coords lastGeographicCoords;
         for (const auto& osmNode : osmWay) {
             int flags = 0;
+            /*
             if (!dashSymbolTag.empty()) {
                 if(osmNode.getTagMap().exist(dashSymbolTag)) {
                     flags = 32;
                 }
             }
+            */
             Coords coords = osmNode.getCoords();
             lastGeographicCoords = coords;
             coords = Main::transform.geographicToMap(coords);
@@ -65,9 +66,9 @@ namespace Main {
 
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmWay.getTagMap(), ElemType::way);
-        XmapWay way = xmapTree.add(symbol.Id());
-        addCoordsToWay(way,symbol,osmWay);
+        int id = Main::rules.getSymbolId(osmWay.getTagMap(), ElemType::way);
+        XmapWay way = xmapTree.add(id);
+        addCoordsToWay(way,id,osmWay);
     }
 
     template< >
@@ -75,11 +76,11 @@ namespace Main {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
-        const Symbol symbol = Main::rules.groupList.getSymbol(osmRelation.getTagMap(), ElemType::area);
-        XmapWay way = xmapTree.add(symbol.Id());
+        int id = Main::rules.getSymbolId(osmRelation.getTagMap(), ElemType::area);
+        XmapWay way = xmapTree.add(id);
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
-        Coords lastCoords = addCoordsToWay(way,symbol,osmWay);
+        Coords lastCoords = addCoordsToWay(way,id,osmWay);
         memberList.pop_front();
         ///TODO check member role
         while (!memberList.empty()) {
@@ -102,20 +103,18 @@ namespace Main {
                 }
             }
             if (found) {
-                lastCoords = addCoordsToWay(way,symbol,*iterator,reverse);
+                lastCoords = addCoordsToWay(way,id,*iterator,reverse);
                 memberList.erase(iterator);
             }
             else {
                 way.completeMultipolygonPart();
                 OsmWay& osmWay = memberList.front();
-                lastCoords = addCoordsToWay(way,symbol,osmWay);
+                lastCoords = addCoordsToWay(way,id,osmWay);
                 memberList.pop_front();
             }
         }
-        */
     }
 
-    /*
     template< typename T >
     void handleOsmData(XmlElement& osmRoot, XmapTree& xmapTree) {
         for ( XmlElement item = osmRoot.getChild();
@@ -156,7 +155,6 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 
     xmapTree.save(outXmapFilename);
 }
-*/
 
 void printUsage(const char* programName) {
     info("Usage:");
@@ -253,7 +251,7 @@ int main(int argc, const char* argv[])
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        //osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
+        osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
 
         // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
         // See https://github.com/liosha/osm2mp/blob/master/cfg/polish-mp/ways-roads-common-univ.yml 

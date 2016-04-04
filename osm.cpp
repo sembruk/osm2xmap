@@ -102,7 +102,7 @@ OsmRelation::OsmRelation(XmlElement& osmElement)
             long memberId = item.getAttribute<long>("ref");
             Osm::WayMap::iterator it = Osm::wayMap.find(memberId);
             if (it == Osm::wayMap.end()) {
-                warning("Way " + std::to_string(memberId) + " didn't find");
+                //warning("Way " + std::to_string(memberId) + " didn't find"); ///< it's normal
             }
             else {
                 std::string role = item.getAttribute<std::string>("role");
