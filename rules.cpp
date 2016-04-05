@@ -190,18 +190,22 @@ void parseValueString(std::string& value) {
 }
 
 void IdMap::debugPrint() {
+    /*
     for (auto it : *this) {
         info("===+ "+it.first);
         for (auto id : it.second) {
             info("\t"+std::to_string(id));
         }
     }
+    */
 }
 
 enum class NextWord { AS_OR, AS_NOT };
 
 void
 Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
+    //KvList* pKvList = new KvList(id);
+    IdAndTagMap* pIdAndTagMap = new IdAndTagMap(id);
     for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
         std::string key, value;
         yaml_map_it.first() >> key;
@@ -227,7 +231,8 @@ Rules::parseTagMap(const YAML::Node& yaml_map, int id) {
             default:
                 {
                     std::string key_value(key+"="+word);
-                    idMap[key_value].insert(id);
+                    idMap[key_value].insert(pIdAndTagMap);
+                    (*pIdAndTagMap)[key] = Tag(key,value);
                 }
                 break;
             }
@@ -311,13 +316,20 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
     if (!isInited()) {
         throw Error("Rules not inited!");
     }
-    SymbolIdSet intersection;
-    bool started = false;
+    //SymbolIdSet intersection;
+    //bool started = false;
     for (auto it : checkedTags) {
         std::string kv = it.second.getKey() + "=" + it.second.getValue();
         auto it_id_list = idMap.find(kv);
         if (it_id_list != idMap.end()) {
-            const SymbolIdSet& id_set = it_id_list->second;
+            //const KvListPSet& kvListPSet = it_id_list->second;
+            const IdAndTagMapPSet& idAndTagMapPSet = it_id_list->second;
+            for (auto pIdAndTagMap : idAndTagMapPSet) {
+                if (pIdAndTagMap->tagsOk(checkedTags)) {
+                    return pIdAndTagMap->getId();
+                }
+            }
+            /*
             if (!started) {
                 intersection = id_set;
                 started = true;
@@ -330,8 +342,10 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
                 intersection = tmp;
             }
             /// TODO
+            */
         }
     }
+    /*
     if (!intersection.empty()) {
         auto it = intersection.begin();
         int id = *it;
@@ -339,15 +353,14 @@ Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
         if (id != 0) {
             if (!intersection.empty()) {
                 warning("intersecrion size more 1");
-                /*
-                for (int _id : intersection) {
-                    info(">>>> "+std::to_string(_id));
-                }
-                */
+                //for (int _id : intersection) {
+                //    info(">>>> "+std::to_string(_id));
+                //}
             }
             return id;
         }
     }
+    */
     return invalid_sym_id;
 }
 

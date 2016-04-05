@@ -100,10 +100,29 @@ public:
 */
 typedef std::list<int> BackgroundList;
 
-typedef std::set<int> SymbolIdSet;
+//typedef std::set<int> SymbolIdSet;
+
+/*
+class KvList
+: public std::list<std::string> {
+    int id;
+public:
+    KvList(int _id) : id(_id) {};
+};
+*/
+
+class IdAndTagMap
+: public TagMap {
+    int id;
+public:
+    IdAndTagMap(int _id) : id(_id) {};
+    int getId() const { return id; };
+};
+
+typedef std::set<IdAndTagMap*> IdAndTagMapPSet;
 
 class IdMap
-: public std::map<std::string, SymbolIdSet> {
+: public std::map<std::string/*k=v*/, IdAndTagMapPSet> {
 public:
     void debugPrint();
 };
