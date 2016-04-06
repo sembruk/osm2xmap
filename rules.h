@@ -22,12 +22,12 @@ class TagMap;
 class Tag {
     std::string key;
     std::string value;
-    bool exist;
+    //bool exist;
     friend class TagMap;
 public:
-    Tag() : key(""), value(""), exist(true) {};
-    Tag(std::string k, std::string v, bool e=true) : key(k), value(v), exist(e) {}; 
-    Tag(XmlElement& tagElement);
+    Tag() : key(""), value("")/*, exist(true)*/ {};
+    Tag(std::string k, std::string v, bool e=true) : key(k), value(v)/*, exist(e)*/ {};
+    //Tag(XmlElement& tagElement);
     const std::string& getKey() const { return key; };
     const std::string& getValue() const { return value; };
     bool empty() const { return key.empty(); };
@@ -37,12 +37,13 @@ public:
 };
 
 class TagMap ///< TagList
-: public std::map<std::string, Tag> {
+: public std::map<std::string, Tag*> {
 public:
     TagMap() {};
+    ~TagMap();
     bool exist(const Tag& tag) const;
     bool tagsOk(const TagMap& checkedTags) const;
-    void insert(Tag& tag);
+    void insert(const Tag& tag);
     void print() const;
 };
 

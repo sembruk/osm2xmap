@@ -22,7 +22,7 @@ const std::string
 OsmObject::getName() const {
     TagMap::const_iterator it = tagMap.find("name");
     if (it != tagMap.end()) {
-        return it->second.getValue();
+        return it->second->getValue();
     }
     return std::string();
 }
