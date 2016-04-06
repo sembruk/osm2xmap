@@ -26,10 +26,9 @@ bool TagMap::exist(const Tag& tag) const {
 }
 
 bool TagMap::tagsOk(const TagMap& checkedTags) const {
-    for (const_iterator it = begin();
-         it != end();
-         ++it) {
-        std::shared_ptr<Tag> p_tag = it->second;
+    for (auto& pair : *this) {
+        std::shared_ptr<Tag> p_tag = pair.second;
+        //info(pair.first+"="+p_tag->getValue());
         if (!checkedTags.exist(*p_tag)/* ^ tag.exist*/) {
             return false;
         }
@@ -94,11 +93,11 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
     //KvList* pKvList = new KvList(id);
     IdAndTagMap* pIdAndTagMap = new IdAndTagMap(id);
     for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
-        std::string key, value;
-        yaml_map_it.first() >> key;
-        yaml_map_it.second() >> value;
+        std::string s_key, s_value;
+        yaml_map_it.first() >> s_key;
+        yaml_map_it.second() >> s_value;
         /// TODO parse 'not key' case
-        std::stringstream ss_value(value);
+        std::stringstream ss_value(s_value);
         std::string word;
         NextWord flags;
         while (ss_value >> word) {
@@ -117,7 +116,9 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             case NextWord::AS_OR:
             default:
                 {
-                    std::string key_value(key+"="+word);
+                    std::string key = s_key;
+                    std::string value = word;
+                    std::string key_value(key+"="+value);
                     idMap[key_value].insert(pIdAndTagMap);
                     pIdAndTagMap->insert(Tag(key,value),true/*as_multi*/);
                 }
@@ -125,6 +126,10 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             }
         }
     }
+    for (auto pair : *pIdAndTagMap) {
+        info(pair.first+"="+pair.second->getValue());
+    }
+    info("\n");
 }
 
 Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
