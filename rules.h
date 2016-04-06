@@ -36,14 +36,14 @@ public:
     };
 };
 
+typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
 class TagMap ///< TagList
-: public std::map<std::string, Tag*> {
+: public TagMapBase {
 public:
     TagMap() {};
-    ~TagMap();
     bool exist(const Tag& tag) const;
     bool tagsOk(const TagMap& checkedTags) const;
-    void insert(const Tag& tag);
+    void insert(const Tag& tag, bool as_multi=false);
     void print() const;
 };
 
@@ -130,7 +130,7 @@ public:
 
 class Rules
 : public TrueInit {
-    void parseTagMap(const YAML::Node& yaml_map, int id);
+    void parseMap(const YAML::Node& yaml_map, int id);
 public:
     //GroupList groupList;
     BackgroundList backgroundList;

@@ -12,8 +12,7 @@ OsmObject::OsmObject(const XmlElement& osmElement) {
         if (item == "tag") {
             std::string k = item.getAttribute<std::string>("k");
             std::string v = item.getAttribute<std::string>("v");
-            Tag tag(k,v);
-            tagMap.insert(tag);
+            tagMap.insert(Tag(k,v));
         }
     }
 }

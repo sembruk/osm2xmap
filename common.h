@@ -10,8 +10,6 @@
 #include <cstdio>
 #include <cstdarg>
 
-#define DEBUG
-
 class Coords{
 protected:
     double x;

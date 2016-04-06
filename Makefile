@@ -1,5 +1,6 @@
 CC          = g++
 CFLAGS      = -Wall -std=c++11
+#CFLAGS     += -DDEBUG -g
 LDFLAGS     = -lproj -lroxml -lyaml-cpp
 LINKER      = $(CC) -o
 EXECUTABLE  = osm2xmap
