@@ -129,7 +129,8 @@ codes:
         barrier: fence
 
     - 526:
-        building: not no
+        #building: not no
+        building:
 
     - 527:
         landuse: residential or allotments

@@ -42,7 +42,7 @@ class TagMap ///< TagList
 public:
     TagMap() {};
     bool exist(const Tag& tag) const;
-    bool tagsOk(const TagMap& checkedTags) const;
+    bool tagsExist(const TagMap& checkedTags) const;
     void insert(const Tag& tag, bool as_multi=false);
     void print() const;
 };

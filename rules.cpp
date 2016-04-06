@@ -1,6 +1,7 @@
 #include <iostream> 
 #include <fstream>
 #include <algorithm>
+#include "yaml-cpp/null.h"
 #include "rules.h"
 
 /*
@@ -25,13 +26,21 @@ bool TagMap::exist(const Tag& tag) const {
     return false;
 }
 
-bool TagMap::tagsOk(const TagMap& checkedTags) const {
-    for (auto& pair : *this) {
-        std::shared_ptr<Tag> p_tag = pair.second;
-        //info(pair.first+"="+p_tag->getValue());
-        if (!checkedTags.exist(*p_tag)/* ^ tag.exist*/) {
-            return false;
+bool TagMap::tagsExist(const TagMap& checkedTags) const {
+    auto it = checkedTags.begin();
+    while (it != checkedTags.end()) {
+        std::string key = it->first;
+        for (auto it = checkedTags.lower_bound(key);;) {
+            std::shared_ptr<Tag> p_tag = it->second;
+            ++it;
+            if (exist(*p_tag)/* ^ tag.exist*/) {
+                break;
+            }
+            else if (it == checkedTags.upper_bound(key)) {
+                return false;
+            }
         }
+        it = checkedTags.upper_bound(key);
     }
     return true;
 }
@@ -118,6 +127,9 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
                 {
                     std::string key = s_key;
                     std::string value = word;
+                    if (value == "~") { ///< is YAML null string
+                        value = "";
+                    }
                     std::string key_value(key+"="+value);
                     idMap[key_value].insert(pIdAndTagMap);
                     pIdAndTagMap->insert(Tag(key,value),true/*as_multi*/);
@@ -204,20 +216,20 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
 }
 
 int 
-Rules::getSymbolId(const TagMap& checkedTags, int elemType) {
+Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
     if (!isInited()) {
         throw Error("Rules not inited!");
     }
     //SymbolIdSet intersection;
     //bool started = false;
-    for (auto it : checkedTags) {
+    for (auto it : osm_object_tags) {
         std::string kv = it.second->getKey() + "=" + it.second->getValue();
         auto it_id_list = idMap.find(kv);
         if (it_id_list != idMap.end()) {
             //const KvListPSet& kvListPSet = it_id_list->second;
             const IdAndTagMapPSet& idAndTagMapPSet = it_id_list->second;
             for (auto pIdAndTagMap : idAndTagMapPSet) {
-                if (pIdAndTagMap->tagsOk(checkedTags)) {
+                if (osm_object_tags.tagsExist(*pIdAndTagMap)) {
                     return pIdAndTagMap->getId();
                 }
             }
