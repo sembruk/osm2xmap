@@ -37,6 +37,7 @@ public:
 };
 
 typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
+
 class TagMap ///< TagList
 : public TagMapBase {
 public:
@@ -128,6 +129,8 @@ public:
     void debugPrint();
 };
 
+typedef std::map<int/*way id*/, TagMap> DashMap;
+
 class Rules
 : public TrueInit {
     void parseMap(const YAML::Node& yaml_map, int id);
@@ -135,9 +138,11 @@ public:
     //GroupList groupList;
     BackgroundList backgroundList;
     IdMap idMap;
+    DashMap dashMap;
     Rules() {};
     Rules(const std::string&, SymbolIdByCodeMap&);
     int getSymbolId(const TagMap& checkedTags, int elemType);
+    bool isDashPoint(const TagMap& checkedTags, int id);
 };
 
 #endif // RULES_H_INCLUDED

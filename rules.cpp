@@ -104,6 +104,18 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
     for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
         std::string s_key, s_value;
         yaml_map_it.first() >> s_key;
+        if (s_key == "__dash__") {
+            const YAML::Node& dash_definition = yaml_map_it.second();
+            if (dash_definition.Type() == YAML::NodeType::Map) {
+                for (auto it = dash_definition.begin(); it != dash_definition.end(); ++it) {
+                    std::string k, v;
+                    it.first() >> k;
+                    it.second() >> v;
+                    dashMap[id].insert(Tag(k,v));
+                }
+            }
+            continue;
+        }
         yaml_map_it.second() >> s_value;
         /// TODO parse 'not key' case
         std::stringstream ss_value(s_value);
@@ -177,7 +189,6 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
             /// TODO check members number in list
             std::string code;
             code_map.first() >> code;
-            /// TODO: parse dash symbols
             int id = RulesCpp::symbol_ids->get(code);
             const YAML::Node& symbol_definition = code_map.second();
             info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
@@ -266,5 +277,17 @@ Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
     }
     */
     return invalid_sym_id;
+}
+bool
+Rules::isDashPoint(const TagMap& osm_point_tags, int id) {
+    if (!isInited()) {
+        throw Error("Rules not inited!");
+    }
+    auto it = dashMap.find(id);
+    if (it != dashMap.end()) {
+        const TagMap& dashTags = it->second;
+        return osm_point_tags.tagsExist(dashTags);
+    }
+    return false;
 }
 

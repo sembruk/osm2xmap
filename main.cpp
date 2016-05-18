@@ -45,17 +45,12 @@ namespace Main {
         if (reverse) {
             osmWay.reverse();
         }
-        //Tag dashSymbolTag = symbol.NdSymbolTag();
         Coords lastGeographicCoords;
         for (const auto& osmNode : osmWay) {
             int flags = 0;
-            /*
-            if (!dashSymbolTag.empty()) {
-                if(osmNode.getTagMap().exist(dashSymbolTag)) {
-                    flags = 32;
-                }
+            if (Main::rules.isDashPoint(osmNode.getTagMap(),id)) {
+                flags = 32;
             }
-            */
             Coords coords = osmNode.getCoords();
             lastGeographicCoords = coords;
             coords = Main::transform.geographicToMap(coords);

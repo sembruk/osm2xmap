@@ -112,15 +112,13 @@ codes:
 
     - 516:
         power: minor_line
-
-    - 516-dash:
-        power: pole
+        __dash__:
+            power: pole
 
     - 517:
         power: line
-
-    - 517-dash:
-        power: tower
+        __dash__:
+            power: tower
 
     - 521:
         barrier: wall
