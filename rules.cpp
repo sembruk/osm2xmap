@@ -130,8 +130,7 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
                     if (value == "~") { ///< is YAML null string
                         value = "";
                     }
-                    std::string key_value(key+"="+value);
-                    idMap[key_value].insert(pIdAndTagMap);
+                    idMap[key+"="+value].insert(pIdAndTagMap);
                     pIdAndTagMap->insert(Tag(key,value),true/*as_multi*/);
                 }
                 break;
@@ -223,10 +222,11 @@ Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
     //SymbolIdSet intersection;
     //bool started = false;
     for (auto it : osm_object_tags) {
-        std::string kv = it.second->getKey() + "=" + it.second->getValue();
-        auto it_id_list = idMap.find(kv);
-        if (it_id_list != idMap.end()) {
-            //const KvListPSet& kvListPSet = it_id_list->second;
+        std::string k = it.second->getKey();
+        std::string v = it.second->getValue();
+        auto it_id_list = idMap.find(k+"="+v);
+        auto _it_id_list = idMap.find(k+"=");
+        if (it_id_list != idMap.end() || (it_id_list = _it_id_list) != idMap.end()) {
             const IdAndTagMapPSet& idAndTagMapPSet = it_id_list->second;
             for (auto pIdAndTagMap : idAndTagMapPSet) {
                 if (osm_object_tags.tagsExist(*pIdAndTagMap)) {

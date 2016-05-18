@@ -50,7 +50,7 @@ codes:
         natural: wetland
         wetland: not marsh
 
-    - 401: background
+    - 403: background
 
     - 405:
         landuse: forest
