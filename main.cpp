@@ -28,17 +28,16 @@ namespace Main {
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
         if (id != invalid_sym_id) {
-            xmapTree.add(id, coords);
-        }
-        /*
-        int textId = symbol.TextId();
-        if (textId != invalid_sym_id) {
-            const std::string text = osmNode.getName();
-            if (!text.empty()) {
-                xmapTree.add(textId, coords, text.c_str());
+            if (Main::rules.isText(id)) {
+                const std::string text = osmNode.getName();
+                if (!text.empty()) {
+                    xmapTree.add(id, coords, text.c_str());
+                }
+            }
+            else {
+                xmapTree.add(id, coords);
             }
         }
-        */
     }
 
     Coords addCoordsToWay(XmapWay& way, int id, OsmWay osmWay, bool reverse = false) {

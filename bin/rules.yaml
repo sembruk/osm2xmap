@@ -233,5 +233,5 @@ codes:
     - 998:
         place: village or hamlet or allotments
         name:
-        not landuse:
+        #not landuse:
 

@@ -41,10 +41,11 @@ enum class SymType : int {
 const int invalid_sym_id = -3;
 
 class SymbolIdByCodeMap
-: public std::map<std::string, int> {
+: public std::map<std::string, std::pair<int, SymType> > {
 public:
     SymbolIdByCodeMap(XmlElement& root);
     int get(std::string code) const;
+    SymType getType(int id) const;
 };
 
 class XmapTree;

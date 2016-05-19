@@ -278,6 +278,7 @@ Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
     */
     return invalid_sym_id;
 }
+
 bool
 Rules::isDashPoint(const TagMap& osm_point_tags, int id) {
     if (!isInited()) {
@@ -287,6 +288,15 @@ Rules::isDashPoint(const TagMap& osm_point_tags, int id) {
     if (it != dashMap.end()) {
         const TagMap& dashTags = it->second;
         return osm_point_tags.tagsExist(dashTags);
+    }
+    return false;
+}
+
+bool
+Rules::isText(int id) {
+    SymType type = RulesCpp::symbol_ids->getType(id);
+    if (type == SymType::text) {
+        return true;
     }
     return false;
 }

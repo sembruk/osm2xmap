@@ -14,10 +14,10 @@ SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
         if (item == "symbol") {
             int id = item.getAttribute<int>("id");
             std::string code = item.getAttribute<std::string>("code");
-            //int type = item.getAttribute<int>("type");
+            int type = item.getAttribute<int>("type");
             //std::string name = item.getAttribute<std::string>("name");
             //info("%d %s %s %d",id,code.c_str(),name.c_str(),type);
-            (*this)[code] = id;
+            (*this)[code] = std::pair<int, SymType>(id, (SymType)type);
         };
     }
 }
@@ -32,7 +32,18 @@ SymbolIdByCodeMap::get(std::string code) const {
         warning("Symbol with code " + code + " didn't find");
         return invalid_sym_id;
     }
-    return it->second;
+    return it->second.first;
+}
+SymType
+SymbolIdByCodeMap::getType(int id) const {
+    if (id != invalid_sym_id) {
+        for (auto it = begin(); it != end(); ++it) {
+            if (it->second.first == id) {
+                return it->second.second;
+            }
+        }
+    }
+    return SymType::undef;
 }
 
 XmapTree::XmapTree(const char * templateFilename)

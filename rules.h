@@ -143,6 +143,7 @@ public:
     Rules(const std::string&, SymbolIdByCodeMap&);
     int getSymbolId(const TagMap& checkedTags, int elemType);
     bool isDashPoint(const TagMap& checkedTags, int id);
+    bool isText(int id);
 };
 
 #endif // RULES_H_INCLUDED
