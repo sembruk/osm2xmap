@@ -122,7 +122,7 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
         ss_key >> word;
         bool equal = true;
         if (word == "not") {
-            //ss_key >> s_key;
+            ss_key >> s_key;
             //equal = false;
         }
         std::stringstream ss_value(s_value);
@@ -139,6 +139,7 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             switch (flags) {
             case NextWord::AS_NOT:
             case NextWord::AS_OR:
+            default:
                 {
                     std::string key = s_key;
                     std::string value = word;
@@ -147,7 +148,7 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
                     }
                     idMap[key+"="+value].insert(pIdAndTagMap);
                     if (flags == NextWord::AS_NOT) {
-                        equal = false;
+                        //equal = false;
                     }
                     pIdAndTagMap->insert(Tag(key,value,equal),true/*as_multi*/);
                 }
