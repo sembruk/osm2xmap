@@ -33,7 +33,7 @@ bool TagMap::tagsExist(const TagMap& checkedTags) const {
         for (auto it = checkedTags.lower_bound(key);;) {
             std::shared_ptr<Tag> p_tag = it->second;
             ++it;
-            if (exist(*p_tag)/* ^ tag.exist*/) {
+            if (!(exist(*p_tag) ^ p_tag->equal)) {
                 break;
             }
             else if (it == checkedTags.upper_bound(key)) {
@@ -50,7 +50,6 @@ void TagMap::insert(const Tag& tag, bool as_multi) {
     if (it != end() && !as_multi) {
         throw Error("Tag with key '" + tag.key + "' already exist");
     }
-    //(*this)[tag.key] = new Tag(tag);
     std::shared_ptr<Tag> p_tag(new Tag(tag));
     TagMapBase::insert(std::make_pair(tag.key,p_tag));
 }
@@ -118,8 +117,15 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
         }
         yaml_map_it.second() >> s_value;
         /// TODO parse 'not key' case
-        std::stringstream ss_value(s_value);
+        std::stringstream ss_key(s_key);
         std::string word;
+        ss_key >> word;
+        bool equal = true;
+        if (word == "not") {
+            //ss_key >> s_key;
+            //equal = false;
+        }
+        std::stringstream ss_value(s_value);
         NextWord flags;
         while (ss_value >> word) {
             if (word == "or") {
@@ -132,10 +138,7 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             }
             switch (flags) {
             case NextWord::AS_NOT:
-                /// TODO
-                break;
             case NextWord::AS_OR:
-            default:
                 {
                     std::string key = s_key;
                     std::string value = word;
@@ -143,7 +146,10 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
                         value = "";
                     }
                     idMap[key+"="+value].insert(pIdAndTagMap);
-                    pIdAndTagMap->insert(Tag(key,value),true/*as_multi*/);
+                    if (flags == NextWord::AS_NOT) {
+                        equal = false;
+                    }
+                    pIdAndTagMap->insert(Tag(key,value,equal),true/*as_multi*/);
                 }
                 break;
             }

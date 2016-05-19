@@ -19,21 +19,28 @@ namespace ElemType {
 
 class TagMap;
 
-class Tag {
+class TagBase {
     std::string key;
     std::string value;
-    //bool exist;
     friend class TagMap;
 public:
-    Tag() : key(""), value("")/*, exist(true)*/ {};
-    Tag(std::string k, std::string v, bool e=true) : key(k), value(v)/*, exist(e)*/ {};
-    //Tag(XmlElement& tagElement);
+    TagBase() : key(""), value("") {};
+    TagBase(std::string k, std::string v) : key(k), value(v)/*, exist(e)*/ {};
     const std::string& getKey() const { return key; };
     const std::string& getValue() const { return value; };
     bool empty() const { return key.empty(); };
     void print() const {
         info(key + "=" + value);
     };
+};
+
+class Tag
+: public TagBase {
+    bool equal;
+    friend class TagMap;
+public:
+    Tag() : TagBase(), equal(true) {};
+    Tag(std::string k, std::string v, bool e=true) : TagBase(k, v), equal(e) {};
 };
 
 typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
