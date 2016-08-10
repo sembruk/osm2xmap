@@ -25,6 +25,10 @@
 
 SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
     XmlElement symbolsNode = root.getChild("symbols");
+    if (symbolsNode.isEmpty()) {
+        XmlElement barrierNode = root.getChild("barrier");
+        symbolsNode = barrierNode.getChild("symbols");
+    }
     //int nSymbols = symbolsNode.getAttribute<int>("count");
 
     for ( XmlElement item = symbolsNode.getChild();
@@ -58,6 +62,18 @@ XmapTree::XmapTree(const char * templateFilename)
 : tree(templateFilename) {
     map = tree.getChild("map");
     XmlElement parts = map.getChild("parts");
+    if (parts.isEmpty()) {
+        for ( XmlElement item = map.getChild();
+              !item.isEmpty();
+              ++item ) {
+            if (item == "barrier") {
+                parts = item.getChild("parts");
+                if (!parts.isEmpty()) {
+                    break;
+                }
+            }
+        }
+    }
     XmlElement part = parts.getChild("part");
     part.removeChild("objects");
     objects = part.addChild("objects");
