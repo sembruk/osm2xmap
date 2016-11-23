@@ -18,15 +18,15 @@
 
 include Makefile
 
-CC          = i686-w64-mingw32-g++
+CC          := i686-w64-mingw32-g++
 
-INCLUDEDIRS = lib/proj/                  \
-              lib/libroxml-2.3.0/src/
+INCLUDEDIRS := lib/proj/                  \
+               lib/libroxml-2.3.0/src/
 
-LIBDIRS     = .                          \
-			  lib/proj/                  \
-			  lib/libroxml-2.3.0/build/  \
+LIBDIRS     := .                          \
+			   lib/proj/                  \
+			   lib/libroxml-2.3.0/build/  \
 
 LDFLAGS     += -static-libgcc -static-libstdc++
-EXECUTABLE  = osm2xmap.exe
+EXECUTABLE  := osm2xmap.exe
 

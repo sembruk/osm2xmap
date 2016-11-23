@@ -30,8 +30,8 @@ SRCDIR      = src
 OBJDIR      = src
 BINDIR      = .
 
-SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
-OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+SOURCES  = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS  = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM       = rm -f
 
 all: $(BINDIR)/$(EXECUTABLE)
