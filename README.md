@@ -25,9 +25,19 @@ sudo apt-get install libproj0 libproj-dev
 
 ## Usage
 
-Run compiled binary with `--help` option for detailed instructions.
+```bash
+./osm2xmap --help
+Usage:
+   ./osm2xmap [options]
+   Options:
+      -i filename - input OSM filename (in.osm as default);
+      -o filename - output XMAP filename (out.xmap as default);
+      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)
+                    (see /usr/share/openorienteering-mapper/symbol\ sets/);
+      -r filename - XML rules filename (rules.xml as default);
+      --help, -h or help - this usage.
+```
 
 ## Todo
 
 * Simple YAML rules
-* CMake

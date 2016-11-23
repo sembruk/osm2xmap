@@ -175,13 +175,14 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 
 void printUsage(const char* programName) {
     info("Usage:");
-    info("\t" + std::string(programName) + " [options]");
-    info("\tOptions:");
-    info("\t\t-i filename - input OSM filename;");
-    info("\t\t-o filename - output XMAP filename;");
-    info("\t\t-s filename - symbol set XMAP or OMAP filename (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
-    info("\t\t-r filename - XML rules filename;");
-    info("\t\t--help, -h or help - this usage.");
+    info("   " + std::string(programName) + " [options]");
+    info("   Options:");
+    info("      -i filename - input OSM filename (in.osm as default);");
+    info("      -o filename - output XMAP filename (out.xmap as default);");
+    info("      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)");
+    info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
+    info("      -r filename - XML rules filename (rules.xml as default);");
+    info("      --help, -h or help - this usage.");
 }
 
 //FIXME
