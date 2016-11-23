@@ -27,11 +27,8 @@
 #include <string>
 #include <map>
 #include <list>
-<<<<<<< HEAD:rules.h
 #include "yaml-cpp/yaml.h"
-=======
 #include "common.h"
->>>>>>> master:src/rules.h
 #include "xmap.h"
 
 namespace ElemType {
@@ -40,111 +37,7 @@ namespace ElemType {
     const int area    = 1<<2;
 }
 
-<<<<<<< HEAD:rules.h
-class TagMap;
-
-class TagBase {
-    std::string key;
-    std::string value;
-    friend class TagMap;
-public:
-    TagBase() : key(""), value("") {};
-    TagBase(std::string k, std::string v) : key(k), value(v)/*, exist(e)*/ {};
-    const std::string& getKey() const { return key; };
-    const std::string& getValue() const { return value; };
-    bool empty() const { return key.empty(); };
-    void print() const {
-        info(key + "=" + value);
-    };
-};
-
-class Tag
-: public TagBase {
-    bool equal;
-    friend class TagMap;
-public:
-    Tag() : TagBase(), equal(true) {};
-    Tag(std::string k, std::string v, bool e=true) : TagBase(k, v), equal(e) {};
-};
-
-typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
-
-class TagMap ///< TagList
-: public TagMapBase {
-public:
-    TagMap() {};
-    bool exist(const Tag& tag) const;
-    bool tagsExist(const TagMap& checkedTags) const;
-    void insert(const Tag& tag, bool as_multi=false);
-    void print() const;
-};
-=======
->>>>>>> master:src/rules.h
-
-/*
-class SymbolList;
-
-class Symbol { ///< Symbol
-    int id;
-    int textId;
-    TagMap tagMap;
-    Tag ndSymbolTag;
-    friend class SymbolList;
-public:
-    Symbol() : id(invalid_sym_id), textId(invalid_sym_id) {};
-    Symbol(XmlElement& symbolElement);
-    int Id() const { return id; };
-    int TextId() const { return textId; };
-    const Tag& NdSymbolTag() const { return ndSymbolTag; };
-    void print() const {
-        info("id " + std::to_string(id));
-        tagMap.print();
-    };
-};
-
-class SymbolList ///< SymList
-: public std::list<Symbol> {
-public:
-    void insert(Symbol& symbol);
-    const Symbol& detect(const TagMap& tags);
-};
-
-class GroupList;
-
-class Group {
-    std::string name;
-    TagMap keyTagsMap;
-    SymbolList symbols;
-    int allowedElements;
-    friend class GroupList;
-public:
-    Group(XmlElement& groupElement);
-    bool isTypeAllowed(int elemType);
-};
-
-class GroupList 
-: public std::list<Group>, TrueInit {
-    void insert(Group& group) { push_back(group); };
-public:
-    GroupList() {};
-    GroupList(XmlElement& rules);
-    Group * detect(const TagMap& tags, int elemType);
-    const Symbol& getSymbol(const TagMap& checkedTags, int elemType);
-    int getSymbolId(TagMap& checkedTags, int elemType);
-};
-*/
 typedef std::list<int> BackgroundList;
-
-//typedef std::set<int> SymbolIdSet;
-
-/*
-class KvList
-: public std::list<std::string> {
-    int id;
-public:
-    KvList(int _id) : id(_id) {};
-};
-*/
 
 class IdAndTagMap
 : public TagMap {

@@ -29,14 +29,12 @@
 #include <cstdio>
 #include <cstdarg>
 #include <map>
+#include <memory>
 
-<<<<<<< HEAD:common.h
-=======
 #define DEBUG
 
 const int invalid_sym_id = -3;
 
->>>>>>> master:src/common.h
 class Coords{
 protected:
     double x;
@@ -117,15 +115,13 @@ public:
 class XmlElement;
 class TagMap;
 
-class Tag {
+class TagBase {
     std::string key;
     std::string value;
-    bool exist;
     friend class TagMap;
 public:
-    Tag() : key(""), value(""), exist(true) {};
-    Tag(std::string k, std::string v, bool e=true) : key(k), value(v), exist(e) {}; 
-    Tag(XmlElement& tagElement);
+    TagBase() : key(""), value("") {};
+    TagBase(std::string k, std::string v) : key(k), value(v)/*, exist(e)*/ {};
     const std::string& getKey() const { return key; };
     const std::string& getValue() const { return value; };
     bool empty() const { return key.empty(); };
@@ -134,13 +130,24 @@ public:
     };
 };
 
+class Tag
+: public TagBase {
+    bool equal;
+    friend class TagMap;
+public:
+    Tag() : TagBase(), equal(true) {};
+    Tag(std::string k, std::string v, bool e=true) : TagBase(k, v), equal(e) {};
+};
+
+typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
+
 class TagMap ///< TagList
-: public std::map<std::string, Tag> {
+: public TagMapBase {
 public:
     TagMap() {};
     bool exist(const Tag& tag) const;
-    bool tagsOk(const TagMap& checkedTags) const;
-    void insert(Tag& tag);
+    bool tagsExist(const TagMap& checkedTags) const;
+    void insert(const Tag& tag, bool as_multi=false);
     void print() const;
 };
 

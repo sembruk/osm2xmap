@@ -151,8 +151,8 @@ XmapObject::XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap) {
     XmlElement tagsElement(objectElement.addChild("tags"));
     for (auto& tag : tagMap) {
         XmlElement tElement(tagsElement.addChild("t"));
-        tElement.addAttribute("k",tag.second.getKey());
-        tElement.addContent(tag.second.getValue().c_str());
+        tElement.addAttribute("k",tag.second->getKey());
+        tElement.addContent(tag.second->getValue().c_str());
     }
 }
 

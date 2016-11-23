@@ -43,34 +43,19 @@ namespace Main {
 
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
-<<<<<<< HEAD:main.cpp
-        int id = Main::rules.getSymbolId(osmNode.getTagMap(), ElemType::node);
-=======
         auto& tagMap = osmNode.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::node);
-        //info("sym id %d",id);
->>>>>>> master:src/main.cpp
+        int id = Main::rules.getSymbolId(tagMap, ElemType::node);
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
         if (id != invalid_sym_id) {
-<<<<<<< HEAD:main.cpp
             if (Main::rules.isText(id)) {
                 const std::string text = osmNode.getName();
                 if (!text.empty()) {
-                    xmapTree.add(id, coords, text.c_str());
+                    xmapTree.add(id, tagMap, coords, text.c_str());
                 }
             }
             else {
-                xmapTree.add(id, coords);
-=======
-            xmapTree.add(id, tagMap, coords);
-        }
-        int textId = symbol.TextId();
-        if (textId != invalid_sym_id) {
-            const std::string text = osmNode.getName();
-            if (!text.empty()) {
-                xmapTree.add(textId, tagMap, coords, text.c_str());
->>>>>>> master:src/main.cpp
+                xmapTree.add(id, tagMap, coords);
             }
         }
     }
@@ -95,16 +80,10 @@ namespace Main {
 
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
-<<<<<<< HEAD:main.cpp
-        int id = Main::rules.getSymbolId(osmWay.getTagMap(), ElemType::way);
-        XmapWay way = xmapTree.add(id);
-        addCoordsToWay(way,id,osmWay);
-=======
         auto& tagMap = osmWay.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::way);
-        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
-        addCoordsToWay(way,symbol,osmWay);
->>>>>>> master:src/main.cpp
+        int id = Main::rules.getSymbolId(tagMap, ElemType::way);
+        XmapWay way = xmapTree.add(id, tagMap);
+        addCoordsToWay(way,id,osmWay);
     }
 
     template< >
@@ -112,14 +91,9 @@ namespace Main {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
-<<<<<<< HEAD:main.cpp
-        int id = Main::rules.getSymbolId(osmRelation.getTagMap(), ElemType::area);
-        XmapWay way = xmapTree.add(id);
-=======
         auto& tagMap = osmRelation.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::area);
-        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
->>>>>>> master:src/main.cpp
+        int id = Main::rules.getSymbolId(tagMap, ElemType::area);
+        XmapWay way = xmapTree.add(id, tagMap);
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
         Coords lastCoords = addCoordsToWay(way,id,osmWay);
@@ -206,7 +180,7 @@ void printUsage(const char* programName) {
     info("      -o filename - output XMAP filename (out.xmap as default);");
     info("      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
-    info("      -r filename - XML rules filename (rules.xml as default);");
+    info("      -r filename - YAML rules filename (rules.yaml as default);");
     info("      --help, -h or help - this usage.");
 }
 
@@ -264,10 +238,10 @@ int main(int argc, const char* argv[])
         }
 
         info("Using files:");
-        info("\t* input OSM file       - " + std::string(inOsmFileName));
-        info("\t* output XMAP file     - " + std::string(outXmapFileName));
-        info("\t* symbol set XMAP file - " + std::string(symbolFileName));
-        info("\t* rules file           - " + std::string(rulesFileName));
+        info("   * input OSM file       - " + std::string(inOsmFileName));
+        info("   * output XMAP file     - " + std::string(outXmapFileName));
+        info("   * symbol set XMAP file - " + std::string(symbolFileName));
+        info("   * rules file           - " + std::string(rulesFileName));
 
         XmlTree inXmapDoc(symbolFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");

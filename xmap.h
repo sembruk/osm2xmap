@@ -12,33 +12,12 @@
 
 const unsigned crs_desc_len = 64;
 
-/*
-class CoordsTransform;
-
-class Georeferencing {
-protected:
-    Coords mapRefPoint;
-    Coords projectedRefPoint;
-    double mapScale;
-    double grivation; ///< deg
-    std::string geographicCrsDesc;
-    std::string projectedCrsDesc;
-
-    friend class CoordsTransform;
-public:
-    Georeferencing(XmlElement& root);
-    Georeferencing() {};
-};
-*/
-
 enum class SymType : int {
     undef = -1,
     point = 1,
     way   = 2,
     text  = 8,
 };
-
-const int invalid_sym_id = -3;
 
 class SymbolIdByCodeMap
 : public std::map<std::string, std::pair<int, SymType> > {
