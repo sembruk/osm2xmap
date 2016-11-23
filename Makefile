@@ -20,6 +20,10 @@ CC          = g++
 CFLAGS      = -Wall -std=c++11
 LDFLAGS     = -lproj -lroxml
 LINKER      = $(CC) -o
+
+LIBDIRS     = .
+INCLUDEDIRS = .
+
 EXECUTABLE  = osm2xmap
 
 SRCDIR      = src
@@ -27,18 +31,17 @@ OBJDIR      = src
 BINDIR      = .
 
 SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
-INCLUDES := $(wildcard $(SRCDIR)/*.h)
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM       = rm -f
 
 all: $(BINDIR)/$(EXECUTABLE)
 
 $(BINDIR)/$(EXECUTABLE): $(OBJECTS)
-	@$(LINKER) $@ $(OBJECTS) $(LDFLAGS)
+	$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(foreach d, $(INCLUDEDIRS), -I$d) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
 .PHONEY: clean

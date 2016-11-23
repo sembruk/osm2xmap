@@ -16,6 +16,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
 
+include Makefile
+
 CC          = i686-w64-mingw32-g++
 
 INCLUDEDIRS = lib/proj/                  \
@@ -25,37 +27,6 @@ LIBDIRS     = .                          \
 			  lib/proj/                  \
 			  lib/libroxml-2.3.0/build/  \
 
-CFLAGS      = -Wall -std=c++11
-LDFLAGS     = -lproj -lroxml -static-libgcc -static-libstdc++
-LINKER      = $(CC) -o
+LDFLAGS     += -static-libgcc -static-libstdc++
 EXECUTABLE  = osm2xmap.exe
-
-SRCDIR      = src
-OBJDIR      = src
-BINDIR      = .
-
-SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
-#INCLUDES := $(wildcard $(SRCDIR)/*.h)
-OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-RM       = rm -f
-
-all: $(BINDIR)/$(EXECUTABLE)
-
-$(BINDIR)/$(EXECUTABLE): $(OBJECTS)
-	$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
-	@echo "Linking complete!"
-
-$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	$(CC) $(CFLAGS) $(foreach d, $(INCLUDEDIRS), -I$d) -c $< -o $@
-	@echo "Compiled "$<" successfully!"
-
-.PHONEY: clean
-clean:
-	$(RM) $(OBJECTS)
-	@echo "Cleanup complete!"
-
-.PHONEY: remove
-	remove: clean
-	$(RM) $(BINDIR)/$(EXECUTABLE)
-	@echo "Executable removed!"
 
