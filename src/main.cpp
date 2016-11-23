@@ -173,15 +173,21 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
     xmapTree.save(outXmapFilename);
 }
 
+const std::string defaultSymbolFileName   = "symbols.xmap";
+const std::string defaultRulesFileName    = "rules.xml";
+const std::string defaultInOsmFileName    = "in.osm";
+const std::string defaultOutXmapFileName  = "out.xmap";
+
+
 void printUsage(const char* programName) {
     info("Usage:");
     info("   " + std::string(programName) + " [options]");
     info("   Options:");
-    info("      -i filename - input OSM filename (in.osm as default);");
-    info("      -o filename - output XMAP filename (out.xmap as default);");
-    info("      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)");
+    info("      -i filename - input OSM filename ('"+defaultInOsmFileName+"' as default);");
+    info("      -o filename - output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
+    info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
-    info("      -r filename - XML rules filename (rules.xml as default);");
+    info("      -r filename - XML rules filename ('"+defaultRulesFileName+"' as default);");
     info("      --help, -h or help - this usage.");
 }
 
@@ -202,10 +208,10 @@ int main(int argc, const char* argv[])
     try {
         Timer timer;
         
-        const char* symbolFileName = "./symbols.xmap";
-        const char* rulesFileName    = "./rules.xml";
-        const char* inOsmFileName    = "./in.osm";
-        const char* outXmapFileName  = "./out.xmap";
+        const char* symbolFileName   = defaultSymbolFileName.c_str();
+        const char* rulesFileName    = defaultRulesFileName.c_str();
+        const char* inOsmFileName    = defaultInOsmFileName.c_str();
+        const char* outXmapFileName  = defaultOutXmapFileName.c_str();
 
         if (argc > 1) {
             for (int i = 1; i < argc; ++i) {
