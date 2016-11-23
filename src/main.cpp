@@ -1,3 +1,22 @@
+/*
+ *    Copyright 2016 Semyon Yakimov
+ *
+ *    This file is part of Osm2xmap.
+ *
+ *    Osm2xmap is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    Osm2xmap is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <iostream>
 #include <fstream>
 #include <typeinfo>
@@ -24,10 +43,17 @@ namespace Main {
 
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
+<<<<<<< HEAD:main.cpp
         int id = Main::rules.getSymbolId(osmNode.getTagMap(), ElemType::node);
+=======
+        auto& tagMap = osmNode.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::node);
+        //info("sym id %d",id);
+>>>>>>> master:src/main.cpp
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
         if (id != invalid_sym_id) {
+<<<<<<< HEAD:main.cpp
             if (Main::rules.isText(id)) {
                 const std::string text = osmNode.getName();
                 if (!text.empty()) {
@@ -36,6 +62,15 @@ namespace Main {
             }
             else {
                 xmapTree.add(id, coords);
+=======
+            xmapTree.add(id, tagMap, coords);
+        }
+        int textId = symbol.TextId();
+        if (textId != invalid_sym_id) {
+            const std::string text = osmNode.getName();
+            if (!text.empty()) {
+                xmapTree.add(textId, tagMap, coords, text.c_str());
+>>>>>>> master:src/main.cpp
             }
         }
     }
@@ -60,9 +95,16 @@ namespace Main {
 
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
+<<<<<<< HEAD:main.cpp
         int id = Main::rules.getSymbolId(osmWay.getTagMap(), ElemType::way);
         XmapWay way = xmapTree.add(id);
         addCoordsToWay(way,id,osmWay);
+=======
+        auto& tagMap = osmWay.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::way);
+        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
+        addCoordsToWay(way,symbol,osmWay);
+>>>>>>> master:src/main.cpp
     }
 
     template< >
@@ -70,8 +112,14 @@ namespace Main {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
+<<<<<<< HEAD:main.cpp
         int id = Main::rules.getSymbolId(osmRelation.getTagMap(), ElemType::area);
         XmapWay way = xmapTree.add(id);
+=======
+        auto& tagMap = osmRelation.getTagMap();
+        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::area);
+        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
+>>>>>>> master:src/main.cpp
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
         Coords lastCoords = addCoordsToWay(way,id,osmWay);
@@ -152,12 +200,14 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 
 void printUsage(const char* programName) {
     info("Usage:");
-    info("\t" + std::string(programName) + " [options]");
-    info("\tOptions:");
-    info("\t\t-i filename - input OSM filename;");
-    info("\t\t-o filename - output XMAP filename;");
-    info("\t\t-s filename - symbol set XMAP filename;");
-    info("\t\t-r filename - XML rules filename;");
+    info("   " + std::string(programName) + " [options]");
+    info("   Options:");
+    info("      -i filename - input OSM filename (in.osm as default);");
+    info("      -o filename - output XMAP filename (out.xmap as default);");
+    info("      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)");
+    info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
+    info("      -r filename - XML rules filename (rules.xml as default);");
+    info("      --help, -h or help - this usage.");
 }
 
 //FIXME
@@ -199,6 +249,12 @@ int main(int argc, const char* argv[])
                 else if (std::string(argv[i]) == "-r") {
                     rulesFileName = argv[++i];
                     checkFileName(rulesFileName,argv[0]);
+                }
+                else if (std::string(argv[i]) == "--help" ||
+                         std::string(argv[i]) == "-h" ||
+                         std::string(argv[i]) == "help") {
+                    printUsage(argv[0]);
+                    return 0;
                 }
                 else {
                     printUsage(argv[0]);

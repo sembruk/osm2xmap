@@ -1,3 +1,22 @@
+/*
+ *    Copyright 2016 Semyon Yakimov
+ *
+ *    This file is part of Osm2xmap.
+ *
+ *    Osm2xmap is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    Osm2xmap is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "osm.h"
 
 namespace Osm {
@@ -101,7 +120,11 @@ OsmRelation::OsmRelation(XmlElement& osmElement)
             long memberId = item.getAttribute<long>("ref");
             Osm::WayMap::iterator it = Osm::wayMap.find(memberId);
             if (it == Osm::wayMap.end()) {
+<<<<<<< HEAD:osm.cpp
                 //warning("Way " + std::to_string(memberId) + " didn't find"); ///< it's normal
+=======
+                //warning("Way " + std::to_string(memberId) + " didn't find");
+>>>>>>> master:src/osm.cpp
             }
             else {
                 std::string role = item.getAttribute<std::string>("role");

@@ -1,3 +1,22 @@
+/*
+ *    Copyright 2016 Semyon Yakimov
+ *
+ *    This file is part of Osm2xmap.
+ *
+ *    Osm2xmap is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    Osm2xmap is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #ifndef RULES_H_INCLUDED
 #define RULES_H_INCLUDED
 
@@ -8,7 +27,11 @@
 #include <string>
 #include <map>
 #include <list>
+<<<<<<< HEAD:rules.h
 #include "yaml-cpp/yaml.h"
+=======
+#include "common.h"
+>>>>>>> master:src/rules.h
 #include "xmap.h"
 
 namespace ElemType {
@@ -17,6 +40,7 @@ namespace ElemType {
     const int area    = 1<<2;
 }
 
+<<<<<<< HEAD:rules.h
 class TagMap;
 
 class TagBase {
@@ -54,6 +78,8 @@ public:
     void insert(const Tag& tag, bool as_multi=false);
     void print() const;
 };
+=======
+>>>>>>> master:src/rules.h
 
 /*
 class SymbolList;

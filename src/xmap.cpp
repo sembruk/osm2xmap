@@ -1,3 +1,22 @@
+/*
+ *    Copyright 2016 Semyon Yakimov
+ *
+ *    This file is part of Osm2xmap.
+ *
+ *    Osm2xmap is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    Osm2xmap is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <iostream>
 #include "common.h"
 #include "xml.h"
@@ -6,6 +25,10 @@
 
 SymbolIdByCodeMap::SymbolIdByCodeMap(XmlElement& root) {
     XmlElement symbolsNode = root.getChild("symbols");
+    if (symbolsNode.isEmpty()) {
+        XmlElement barrierNode = root.getChild("barrier");
+        symbolsNode = barrierNode.getChild("symbols");
+    }
     //int nSymbols = symbolsNode.getAttribute<int>("count");
 
     for ( XmlElement item = symbolsNode.getChild();
@@ -50,6 +73,18 @@ XmapTree::XmapTree(const char * templateFilename)
 : tree(templateFilename) {
     map = tree.getChild("map");
     XmlElement parts = map.getChild("parts");
+    if (parts.isEmpty()) {
+        for ( XmlElement item = map.getChild();
+              !item.isEmpty();
+              ++item ) {
+            if (item == "barrier") {
+                parts = item.getChild("parts");
+                if (!parts.isEmpty()) {
+                    break;
+                }
+            }
+        }
+    }
     XmlElement part = parts.getChild("part");
     part.removeChild("objects");
     objects = part.addChild("objects");
@@ -76,7 +111,8 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
 
     georef_elem.removeChild("projected_crs");
     XmlElement proj_crs_elem = georef_elem.addChild("projected_crs");
-    proj_crs_elem.addAttribute("id","EPSG");
+    //proj_crs_elem.addAttribute("id","EPSG");
+    proj_crs_elem.addAttribute("id","UTM");
 
     XmlElement proj_ref_point = proj_crs_elem.addChild("ref_point");
     proj_ref_point.addAttribute("x",georef.projectedRefPoint.X());
@@ -87,7 +123,7 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
     proj_spec_elem.addContent(georef.projectedCrsDesc.c_str());
 
     XmlElement parameter_elem = proj_crs_elem.addChild("parameter");
-    parameter_elem.addContent(std::to_string(georef.parameter).c_str());
+    parameter_elem.addContent(georef.parameter.c_str());
 
     georef_elem.removeChild("geographic_crs");
     XmlElement geographic_crs_elem = georef_elem.addChild("geographic_crs");
@@ -103,7 +139,7 @@ XmapTree::setGeoreferencing(const Georeferencing& georef) {
     geographic_spec_elem.addContent(georef.geographicCrsDesc.c_str());
 }
 
-XmapObject::XmapObject(XmapTree* xmapTree, int id) {
+XmapObject::XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap) {
     if (xmapTree == nullptr) {
         throw Error("xmap tree not inited");
     }
@@ -111,6 +147,13 @@ XmapObject::XmapObject(XmapTree* xmapTree, int id) {
     coordsElement = XmlElement(objectElement.addChild("coords"));
     objectElement.addAttribute("symbol",id);
     xmapTree->objectsCount++;
+
+    XmlElement tagsElement(objectElement.addChild("tags"));
+    for (auto& tag : tagMap) {
+        XmlElement tElement(tagsElement.addChild("t"));
+        tElement.addAttribute("k",tag.second.getKey());
+        tElement.addContent(tag.second.getValue().c_str());
+    }
 }
 
 void
@@ -128,14 +171,15 @@ XmapObject::addCoord(const Coords& coords, int flags=0) {
     last = coords;
 }
 
-XmapPoint::XmapPoint(XmapTree* xmapTree, int id, Coords& coords)
-: XmapObject(xmapTree,id) {
+XmapPoint::XmapPoint(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords)
+: XmapObject(xmapTree,id,tagMap) {
     objectElement.addAttribute("type",0);
     coordsElement.addAttribute("count",1);
     addCoord(coords);
 }
 
-XmapWay::XmapWay(XmapTree* xmapTree, int id) : XmapObject(xmapTree,id) {
+XmapWay::XmapWay(XmapTree* xmapTree, int id, const TagMap& tagMap = {})
+: XmapObject(xmapTree,id,tagMap) {
     objectElement.addAttribute("type",1);
     XmlElement patternElement(objectElement.addChild("pattern"));
     patternElement.addAttribute("rotation",0);
@@ -171,8 +215,8 @@ XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& 
     addCoord(min); ///< close way
 }
 
-XmapText::XmapText(XmapTree* xmapTree, int id, Coords& coords, const char * text)
-: XmapPoint(xmapTree, id, coords) { ///< xmapAddText()
+XmapText::XmapText(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords, const char * text)
+: XmapPoint(xmapTree, id, tagMap, coords) { ///< xmapAddText()
     if (text == nullptr) {
         return;
     }
