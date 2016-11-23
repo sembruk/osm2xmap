@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules name="ISOM2000 adapeted for cyclogaine">
-    <background code="401"/>
+    <background code="403"/>
     <background code="601.3"/>
     <group>
         <tag k="contour_ext" exist="1"/>
@@ -15,6 +15,13 @@
         <tag k="building" exist="1"/>
         <symbol code="526">
             <tag k="building" v="no" exist="0"/>
+            <tag k="ruins" exist="0"/>
+        </symbol>
+        <symbol code="530">
+            <tag k="building" v="ruins" exist="1"/>
+        </symbol>
+        <symbol code="530">
+            <tag k="ruins" exist="1"/>
         </symbol>
     </group>
     <!--
@@ -54,6 +61,7 @@
     <group>
         <tag k="highway" exist="1"/>
         <tag k="surface" v="asphalt" exist="1"/>
+        <tag k="area" v="yes" exist="0"/>
         <!-- <tag k="bridge" exist="0"/> -->
         <symbol code="501.0">
             <tag k="highway" v="motorway" exist="1"/>
@@ -78,10 +86,13 @@
         <symbol code="503">
             <tag k="highway" v="residential" exist="1"/>
         </symbol>
-        <symbol code="503.1">
+        <symbol code="503.4">
             <tag k="highway" v="service" exist="1"/>
         </symbol>
-        <symbol code="503.1">
+        <symbol code="503.4">
+            <tag k="highway" v="pedestrian" exist="1"/>
+        </symbol>
+        <symbol code="503.4">
             <tag k="highway" v="track" exist="1"/>
         </symbol>
         <symbol code="503">
@@ -90,7 +101,89 @@
         <symbol code="503">
             <tag k="highway" v="living_street" exist="1"/>
         </symbol>
+        <symbol code="503.4">
+            <tag k="highway" v="footway" exist="1"/>
+        </symbol>
+        <symbol code="503.4">
+            <tag k="highway" v="path" exist="1"/>
+        </symbol>
     </group>
+    <group>
+        <tag k="highway" v="tertiary" exist="1"/>
+        <tag k="surface" v="asphalt" exist="0"/>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete:plates" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete:lanes" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
+        </symbol>
+        <symbol code="503.3">
+            <tag k="surface" v="compacted" exist="1"/>
+        </symbol>
+        <symbol code="503.3">
+            <tag k="surface" v="gravel" exist="1"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="0" k="surface"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="ground"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="sand"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="unpaved"/>
+        </symbol>
+        <symbol code="833">
+            <tag exist="1" k="surface" v="grass"/>
+        </symbol>
+        <symbol code="833">
+            <tag exist="1" k="surface" v="dirt"/>
+        </symbol>
+    </group>
+ 
+    <group>
+        <tag k="highway" v="secondary" exist="1"/>
+        <tag k="surface" v="asphalt" exist="0"/>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete:plates" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete:lanes" exist="1"/>
+        </symbol>
+        <symbol code="503.2">
+            <tag k="surface" v="concrete" exist="1"/>
+        </symbol>
+        <symbol code="503.3">
+            <tag k="surface" v="compacted" exist="1"/>
+        </symbol>
+        <symbol code="503.3">
+            <tag k="surface" v="gravel" exist="1"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="0" k="surface"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="ground"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="sand"/>
+        </symbol>
+        <symbol code="831">
+            <tag exist="1" k="surface" v="unpaved"/>
+        </symbol>
+        <symbol code="833">
+            <tag exist="1" k="surface" v="grass"/>
+        </symbol>
+        <symbol code="833">
+            <tag exist="1" k="surface" v="dirt"/>
+        </symbol>
+    </group>
+ 
     <group>
         <tag k="highway" v="unclassified" exist="1"/>
         <tag k="surface" v="asphalt" exist="0"/>
@@ -109,22 +202,22 @@
         <symbol code="503.3">
             <tag k="surface" v="gravel" exist="1"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="0" k="surface"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="ground"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="sand"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="unpaved"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="grass"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="dirt"/>
         </symbol>
     </group>
@@ -146,22 +239,22 @@
         <symbol code="503.3">
             <tag k="surface" v="gravel" exist="1"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="0" k="surface"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="ground"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="sand"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="unpaved"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="grass"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="dirt"/>
         </symbol>
     </group>
@@ -183,22 +276,22 @@
         <symbol code="503.3">
             <tag k="surface" v="gravel" exist="1"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="0" k="surface"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="ground"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="sand"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="unpaved"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="grass"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="dirt"/>
         </symbol>
     </group>
@@ -220,96 +313,118 @@
         <symbol code="503.3">
             <tag k="surface" v="gravel" exist="1"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="0" k="surface"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="ground"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="sand"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag exist="1" k="surface" v="unpaved"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="grass"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag exist="1" k="surface" v="dirt"/>
         </symbol>
     </group>
     <group>
         <tag k="highway" v="track" exist="1"/>
         <tag exist="0" k="surface" v="asphalt"/>
-        <symbol code="813">
+        <tag k="tracktype" exist="1"/>
+        <symbol code="831">
+            <tag k="tracktype" v="grade1" exist="1"/>
+        </symbol>
+        <symbol code="831">
+            <tag k="tracktype" v="grade2" exist="1"/>
+        </symbol>
+        <symbol code="833">
+            <tag k="tracktype" v="grade3" exist="1"/>
+        </symbol>
+        <symbol code="833">
+            <tag k="tracktype" v="grade4" exist="1"/>
+        </symbol>
+        <symbol code="835">
+            <tag k="tracktype" v="grade5" exist="1"/>
+        </symbol>
+    </group>
+    <group>
+        <tag k="highway" v="track" exist="1"/>
+        <tag exist="0" k="surface" v="asphalt"/>
+        <tag exist="0" k="tracktype"/>
+        <symbol code="833">
             <tag k="highway" v="track" exist="1"/>
             <tag exist="0" k="smoothness"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="831">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="good" exist="1"/>
         </symbol>
-        <symbol code="811">
+        <symbol code="833">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="intermediate" exist="1"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="833">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="bad" exist="1"/>
         </symbol>
-        <symbol code="813">
+        <symbol code="835">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="very_bad" exist="1"/>
         </symbol>
-        <symbol code="815">
+        <symbol code="837">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="horrible" exist="1"/>
         </symbol>
-        <symbol code="815">
+        <symbol code="837">
             <tag k="highway" v="track" exist="1"/>
             <tag k="smoothness" v="very_horrible" exist="1"/>
         </symbol>
     </group>
     <group>
         <tag k="highway" v="path" exist="1"/>
-        <symbol code="814">
+        <symbol code="834">
             <tag k="highway" v="path" exist="1"/>
             <tag exist="0" k="smoothness"/>
         </symbol>
-        <symbol code="812">
+        <symbol code="832">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="good" exist="1"/>
         </symbol>
-        <symbol code="812">
+        <symbol code="834">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="intermediate" exist="1"/>
         </symbol>
-        <symbol code="814">
+        <symbol code="834">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="bad" exist="1"/>
         </symbol>
-        <symbol code="814">
+        <symbol code="836">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="very_bad" exist="1"/>
         </symbol>
-        <symbol code="816">
+        <symbol code="838">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="horrible" exist="1"/>
         </symbol>
-        <symbol code="816">
+        <symbol code="838">
             <tag k="highway" v="path" exist="1"/>
             <tag k="smoothness" v="very_horrible" exist="1"/>
         </symbol>
     </group>
     <group>
         <tag k="highway" v="footway" exist="1"/>
-        <symbol code="812">
+        <symbol code="832">
             <tag k="highway" v="footway" exist="1"/>
         </symbol>
     </group>
     <group name="waterway">
         <tag k="waterway" exist="1"/>
+        <tag exist="0" k="intermittent" v="yes"/>
         <symbol code="305">
             <tag k="waterway" v="river" exist="1"/>
         </symbol>
@@ -323,16 +438,24 @@
             <tag k="waterway" v="ditch" exist="1"/>
         </symbol>
     </group>
+    <group name="waterway">
+        <tag k="waterway" exist="1"/>
+        <tag exist="1" k="intermittent" v="yes"/>
+        <symbol code="307">
+            <tag k="waterway" v="stream" exist="1"/>
+        </symbol>
+        <symbol code="307">
+            <tag k="waterway" v="drain" exist="1"/>
+        </symbol>
+    </group>
     <group name="natural" type="n">
         <tag k="natural" exist="1"/>
         <symbol code="713.1">
             <tag k="natural" v="spring" exist="1"/>
         </symbol>
-        <!--
         <symbol code="419">
             <tag k="natural" v="tree" exist="1"/>
         </symbol>
-        -->
     </group>
     <group name="natural-way-area" type="wa">
         <tag k="natural" exist="1"/>
@@ -345,23 +468,45 @@
         <symbol code="301.2">
             <tag k="natural" v="water" exist="1"/>
         </symbol>
+        <symbol code="309">
+            <tag k="natural" v="wetland" exist="1"/>
+            <tag k="uncrossable" v="yes" exist="1"/>
+        </symbol>
         <symbol code="310">
+            <tag exist="0" k="uncrossable" v="yes"/>
             <tag k="natural" v="wetland" exist="1"/>
             <tag k="wetland" v="marsh" exist="1"/>
         </symbol>
         <symbol code="311">
+            <tag exist="0" k="uncrossable" v="yes"/>
             <tag k="natural" v="wetland" exist="1"/>
-            <tag k="wetland" v="marsh" exist="0"/>
         </symbol>
         <symbol code="405">
             <tag k="natural" v="wood" exist="1"/>
+            <tag exist="0" k="wood:age"/>
+            <tag exist="0" k="wood:density"/>
         </symbol>
-        <symbol code="405.1">
+        <symbol code="405.88">
             <tag k="natural" v="tree_row" exist="1"/>
         </symbol>
-        <symbol code="410">
+        <symbol code="408">
             <tag k="natural" v="scrub" exist="1"/>
+            <tag k="wood:density" v="sparse" exist="0"/>
         </symbol>
+        <symbol code="408">
+            <tag k="natural" v="wood" exist="1"/>
+            <tag k="wood:age" v="young" exist="1"/>
+            <tag exist="0" k="wood:density"/>
+        </symbol>
+        <symbol code="404">
+            <tag k="natural" v="wood" exist="1"/>
+            <tag k="wood:density" v="sparse" exist="1"/>
+        </symbol>
+        <symbol code="404">
+            <tag k="natural" v="scrub" exist="1"/>
+            <tag k="wood:density" v="sparse" exist="1"/>
+        </symbol>
+
     </group>
     <!--
     <group type="a">
@@ -381,6 +526,9 @@
         <symbol code="527">
             <tag k="landuse" v="allotments" exist="1"/>
         </symbol>
+        <symbol code="527">
+            <tag k="tourism" v="theme_park" exist="1"/>
+        </symbol>
         <!--
         <symbol code="527" textCode="998">
             <tag k="landuse" v="allotments" exist="1"/>
@@ -394,13 +542,15 @@
         <symbol code="301.2">
             <tag k="landuse" v="reservoir" exist="1"/>
         </symbol>
-        <symbol code="527.2">
+        <!--
+        <symbol code="709">
             <tag k="landuse" v="industrial" exist="1"/>
         </symbol>
-        <symbol code="527.2">
+        <symbol code="709">
             <tag k="landuse" v="garages" exist="1"/>
         </symbol>
-        <symbol code="527.2">
+        -->
+        <symbol code="710">
             <tag k="landuse" v="construction" exist="1"/>
         </symbol>
         <!--
@@ -425,19 +575,31 @@
         <symbol code="710">
             <tag k="landuse" v="landfill" exist="1"/>
         </symbol>
-        <symbol code="532.2">
+        <symbol code="532.88">
             <tag k="landuse" v="cemetery" exist="1"/>
         </symbol>
         <symbol code="405">
             <tag k="landuse" v="forest" exist="1"/>
         </symbol>
     </group>
+    <group>
+        <tag k="historic" exist="1"/>
+        <symbol code="532">
+            <tag k="historic" v="memorial" exist="1"/>
+        </symbol>
+        <symbol code="532">
+            <tag k="historic" v="monument" exist="1"/>
+        </symbol>
+    </group>
     <group name="man_made">
         <tag k="man_made" exist="1"/>
         <tag exist="0" k="highway"/>
         <tag exist="0" k="building"/>
-        <symbol code="509">
+        <symbol code="509.1.88">
             <tag k="man_made" v="cutline" exist="1"/>
+        </symbol>
+        <symbol code="532">
+            <tag k="man_made" v="cross" exist="1"/>
         </symbol>
         <symbol code="535">
             <tag k="man_made" v="tower" exist="1"/>
@@ -457,7 +619,7 @@
         <symbol code="521">
             <tag k="barrier" v="wall" exist="1"/>
         </symbol>
-        <symbol code="524">
+        <symbol code="524.88">
             <tag k="barrier" v="fence" exist="1"/>
             <!--<tag k="landuse" v="construction" exist="0"/>-->
         </symbol>
@@ -471,6 +633,18 @@
         -->
         <symbol code="110">
             <tag k="barrier" v="ditch" exist="1"/>
+        </symbol>
+        <symbol code="418">
+            <tag k="barrier" v="log" exist="1"/>
+        </symbol>
+        <symbol code="418">
+            <tag k="note" v="корч" exist="1"/>
+        </symbol>
+    </group>
+    <group>
+        <tag k="flood_prone" exist="1"/>
+        <symbol code="314">
+            <tag k="flood_prone" v="yes" exist="1"/>
         </symbol>
     </group>
     <group>
@@ -488,7 +662,7 @@
                 <tag k="power" v="tower" exist="1"/>
             </ndSymbol>
         </symbol>
-        <symbol code="527.2">
+        <symbol code="709">
             <tag k="power" v="substation" exist="1"/>
         </symbol>
     </group>
@@ -506,7 +680,7 @@
     </group>
     <group>
         <tag k="amenity" exist="1"/>
-        <tag k="barrier" v="fence" exist="0"/>
+        <tag k="barrier" exist="0"/>
         <tag k="building" exist="0"/>
         <symbol code="536">
             <tag k="amenity" v="hunting_stand" exist="1"/>
@@ -518,10 +692,25 @@
             <tag k="amenity" v="prison" exist="1"/>
         </symbol>
     </group>
+    <group type="n">
+        <tag k="amenity" exist="1"/>
+        <symbol code="540">
+            <tag k="amenity" v="bench" exist="1"/>
+        </symbol>
+    </group>
+    <group type="n">
+        <tag k="attraction" exist="1"/>
+        <symbol code="540">
+            <tag k="attraction" v="yes" exist="1"/>
+        </symbol>
+    </group>
     <group>
         <tag k="leisure" exist="1"/>
         <symbol code="401">
             <tag k="leisure" v="pitch" exist="1"/>
+        </symbol>
+        <symbol code="540">
+            <tag k="leisure" v="picnic_table" exist="1"/>
         </symbol>
     </group>
     <group>
@@ -537,16 +726,16 @@
         </symbol>
     </group>
     <group>
-        <tag k="checkpoint" exist="1"/>
+        <tag k="_waypoint_" v="yes" exist="1"/>
         <symbol code="701">
-            <tag k="checkpoint" v="start" exist="1"/>
+            <tag k="name" v="start" exist="1"/>
         </symbol>
         <symbol code="702">
-            <tag k="checkpoint" v="yes" exist="1"/>
+            <tag k="_waypoint_" v="yes" exist="1"/>
             <tag k="name" exist="0"/>
         </symbol>
         <symbol code="702" textCode="703">
-            <tag k="checkpoint" v="yes" exist="1"/>
+            <tag k="_waypoint_" v="yes" exist="1"/>
             <tag k="name" exist="1"/>
         </symbol>
     </group>

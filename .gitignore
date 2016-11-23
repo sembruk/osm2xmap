@@ -1,6 +1,8 @@
 #*.ts
 #*.qm
 #*.txt
+osm2xmap
+osm2xmap.exe
 *.o
 *.swp
 test

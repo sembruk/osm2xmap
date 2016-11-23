@@ -22,9 +22,9 @@ LDFLAGS     = -lproj -lroxml
 LINKER      = $(CC) -o
 EXECUTABLE  = osm2xmap
 
-SRCDIR      = .
+SRCDIR      = src
 OBJDIR      = obj
-BINDIR      = bin
+BINDIR      = .
 
 SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
