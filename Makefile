@@ -23,7 +23,7 @@ LINKER      = $(CC) -o
 EXECUTABLE  = osm2xmap
 
 SRCDIR      = src
-OBJDIR      = obj
+OBJDIR      = src
 BINDIR      = .
 
 SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
