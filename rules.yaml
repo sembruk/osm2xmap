@@ -15,7 +15,7 @@ codes:
 
     - 110:
         barrier: ditch
-        not waterway:
+        #NOT waterway:
 
     - 211:
         landuse: quarry
@@ -37,7 +37,7 @@ codes:
         waterway: river
 
     - 306:
-        waterway: stream or drain
+        waterway: stream OR drain
 
     - 307:
         waterway: ditch
@@ -48,7 +48,7 @@ codes:
 
     - 311:
         natural: wetland
-        wetland: not marsh
+        #wetland: NOT marsh
 
     - 403: background
 
@@ -61,8 +61,12 @@ codes:
     - 405.1:
         natural: tree_row
 
-    - 409:
+    - 408:
         natural: scrub
+
+    - 408:
+        natural: wood
+        wood:age: young
 
     - 412:
         landuse: orchard
@@ -88,24 +92,24 @@ codes:
         highway: tertiary
 
     - 503:
-        highway: residential or unclassified or living_street
+        highway: residential OR unclassified OR living_street
         surface: asphalt
 
     - 503.4:
-        highway: service or track
+        highway: service OR track OR footway
         surface: asphalt
 
     - 503.2:
-        highway: unclassified or residential or service or living_street
-        surface: concrete:plates or concrete:lanes
+        highway: unclassified OR residential OR service OR living_street
+        surface: concrete:plates OR concrete:lanes
 
     - 503.3:
-        highway: unclassified or residential or service or living_street
-        surface: compacted or gravel
+        highway: unclassified OR residential OR service OR living_street
+        surface: compacted OR gravel
 
     - 509:
         man_made: cutline
-        not highway:
+        #NOT highway:
 
     - 515:
         railway: rail
@@ -127,23 +131,20 @@ codes:
         barrier: fence
 
     - 526:
-        #building: not no
+        #building: NOT no
         building:
 
     - 527:
-        landuse: residential or allotments
-
-    - 527.2:
-        landuse: industrial or construction
+        landuse: residential OR allotments OR industrial OR construction
 
     - 529.2:
         amenity: parking
 
-    - 532.2:
+    - 532.1:
         landuse: cemetery
 
     - 535:
-        man_made: tower or water_tower or chimney
+        man_made: tower OR water_tower OR chimney
 
     - 536:
         amenity: hunting_stand
@@ -155,7 +156,7 @@ codes:
 
     - 702:
         checkpoint: yes
-        not name:
+        #NOT name:
 
     - 703:
         checkpoint: yes
@@ -169,7 +170,7 @@ codes:
 
     - 710:
         landuse: quarry
-        resource: not sand
+        #resource: NOT sand
 
     - 710:
         landuse: landfill
@@ -183,55 +184,55 @@ codes:
     - 713.1:
         man_made: water_well
 
-    - 811:
-        highway: unclassified or residential or service or living_street
-        surface: ground or sand or unpaved
+    - 831:
+        highway: unclassified OR residential OR service OR living_street
+        surface: ground OR sand OR unpaved
 
-    - 811:
-        highway: unclassified or residential or service or living_street
-        not surface:
+    - 831:
+        highway: unclassified OR residential OR service OR living_street
+        #NOT surface:
 
-    - 811:
+    - 831:
         highway: track
-        smoothness: good or intermediate
+        smoothness: good OR intermediate
 
-    - 812:
+    - 832:
         highway: footway
 
-    - 812:
+    - 832:
         highway: path
-        smoothness: good or intermediate
+        smoothness: good OR intermediate
 
-    - 813:
-        highway: unclassified or residential
-        surface: grass or dirt
+    - 833:
+        highway: unclassified OR residential
+        surface: grass OR dirt
 
-    - 813:
+    - 833:
         highway: track
-        not smoothness:
+        #NOT smoothness:
 
-    - 813:
+    - 833:
         highway: track
-        smoothness: bad or very_bad
+        smoothness: bad OR very_bad
 
-    - 814:
+    - 834:
         highway: path
-        smoothness: bad or very_bad
+        smoothness: bad OR very_bad
 
-    - 814:
+    - 834:
         highway: path
-        not smoothness:
+        #NOT smoothness:
 
-    - 815:
+    - 835:
         highway: track
-        smoothness: horrible or very_horrible
+        smoothness: horrible OR very_horrible
 
-    - 816:
+    - 836:
         highway: path
-        smoothness: horrible or very_horrible
+        smoothness: horrible OR very_horrible
 
     - 998:
-        place: village or hamlet or allotments
+        place: village OR hamlet OR allotments
         name:
-        #not landuse:
+        #NOT landuse:
 

@@ -1439,7 +1439,7 @@
                 <description>Типичный для данной местности лес, хорошо пробегаемый. Если в районе нет хорошо пробегаемого леса, то на карте не должно быть белого цвета.</description>
                 <area_symbol inner_color="21" min_area="296" patterns="0"/>
             </symbol>
-            <symbol type="2" id="75" code="405.88" name="Tree row">
+            <symbol type="2" id="75" code="405.1" name="Tree row">
                 <line_symbol color="21" line_width="307" minimum_length="0" join_style="1" cap_style="1" pointed_cap_length="770" segment_length="3080" end_length="0" show_at_least_one_symbol="true" minimum_mid_symbol_count="0" minimum_mid_symbol_count_when_closed="0" dash_length="3080" break_length="770" dashes_in_group="1" in_group_break_length="385" mid_symbols_per_spot="1" mid_symbol_distance="0"/>
             </symbol>
             <symbol type="4" id="76" code="406" name="Лес: медленно пробегаемый">
@@ -2309,7 +2309,7 @@ cross, it shall be marked with the symbol 707 (uncrossable boundary).</descripti
                     </element>
                 </point_symbol>
             </symbol>
-            <symbol type="4" id="141" code="532.88" name="Кладбище">
+            <symbol type="4" id="141" code="532.1" name="Кладбище">
                 <area_symbol inner_color="-1" min_area="296" patterns="1">
                     <pattern type="2" angle="0" rotatable="true" line_spacing="1386" line_offset="0" offset_along_line="0" point_distance="1386">
                         <symbol type="1" code="" name="Заливка узором 1">

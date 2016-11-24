@@ -23,14 +23,6 @@
 #include "yaml-cpp/null.h"
 #include "rules.h"
 
-/*
-Tag::Tag(XmlElement& tagElement) {
-    key   = tagElement.getAttribute<std::string>("k");
-    value = tagElement.getAttribute<std::string>("v");
-    exist = tagElement.getAttribute<int>("exist");
-}
-*/
-
 bool TagMap::exist(const Tag& tag) const {
     const_iterator it = find(tag.key);
     if (it != end()) {
@@ -135,23 +127,23 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             continue;
         }
         yaml_map_it.second() >> s_value;
-        /// TODO parse 'not key' case
+        /// TODO parse 'NOT key' case
         std::stringstream ss_key(s_key);
         std::string word;
         ss_key >> word;
         bool equal = true;
-        if (word == "not") {
+        if (word == "NOT") {
             ss_key >> s_key;
             //equal = false;
         }
         std::stringstream ss_value(s_value);
         NextWord flags;
         while (ss_value >> word) {
-            if (word == "or") {
+            if (word == "OR") {
                 flags = NextWord::AS_OR;
                 continue;
             }
-            else if (word == "not") {
+            else if (word == "NOT") {
                 flags = NextWord::AS_NOT;
                 continue;
             }
@@ -176,9 +168,9 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
         }
     }
     for (auto pair : *pIdAndTagMap) {
-        info(pair.first+"="+pair.second->getValue());
+        //info(pair.first+"="+pair.second->getValue());
     }
-    info("\n");
+    //info("\n");
 }
 
 Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
@@ -217,7 +209,7 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
             code_map.first() >> code;
             int id = RulesCpp::symbol_ids->get(code);
             const YAML::Node& symbol_definition = code_map.second();
-            info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
+            //info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
             switch (symbol_definition.Type()) {
             case YAML::NodeType::Scalar:
                 {
@@ -225,7 +217,7 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
                     symbol_definition >> description;
                     if (description == "background" || description == "bg") {
                         backgroundList.push_back(id);
-                        info("background: "+code);
+                        //info("background: "+code);
                     }
                 }
                 break;
