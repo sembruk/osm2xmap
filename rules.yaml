@@ -15,7 +15,6 @@ codes:
 
     - 110:
         barrier: ditch
-        #NOT waterway:
 
     - 211:
         landuse: quarry
@@ -48,7 +47,6 @@ codes:
 
     - 311:
         natural: wetland
-        #wetland: NOT marsh
 
     - 403: background
 
@@ -109,7 +107,6 @@ codes:
 
     - 509:
         man_made: cutline
-        #NOT highway:
 
     - 515:
         railway: rail
@@ -131,7 +128,6 @@ codes:
         barrier: fence
 
     - 526:
-        #building: NOT no
         building:
 
     - 527:
@@ -156,7 +152,6 @@ codes:
 
     - 702:
         checkpoint: yes
-        #NOT name:
 
     - 703:
         checkpoint: yes
@@ -170,7 +165,6 @@ codes:
 
     - 710:
         landuse: quarry
-        #resource: NOT sand
 
     - 710:
         landuse: landfill
@@ -190,7 +184,6 @@ codes:
 
     - 831:
         highway: unclassified OR residential OR service OR living_street
-        #NOT surface:
 
     - 831:
         highway: track
@@ -209,7 +202,6 @@ codes:
 
     - 833:
         highway: track
-        #NOT smoothness:
 
     - 833:
         highway: track
@@ -221,7 +213,6 @@ codes:
 
     - 834:
         highway: path
-        #NOT smoothness:
 
     - 835:
         highway: track
@@ -234,5 +225,4 @@ codes:
     - 998:
         place: village OR hamlet OR allotments
         name:
-        #NOT landuse:
 
