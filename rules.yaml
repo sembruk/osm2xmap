@@ -48,6 +48,9 @@ codes:
     - 311:
         natural: wetland
 
+    - 401:
+        landuse: meadow
+
     - 403: background
 
     - 405:
@@ -128,7 +131,7 @@ codes:
         barrier: fence
 
     - 526:
-        building:
+        building: NOT no
 
     - 527:
         landuse: residential OR allotments OR industrial OR construction

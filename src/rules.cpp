@@ -127,17 +127,19 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             continue;
         }
         yaml_map_it.second() >> s_value;
-        /// TODO parse 'NOT key' case
         std::stringstream ss_key(s_key);
         std::string word;
         ss_key >> word;
         bool equal = true;
+        /// TODO parse 'NOT key' case
+        /*
         if (word == "NOT") {
             ss_key >> s_key;
-            //equal = false;
+            equal = false;
         }
+        */
         std::stringstream ss_value(s_value);
-        NextWord flags;
+        NextWord flags = NextWord::AS_OR;
         while (ss_value >> word) {
             if (word == "OR") {
                 flags = NextWord::AS_OR;
@@ -147,24 +149,19 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
                 flags = NextWord::AS_NOT;
                 continue;
             }
-            switch (flags) {
-            case NextWord::AS_NOT:
-            case NextWord::AS_OR:
-            default:
-                {
-                    std::string key = s_key;
-                    std::string value = word;
-                    if (value == "~") { ///< is YAML null string
-                        value = "";
-                    }
-                    idMap[key+"="+value].insert(pIdAndTagMap);
-                    if (flags == NextWord::AS_NOT) {
-                        //equal = false;
-                    }
-                    pIdAndTagMap->insert(Tag(key,value,equal),true/*as_multi*/);
-                }
-                break;
+            std::string key = s_key;
+            std::string value = word;
+            if (value == "~") { ///< is YAML null string
+                value = "";
             }
+            if (flags == NextWord::AS_NOT) {
+                equal = false;
+                idMap[key+"="].insert(pIdAndTagMap);
+            }
+            else {
+                idMap[key+"="+value].insert(pIdAndTagMap);
+            }
+            pIdAndTagMap->insert(Tag(key,value,equal),true/*as_multi*/);
         }
     }
     for (auto pair : *pIdAndTagMap) {
