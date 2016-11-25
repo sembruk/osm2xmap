@@ -41,3 +41,5 @@ Usage:
 ## Todo
 
 * Simple YAML rules
+* Replace Libroxml
+* Rules for other symbol sets
