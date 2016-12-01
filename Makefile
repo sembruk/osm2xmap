@@ -18,7 +18,8 @@
 
 CC          = g++
 CFLAGS      = -Wall -std=c++11
-LDFLAGS     = -lproj -lroxml
+#CFLAGS     += -DDEBUG -g
+LDFLAGS     = -lproj -lroxml -lyaml-cpp
 LINKER      = $(CC) -o
 
 LIBDIRS     = .

@@ -31,8 +31,7 @@ OsmObject::OsmObject(const XmlElement& osmElement) {
         if (item == "tag") {
             std::string k = item.getAttribute<std::string>("k");
             std::string v = item.getAttribute<std::string>("v");
-            Tag tag(k,v);
-            tagMap.insert(tag);
+            tagMap.insert(Tag(k,v));
         }
     }
 }
@@ -41,7 +40,7 @@ const std::string
 OsmObject::getName() const {
     TagMap::const_iterator it = tagMap.find("name");
     if (it != tagMap.end()) {
-        return it->second.getValue();
+        return it->second->getValue();
     }
     return std::string();
 }
@@ -121,7 +120,7 @@ OsmRelation::OsmRelation(XmlElement& osmElement)
             long memberId = item.getAttribute<long>("ref");
             Osm::WayMap::iterator it = Osm::wayMap.find(memberId);
             if (it == Osm::wayMap.end()) {
-                //warning("Way " + std::to_string(memberId) + " didn't find");
+                //warning("Way " + std::to_string(memberId) + " didn't find"); ///< it's normal
             }
             else {
                 std::string role = item.getAttribute<std::string>("role");

@@ -27,7 +27,6 @@
 #include <string>
 #include <map>
 #include "xml.h"
-//#include "rules.h"
 #include "common.h"
 
 const unsigned crs_desc_len = 64;
@@ -40,10 +39,11 @@ enum class SymType : int {
 };
 
 class SymbolIdByCodeMap
-: public std::map<std::string, int> {
+: public std::map<std::string, std::pair<int, SymType> > {
 public:
     SymbolIdByCodeMap(XmlElement& root);
     int get(std::string code) const;
+    SymType getType(int id) const;
 };
 
 class XmapTree;

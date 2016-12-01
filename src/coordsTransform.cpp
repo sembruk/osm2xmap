@@ -80,14 +80,14 @@ Georeferencing::Georeferencing(XmlElement& root, const Coords& geographic_ref_po
     geographicRefPoint = geographic_ref_point;
 
     info("Using georeferencing:");
-    info("\tmapScale           " + std::to_string(mapScale));
-    info("\tdeclination        " + std::to_string(declination));
-    info("\tgrivation          " + std::to_string(grivation));
-    info("\tmapRefPoint        " + mapRefPoint.getAsString());
-    info("\tprojectedRefPoint  " + projectedRefPoint.getAsString());
-    info("\tgeographicRefPoint " + geographicRefPoint.getAsString());
-    info("\tprojectedCrsDesc   '" + projectedCrsDesc + "'");
-    info("\tgeographicCrsDesc  '" + geographicCrsDesc + "'");
+    info("   mapScale           " + std::to_string(mapScale));
+    info("   declination        " + std::to_string(declination));
+    info("   grivation          " + std::to_string(grivation));
+    info("   mapRefPoint        " + mapRefPoint.getAsString());
+    info("   projectedRefPoint  " + projectedRefPoint.getAsString());
+    info("   geographicRefPoint " + geographicRefPoint.getAsString());
+    info("   projectedCrsDesc   '" + projectedCrsDesc + "'");
+    info("   geographicCrsDesc  '" + geographicCrsDesc + "'");
 }
 
 Coords&

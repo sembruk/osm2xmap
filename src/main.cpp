@@ -18,8 +18,11 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <typeinfo>
 #include <map>
+
+#include "yaml-cpp/yaml.h"
 
 #include "timer.h"
 #include "xml.h"
@@ -41,35 +44,31 @@ namespace Main {
     template< >
     void handle(OsmNode& osmNode, XmapTree& xmapTree) {
         auto& tagMap = osmNode.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::node);
-        //info("sym id %d",id);
+        int id = Main::rules.getSymbolId(tagMap, ElemType::node);
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
-        int id = symbol.Id();
         if (id != invalid_sym_id) {
-            xmapTree.add(id, tagMap, coords);
-        }
-        int textId = symbol.TextId();
-        if (textId != invalid_sym_id) {
-            const std::string text = osmNode.getName();
-            if (!text.empty()) {
-                xmapTree.add(textId, tagMap, coords, text.c_str());
+            if (Main::rules.isText(id)) {
+                const std::string text = osmNode.getName();
+                if (!text.empty()) {
+                    xmapTree.add(id, tagMap, coords, text.c_str());
+                }
+            }
+            else {
+                xmapTree.add(id, tagMap, coords);
             }
         }
     }
 
-    Coords addCoordsToWay(XmapWay& way, const Symbol& symbol, OsmWay osmWay, bool reverse = false) {
+    Coords addCoordsToWay(XmapWay& way, int id, OsmWay osmWay, bool reverse = false) {
         if (reverse) {
             osmWay.reverse();
         }
-        Tag dashSymbolTag = symbol.NdSymbolTag();
         Coords lastGeographicCoords;
         for (const auto& osmNode : osmWay) {
             int flags = 0;
-            if (!dashSymbolTag.empty()) {
-                if(osmNode.getTagMap().exist(dashSymbolTag)) {
-                    flags = 32;
-                }
+            if (Main::rules.isDashPoint(osmNode.getTagMap(),id)) {
+                flags = 32;
             }
             Coords coords = osmNode.getCoords();
             lastGeographicCoords = coords;
@@ -82,9 +81,9 @@ namespace Main {
     template< >
     void handle(OsmWay& osmWay, XmapTree& xmapTree) {
         auto& tagMap = osmWay.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::way);
-        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
-        addCoordsToWay(way,symbol,osmWay);
+        int id = Main::rules.getSymbolId(tagMap, ElemType::way);
+        XmapWay way = xmapTree.add(id, tagMap);
+        addCoordsToWay(way,id,osmWay);
     }
 
     template< >
@@ -93,11 +92,11 @@ namespace Main {
             return;
         }
         auto& tagMap = osmRelation.getTagMap();
-        const Symbol symbol = Main::rules.groupList.getSymbol(tagMap, ElemType::area);
-        XmapWay way = xmapTree.add(symbol.Id(), tagMap);
+        int id = Main::rules.getSymbolId(tagMap, ElemType::area);
+        XmapWay way = xmapTree.add(id, tagMap);
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
-        Coords lastCoords = addCoordsToWay(way,symbol,osmWay);
+        Coords lastCoords = addCoordsToWay(way,id,osmWay);
         memberList.pop_front();
         ///TODO check member role
         while (!memberList.empty()) {
@@ -120,13 +119,13 @@ namespace Main {
                 }
             }
             if (found) {
-                lastCoords = addCoordsToWay(way,symbol,*iterator,reverse);
+                lastCoords = addCoordsToWay(way,id,*iterator,reverse);
                 memberList.erase(iterator);
             }
             else {
                 way.completeMultipolygonPart();
                 OsmWay& osmWay = memberList.front();
-                lastCoords = addCoordsToWay(way,symbol,osmWay);
+                lastCoords = addCoordsToWay(way,id,osmWay);
                 memberList.pop_front();
             }
         }
@@ -174,7 +173,7 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 }
 
 const std::string defaultSymbolFileName   = "symbols.xmap";
-const std::string defaultRulesFileName    = "rules.xml";
+const std::string defaultRulesFileName    = "rules.yaml";
 const std::string defaultInOsmFileName    = "in.osm";
 const std::string defaultOutXmapFileName  = "out.xmap";
 
@@ -187,7 +186,7 @@ void printUsage(const char* programName) {
     info("      -o filename - output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
     info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
-    info("      -r filename - XML rules filename ('"+defaultRulesFileName+"' as default);");
+    info("      -r filename - YAML rules filename ('"+defaultRulesFileName+"' as default);");
     info("      --help, -h or help - this usage.");
 }
 
@@ -245,10 +244,10 @@ int main(int argc, const char* argv[])
         }
 
         info("Using files:");
-        info("\t* input OSM file       - " + std::string(inOsmFileName));
-        info("\t* output XMAP file     - " + std::string(outXmapFileName));
-        info("\t* symbol set XMAP file - " + std::string(symbolFileName));
-        info("\t* rules file           - " + std::string(rulesFileName));
+        info("   * input OSM file       - " + std::string(inOsmFileName));
+        info("   * output XMAP file     - " + std::string(outXmapFileName));
+        info("   * symbol set XMAP file - " + std::string(symbolFileName));
+        info("   * rules file           - " + std::string(rulesFileName));
 
         XmlTree inXmapDoc(symbolFileName);
         XmlElement inXmapRoot = inXmapDoc.getChild("map");
@@ -283,6 +282,9 @@ int main(int argc, const char* argv[])
         Main::rules = Rules(rulesFileName,symbolIds);
 
         osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
+
+        // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
+        // See https://github.com/liosha/osm2mp/blob/master/cfg/polish-mp/ways-roads-common-univ.yml 
 
         info("\nExecution time: " + std::to_string(timer.getCurTime()) + " sec.");
     }

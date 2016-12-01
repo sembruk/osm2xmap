@@ -16,11 +16,12 @@ make
 
 * [Libroxml](http://www.libroxml.net/)
 * [Proj.4](https://github.com/OSGeo/proj.4)
+* [YAML-CPP-0.3](https://github.com/jbeder/yaml-cpp)
 
-### Installing Proj.4 in Ubuntu
+### Installing Proj.4 and YAML-CPP in Ubuntu
 
 ```bash
-sudo apt-get install libproj0 libproj-dev
+sudo apt-get install libproj0 libproj-dev libyaml-cpp0.3 libyaml-cpp0.3-dev
 ```
 
 ## Usage

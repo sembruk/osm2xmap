@@ -27,6 +27,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include "yaml-cpp/yaml.h"
 #include "common.h"
 #include "xmap.h"
 
@@ -36,67 +37,39 @@ namespace ElemType {
     const int area    = 1<<2;
 }
 
-
-class SymbolList;
-
-class Symbol { ///< Symbol
-    int id;
-    int textId;
-    TagMap tagMap;
-    Tag ndSymbolTag;
-    friend class SymbolList;
-public:
-    Symbol() : id(invalid_sym_id), textId(invalid_sym_id) {};
-    Symbol(XmlElement& symbolElement);
-    int Id() const { return id; };
-    int TextId() const { return textId; };
-    const Tag& NdSymbolTag() const { return ndSymbolTag; };
-    void print() const {
-        info("id " + std::to_string(id));
-        tagMap.print();
-    };
-};
-
-class SymbolList ///< SymList
-: public std::list<Symbol> {
-public:
-    void insert(Symbol& symbol);
-    const Symbol& detect(const TagMap& tags);
-};
-
-class GroupList;
-
-class Group {
-    std::string name;
-    TagMap keyTagsMap;
-    SymbolList symbols;
-    int allowedElements;
-    friend class GroupList;
-public:
-    Group(XmlElement& groupElement);
-    bool isTypeAllowed(int elemType);
-};
-
-class GroupList 
-: public std::list<Group>, TrueInit {
-    void insert(Group& group) { push_back(group); };
-public:
-    GroupList() {};
-    GroupList(XmlElement& rules);
-    Group * detect(const TagMap& tags, int elemType);
-    const Symbol& getSymbol(const TagMap& checkedTags, int elemType);
-    int getSymbolId(TagMap& checkedTags, int elemType);
-};
-
 typedef std::list<int> BackgroundList;
+
+class TagMapWithId
+: public TagMap {
+    int id;
+public:
+    TagMapWithId(int _id) : id(_id) {};
+    int getId() const { return id; };
+};
+
+typedef std::set< TagMapWithId * > TagsSet;
+
+class IdMap
+: public std::map<std::string/*k=v*/, TagsSet> {
+public:
+    void debugPrint();
+};
+
+typedef std::map<int/*way id*/, TagMap> DashMap;
 
 class Rules
 : public TrueInit {
+    void parseMap(const YAML::Node& yaml_map, int id);
 public:
-    GroupList groupList;
+    //GroupList groupList;
     BackgroundList backgroundList;
+    IdMap idMap;
+    DashMap dashMap;
     Rules() {};
-    Rules(const char * rulesFileName, SymbolIdByCodeMap& symbolIds);
+    Rules(const std::string&, SymbolIdByCodeMap&);
+    int getSymbolId(const TagMap& checkedTags, int elemType);
+    bool isDashPoint(const TagMap& checkedTags, int id);
+    bool isText(int id);
 };
 
 #endif // RULES_H_INCLUDED

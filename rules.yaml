@@ -1,0 +1,234 @@
+rules_name: ISOM2000 adapeted for cyclogaine
+
+codes:
+    - 101:
+        contour_ext: elevation_minor
+
+    - 101:
+        iof_contour: 101
+
+    - 102:
+        iof_contour: index
+
+    - 103:
+        iof_contour: form
+
+    - 110:
+        barrier: ditch
+
+    - 211:
+        landuse: quarry
+        resource: sand
+
+    - 211:
+        natural: sand
+
+    - 211:
+        natural: beach
+
+    - 301.2:
+        landuse: reservoir
+
+    - 301.2:
+        natural: water
+
+    - 301.2:
+        waterway: riverbank
+
+    - 305:
+        waterway: river
+
+    - 306:
+        waterway: stream OR drain
+
+    - 307:
+        waterway: ditch
+
+    - 310:
+        natural: wetland
+        wetland: marsh
+
+    - 311:
+        natural: wetland
+
+    - 401:
+        landuse: meadow
+
+    - 403: background
+
+    - 405:
+        landuse: forest
+
+    - 405:
+        natural: wood
+
+    - 405.1:
+        natural: tree_row
+
+    - 408:
+        natural: scrub
+
+    - 408:
+        natural: wood
+        wood:age: young
+
+    - 412:
+        landuse: orchard
+
+    - 501.0:
+        highway: motorway
+
+    - 502:
+        highway: primary
+
+    - 502:
+        highway: trunk
+        lanes: 2
+
+    - 502:
+        highway: trunk_link
+        lanes: 1
+
+    - 502:
+        highway: secondary
+
+    - 502:
+        highway: tertiary
+
+    - 503:
+        highway: residential OR unclassified OR living_street
+        surface: asphalt
+
+    - 503.4:
+        highway: service OR track OR footway
+        surface: asphalt
+
+    - 503.2:
+        highway: unclassified OR residential OR service OR living_street
+        surface: concrete:plates OR concrete:lanes
+
+    - 503.3:
+        highway: unclassified OR residential OR service OR living_street
+        surface: compacted OR gravel
+
+    - 509:
+        man_made: cutline
+
+    - 515:
+        railway: rail
+
+    - 516:
+        power: minor_line
+        __dash__:
+            power: pole
+
+    - 517:
+        power: line
+        __dash__:
+            power: tower
+
+    - 521:
+        barrier: wall
+
+    - 524:
+        barrier: fence
+
+    - 526:
+        building: NOT no
+
+    - 527:
+        landuse: residential OR allotments OR industrial OR construction
+
+    - 529.2:
+        amenity: parking
+
+    - 532.1:
+        landuse: cemetery
+
+    - 535:
+        man_made: tower OR water_tower OR chimney
+
+    - 536:
+        amenity: hunting_stand
+
+    - 601.3: background
+
+    - 701:
+        checkpoint: start
+
+    - 702:
+        checkpoint: yes
+
+    - 703:
+        checkpoint: yes
+        name:
+
+    - 709:
+        landuse: military
+
+    - 709:
+        amenity: prison
+
+    - 710:
+        landuse: quarry
+
+    - 710:
+        landuse: landfill
+
+    - 713:
+        shop: convenience
+
+    - 713.1:
+        natural: spring
+
+    - 713.1:
+        man_made: water_well
+
+    - 831:
+        highway: unclassified OR residential OR service OR living_street
+        surface: ground OR sand OR unpaved
+
+    - 831:
+        highway: unclassified OR residential OR service OR living_street
+
+    - 831:
+        highway: track
+        smoothness: good OR intermediate
+
+    - 832:
+        highway: footway
+
+    - 832:
+        highway: path
+        smoothness: good OR intermediate
+
+    - 833:
+        highway: unclassified OR residential
+        surface: grass OR dirt
+
+    - 833:
+        highway: track
+
+    - 833:
+        highway: track
+        smoothness: bad OR very_bad
+
+    - 834:
+        highway: path
+        smoothness: bad OR very_bad
+
+    - 834:
+        highway: path
+
+    - 835:
+        highway: track
+        smoothness: horrible OR very_horrible
+
+    - 836:
+        highway: path
+        smoothness: horrible OR very_horrible
+
+    - 998:
+        place: village OR hamlet OR allotments
+        name:
+
