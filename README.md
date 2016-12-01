@@ -27,20 +27,20 @@ sudo apt-get install libproj0 libproj-dev libyaml-cpp0.3 libyaml-cpp0.3-dev
 ## Usage
 
 ```bash
+
 ./osm2xmap --help
 Usage:
    ./osm2xmap [options]
    Options:
-      -i filename - input OSM filename (in.osm as default);
-      -o filename - output XMAP filename (out.xmap as default);
-      -s filename - symbol set XMAP or OMAP filename (symbols.xmap as default)
+      -i filename - input OSM filename ('in.osm' as default);
+      -o filename - output XMAP filename ('out.xmap' as default);
+      -s filename - symbol set XMAP or OMAP filename ('symbols.xmap' as default)
                     (see /usr/share/openorienteering-mapper/symbol\ sets/);
-      -r filename - XML rules filename (rules.xml as default);
+      -r filename - YAML rules filename ('rules.yaml' as default);
       --help, -h or help - this usage.
 ```
 
 ## Todo
 
-* Simple YAML rules
 * Replace Libroxml
 * Rules for other symbol sets
