@@ -139,9 +139,9 @@ public:
     Tag(std::string k, std::string v, bool e=true) : TagBase(k, v), equal(e) {};
 };
 
-typedef std::multimap<std::string, std::shared_ptr<Tag> > TagMapBase;
+typedef std::multimap< std::string, std::shared_ptr<Tag> > TagMapBase;
 
-class TagMap ///< TagList
+class TagMap
 : public TagMapBase {
 public:
     TagMap() {};

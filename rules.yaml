@@ -32,6 +32,9 @@ codes:
     - 301.2:
         natural: water
 
+    - 301.2:
+        waterway: riverbank
+
     - 305:
         waterway: river
 

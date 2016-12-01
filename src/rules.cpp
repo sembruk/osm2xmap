@@ -110,7 +110,7 @@ enum class NextWord { AS_OR, AS_NOT };
 void
 Rules::parseMap(const YAML::Node& yaml_map, int id) {
     //KvList* pKvList = new KvList(id);
-    IdAndTagMap* pIdAndTagMap = new IdAndTagMap(id);
+    TagMapWithId* pTagMapWithId = new TagMapWithId(id);
     for (auto yaml_map_it = yaml_map.begin(); yaml_map_it != yaml_map.end(); ++yaml_map_it) {
         std::string s_key, s_value;
         yaml_map_it.first() >> s_key;
@@ -156,15 +156,15 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
             }
             if (flags == NextWord::AS_NOT) {
                 equal = false;
-                idMap[key+"="].insert(pIdAndTagMap);
+                idMap[key+"="].insert(pTagMapWithId);
             }
             else {
-                idMap[key+"="+value].insert(pIdAndTagMap);
+                idMap[key+"="+value].insert(pTagMapWithId);
             }
-            pIdAndTagMap->insert(Tag(key,value,equal),true/*as_multi*/);
+            pTagMapWithId->insert(Tag(key,value,equal),true/*as_multi*/);
         }
     }
-    for (auto pair : *pIdAndTagMap) {
+    for (auto pair : *pTagMapWithId) {
         //info(pair.first+"="+pair.second->getValue());
     }
     //info("\n");
@@ -247,16 +247,24 @@ Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
     }
     //SymbolIdSet intersection;
     //bool started = false;
+    int sym_id = invalid_sym_id;
+    int rank = 0;
     for (auto it : osm_object_tags) {
         std::string k = it.second->getKey();
         std::string v = it.second->getValue();
         auto it_id_list = idMap.find(k+"="+v);
         auto _it_id_list = idMap.find(k+"=");
         if (it_id_list != idMap.end() || (it_id_list = _it_id_list) != idMap.end()) {
-            const IdAndTagMapPSet& idAndTagMapPSet = it_id_list->second;
-            for (auto pIdAndTagMap : idAndTagMapPSet) {
-                if (osm_object_tags.tagsExist(*pIdAndTagMap)) {
-                    return pIdAndTagMap->getId();
+            const TagsSet& tagsSet = it_id_list->second;
+            for (auto pTagMapWithId : tagsSet) {
+                if (osm_object_tags.tagsExist(*pTagMapWithId)) {
+                    int id = pTagMapWithId->getId();
+                    int numTags = pTagMapWithId->size();
+                    if (numTags > rank)
+                    {
+                        rank = numTags;
+                        sym_id = id;
+                    }
                 }
             }
             /*
@@ -291,7 +299,7 @@ Rules::getSymbolId(const TagMap& osm_object_tags, int elemType) {
         }
     }
     */
-    return invalid_sym_id;
+    return sym_id;
 }
 
 bool

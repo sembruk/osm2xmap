@@ -39,18 +39,18 @@ namespace ElemType {
 
 typedef std::list<int> BackgroundList;
 
-class IdAndTagMap
+class TagMapWithId
 : public TagMap {
     int id;
 public:
-    IdAndTagMap(int _id) : id(_id) {};
+    TagMapWithId(int _id) : id(_id) {};
     int getId() const { return id; };
 };
 
-typedef std::set<IdAndTagMap*> IdAndTagMapPSet;
+typedef std::set< TagMapWithId * > TagsSet;
 
 class IdMap
-: public std::map<std::string/*k=v*/, IdAndTagMapPSet> {
+: public std::map<std::string/*k=v*/, TagsSet> {
 public:
     void debugPrint();
 };
