@@ -4,7 +4,7 @@ Converter [OpenSteerMap](http://www.openstreetmap.org) data to [OpenOrienteering
 
 ## Getting
 
-See [Downloads](https://github.com/sembruk/osm2xmap/releases) or build from source
+See [**Downloads**](https://github.com/sembruk/osm2xmap/releases) or build from source
 
 ```bash
 git clone https://github.com/sembruk/osm2xmap.git
