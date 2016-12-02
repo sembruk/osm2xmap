@@ -32,7 +32,10 @@
 #include "rules.h"
 
 #include "common.h"
-//using namespace std;
+
+#ifndef VERSION_STRING
+#define VERSION_STRING "undefined"
+#endif
 
 namespace Main {
     CoordsTransform transform;
@@ -172,11 +175,14 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
     xmapTree.save(outXmapFilename);
 }
 
+void printVersion() {
+    info("Version "+std::string(VERSION_STRING));
+}
+
 const std::string defaultSymbolFileName   = "symbols.xmap";
 const std::string defaultRulesFileName    = "rules.yaml";
 const std::string defaultInOsmFileName    = "in.osm";
 const std::string defaultOutXmapFileName  = "out.xmap";
-
 
 void printUsage(const char* programName) {
     info("Usage:");
@@ -187,6 +193,7 @@ void printUsage(const char* programName) {
     info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
     info("      -r filename - YAML rules filename ('"+defaultRulesFileName+"' as default);");
+    info("      -v or --version - print software version;");
     info("      --help, -h or help - this usage.");
 }
 
@@ -230,6 +237,11 @@ int main(int argc, const char* argv[])
                     rulesFileName = argv[++i];
                     checkFileName(rulesFileName,argv[0]);
                 }
+                else if (std::string(argv[i]) == "-v" ||
+                         std::string(argv[i]) == "--version") {
+                    printVersion();
+                    return 0;
+                }
                 else if (std::string(argv[i]) == "--help" ||
                          std::string(argv[i]) == "-h" ||
                          std::string(argv[i]) == "help") {
@@ -243,6 +255,7 @@ int main(int argc, const char* argv[])
             }
         }
 
+        printVersion();
         info("Using files:");
         info("   * input OSM file       - " + std::string(inOsmFileName));
         info("   * output XMAP file     - " + std::string(outXmapFileName));

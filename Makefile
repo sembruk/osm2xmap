@@ -16,8 +16,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
 
+GIT_VERSION = $(shell git describe --tags)
+GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
+
 CC          = g++
-CFLAGS      = -Wall -std=c++11
+CFLAGS      = -Wall -std=c++11 -DVERSION_STRING='"$(GIT_VERSION) $(GIT_TIMESTAMP)"'
 #CFLAGS     += -DDEBUG -g
 LDFLAGS     = -lproj -lroxml -lyaml-cpp
 LINKER      = $(CC) -o
