@@ -1,4 +1,4 @@
-# Osm2xmap
+# **Osm2xmap**
 
 Converter [OpenSteerMap](http://www.openstreetmap.org) data to [OpenOrienteering Mapper](https://github.com/OpenOrienteering/mapper) format.
 
@@ -12,16 +12,18 @@ cd osm2xmap
 make
 ```
 
-## Dependences
+## Dependencies
 
 * [Libroxml](http://www.libroxml.net/)
 * [Proj.4](https://github.com/OSGeo/proj.4)
 * [YAML-CPP-0.3](https://github.com/jbeder/yaml-cpp)
 
-### Installing Proj.4 and YAML-CPP in Ubuntu
+### Installing dependencies on Debian or Ubuntu
 
 ```bash
-sudo apt-get install libproj0 libproj-dev libyaml-cpp0.3 libyaml-cpp0.3-dev
+sudo sh -c "echo 'deb http://debian.libroxml.net/mirror/ debian contrib' > /etc/apt/sources.list.d/libroxml.list"
+sudo apt-get update
+sudo apt-get install libroxml0 libroxml-dev libproj0 libproj-dev libyaml-cpp0.3 libyaml-cpp0.3-dev
 ```
 
 ## Usage
