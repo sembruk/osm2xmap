@@ -29,7 +29,6 @@ sudo apt-get install libroxml0 libroxml-dev libproj0 libproj-dev libyaml-cpp0.3 
 ## Usage
 
 ```bash
-
 ./osm2xmap --help
 Usage:
    ./osm2xmap [options]
@@ -39,6 +38,7 @@ Usage:
       -s filename - symbol set XMAP or OMAP filename ('symbols.xmap' as default)
                     (see /usr/share/openorienteering-mapper/symbol\ sets/);
       -r filename - YAML rules filename ('rules.yaml' as default);
+      -v or --version - print software version;
       --help, -h or help - this usage.
 ```
 
