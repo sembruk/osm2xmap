@@ -185,8 +185,8 @@ void printVersion() {
     info("Version "+std::string(VERSION_STRING));
 }
 
-const std::string defaultSymbolFileName   = "symbols.xmap";
-const std::string defaultRulesFileName    = "rules.yaml";
+const std::string defaultSymbolFileName   = "ISOM_15000.xmap";
+const std::string defaultRulesFileName    = "ISOM_rules.yaml";
 const std::string defaultInOsmFileName    = "in.osm";
 const std::string defaultOutXmapFileName  = "out.xmap";
 

@@ -1,18 +1,6 @@
-rules_name: ISOM2000 adapeted for cyclogaine
+rules_name: ISOM
 
 codes:
-    - 101:
-        contour_ext: elevation_minor
-
-    - 101:
-        iof_contour: 101
-
-    - 102:
-        iof_contour: index
-
-    - 103:
-        iof_contour: form
-
     - 110:
         barrier: ditch
 
@@ -51,6 +39,12 @@ codes:
     - 311:
         natural: wetland
 
+    - 312:
+        man_made: water_well
+
+    - 313:
+        natural: spring
+
     - 401:
         landuse: meadow
 
@@ -59,7 +53,7 @@ codes:
     - 405:
         landuse: forest
 
-    - 405:
+    - 406:
         natural: wood
 
     - 405.1:
@@ -79,7 +73,7 @@ codes:
         highway: motorway
 
     - 502:
-        highway: primary
+        highway: primary OR secondary OR tertiary
 
     - 502:
         highway: trunk
@@ -89,27 +83,60 @@ codes:
         highway: trunk_link
         lanes: 1
 
-    - 502:
-        highway: secondary
-
-    - 502:
-        highway: tertiary
-
     - 503:
-        highway: residential OR unclassified OR living_street
-        surface: asphalt
+        highway: unclassified OR residential OR living_street OR service
+        surface: asphalt OR concrete OR concrete:plates OR concrete:lanes
 
-    - 503.4:
-        highway: service OR track OR footway
-        surface: asphalt
-
-    - 503.2:
-        highway: unclassified OR residential OR service OR living_street
-        surface: concrete:plates OR concrete:lanes
-
-    - 503.3:
+    - 503.1:
         highway: unclassified OR residential OR service OR living_street
         surface: compacted OR gravel
+
+    - 504:
+        highway: track
+
+    - 504:
+        highway: unclassified OR residential OR service OR living_street
+        surface: ground OR sand OR unpaved
+
+    - 504:
+        highway: unclassified OR residential OR service OR living_street
+
+    - 504:
+        highway: track
+        smoothness: good OR intermediate
+
+    - 505:
+        highway: unclassified OR residential
+        surface: grass OR dirt
+
+    - 505:
+        highway: track
+
+    - 505:
+        highway: track
+        smoothness: bad OR very_bad
+
+    - 506:
+        highway: footway
+
+    - 506:
+        highway: path
+        smoothness: good OR intermediate
+
+    - 506:
+        highway: track
+        smoothness: horrible OR very_horrible
+
+    - 507:
+        highway: path
+        smoothness: bad OR very_bad
+
+    - 507:
+        highway: path
+
+    - 508:
+        highway: path
+        smoothness: horrible OR very_horrible
 
     - 509:
         man_made: cutline
@@ -137,7 +164,7 @@ codes:
         building: NOT no
 
     - 527:
-        landuse: residential OR allotments OR industrial OR construction
+        landuse: residential OR allotments OR industrial
 
     - 529.2:
         amenity: parking
@@ -151,14 +178,8 @@ codes:
     - 536:
         amenity: hunting_stand
 
-    - 701:
-        checkpoint: start
-
-    - 702:
-        checkpoint: yes
-
-    - 703:
-        checkpoint: yes
+    - 603.1:
+        place: village OR hamlet OR allotments
         name:
 
     - 707: background
@@ -173,62 +194,8 @@ codes:
         landuse: quarry
 
     - 710:
-        landuse: landfill
+        landuse: landfill OR construction
 
     - 713:
         shop: convenience
-
-    - 713.1:
-        natural: spring
-
-    - 713.1:
-        man_made: water_well
-
-    - 831:
-        highway: unclassified OR residential OR service OR living_street
-        surface: ground OR sand OR unpaved
-
-    - 831:
-        highway: unclassified OR residential OR service OR living_street
-
-    - 831:
-        highway: track
-        smoothness: good OR intermediate
-
-    - 832:
-        highway: footway
-
-    - 832:
-        highway: path
-        smoothness: good OR intermediate
-
-    - 833:
-        highway: unclassified OR residential
-        surface: grass OR dirt
-
-    - 833:
-        highway: track
-
-    - 833:
-        highway: track
-        smoothness: bad OR very_bad
-
-    - 834:
-        highway: path
-        smoothness: bad OR very_bad
-
-    - 834:
-        highway: path
-
-    - 835:
-        highway: track
-        smoothness: horrible OR very_horrible
-
-    - 836:
-        highway: path
-        smoothness: horrible OR very_horrible
-
-    - 998:
-        place: village OR hamlet OR allotments
-        name:
 

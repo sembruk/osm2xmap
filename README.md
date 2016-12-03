@@ -35,9 +35,9 @@ Usage:
    Options:
       -i filename - input OSM filename ('in.osm' as default);
       -o filename - output XMAP filename ('out.xmap' as default);
-      -s filename - symbol set XMAP or OMAP filename ('symbols.xmap' as default)
+      -s filename - symbol set XMAP or OMAP filename ('ISOM_15000.xmap' as default)
                     (see /usr/share/openorienteering-mapper/symbol\ sets/);
-      -r filename - YAML rules filename ('rules.yaml' as default);
+      -r filename - YAML rules filename ('ISOM_rules.yaml' as default);
       -v or --version - print software version;
       --help, -h or help - this usage.
 ```
