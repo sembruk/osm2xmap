@@ -19,6 +19,17 @@
 
 #include "osm.h"
 
+OsmBounds::OsmBounds(const XmlElement& osmElement) {
+    XmlElement bounds = osmElement.getChild("bounds");
+    if (bounds.isEmpty()) {
+        throw Error("No bounds in OSM file");
+    }
+    min = Coords( bounds.getAttribute<double>("minlon"),
+                  bounds.getAttribute<double>("minlat") );
+    max = Coords( bounds.getAttribute<double>("maxlon"),
+                  bounds.getAttribute<double>("maxlat") );
+}
+
 namespace Osm {
     NodeMap nodeMap;
     WayMap  wayMap;

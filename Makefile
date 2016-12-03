@@ -41,11 +41,11 @@ RM       = rm -f
 all: $(BINDIR)/$(EXECUTABLE)
 
 $(BINDIR)/$(EXECUTABLE): $(OBJECTS)
-	$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
+	@$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	$(CC) $(CFLAGS) $(foreach d, $(INCLUDEDIRS), -I$d) -c $< -o $@
+	@$(CC) $(CFLAGS) $(foreach d, $(INCLUDEDIRS), -I$d) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
 .PHONEY: clean

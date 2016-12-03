@@ -151,8 +151,6 @@ codes:
     - 536:
         amenity: hunting_stand
 
-    - 601.3: background
-
     - 701:
         checkpoint: start
 
@@ -162,6 +160,8 @@ codes:
     - 703:
         checkpoint: yes
         name:
+
+    - 707: background
 
     - 709:
         landuse: military

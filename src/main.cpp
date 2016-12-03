@@ -159,10 +159,16 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
     Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree);
     info("Ok");
 
-    Coords min = OsmNode::getMinCoords();
-    min = Main::transform.geographicToMap(min);
-    Coords max = OsmNode::getMaxCoords();
-    max = Main::transform.geographicToMap(max);
+    OsmBounds bounds(inOsmRoot);
+    Coords left_bottom = bounds.getMin();
+    left_bottom = Main::transform.geographicToMap(left_bottom);
+    Coords right_top = bounds.getMax();
+    right_top = Main::transform.geographicToMap(right_top);
+
+    Coords min(std::min(left_bottom.X(), right_top.X()),
+               std::min(left_bottom.Y(), right_top.Y()));
+    Coords max(std::max(left_bottom.X(), right_top.X()),
+               std::max(left_bottom.Y(), right_top.Y()));
 
     info("Converting relations...");
     Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);
@@ -276,17 +282,14 @@ int main(int argc, const char* argv[])
             throw Error("OSM data version %.1f isn't supported" + std::to_string(version));
         }
 
-        XmlElement bounds = inOsmRoot.getChild("bounds");
-        if (bounds.isEmpty()) {
-            throw Error("No bounds");
-        }
-        double x = bounds.getAttribute<double>("minlon") +
-                   bounds.getAttribute<double>("maxlon");
-        x /= 2;
-        double y = bounds.getAttribute<double>("minlat") +
-                   bounds.getAttribute<double>("maxlat");
-        y /= 2;
-        Coords geographic_ref_point(x,y);
+        OsmBounds bounds(inOsmRoot);
+        double lon = bounds.getMin().X() +
+                     bounds.getMax().X();
+        lon /= 2;
+        double lat = bounds.getMin().Y() +
+                     bounds.getMax().Y();
+        lat /= 2;
+        Coords geographic_ref_point(lon,lat);
 
         Georeferencing georef(inXmapRoot, geographic_ref_point);
 

@@ -26,6 +26,15 @@
 
 #include "rules.h"
 
+class OsmBounds {
+    Coords min;
+    Coords max;
+public:
+    OsmBounds(const XmlElement& osmElement);
+    const Coords& getMin() const { return min; };
+    const Coords& getMax() const { return max; };
+};
+
 class OsmObject {
 protected:
     TagMap tagMap;
@@ -93,7 +102,7 @@ public:
 namespace Osm {
     typedef std::map<long, OsmNode> NodeMap;
     typedef std::map<long, OsmWay>  WayMap;
-    };
+};
 
 
 
