@@ -173,68 +173,69 @@ Rules::parseMap(const YAML::Node& yaml_map, int id) {
 Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
 : TrueInit(true) {
     RulesCpp::symbol_ids = &symbol_ids;
-    std::ifstream rules_file("rules.yaml");
+    std::ifstream rules_file(rules_file_name);
     YAML::Parser  parser(rules_file);
     YAML::Node    doc;
     //std::string name = rules.getAttribute<std::string>("name");
-    //info("Loading rules '" + name + "'... ");
 
-    if (parser.GetNextDocument(doc)) {
-        if (doc.Type() != YAML::NodeType::Map) {
-            throw Error("invalid rules file format");
+    if (!parser.GetNextDocument(doc)) {
+        throw Error("failed open '"+rules_file_name+"'");
+    }
+
+    if (doc.Type() != YAML::NodeType::Map) {
+        throw Error("invalid rules file format");
+    }
+
+    if(const YAML::Node *pName = doc.FindValue("rules_name")) {
+        std::string rules_name;
+        *pName >> rules_name;
+        if (!rules_name.empty() && rules_name != "") {
+            info("Loading rules '" + rules_name + "'... ");
         }
+    }
+    else {
+        info("Loading rules...");
+    }
 
-        if(const YAML::Node *pName = doc.FindValue("rules_name")) {
-            std::string rules_name;
-            *pName >> rules_name;
-            if (!rules_name.empty() && rules_name != "") {
-                info("Loading rules '" + rules_name + "'... ");
+    const YAML::Node *pCodes = doc.FindValue("codes");
+    if (pCodes->Type() != YAML::NodeType::Sequence) {
+        throw Error("Codes list in the rules file not a YAML sequence");
+    }
+    for (YAML::Iterator it = pCodes->begin(); it != pCodes->end(); ++it) {
+        YAML::Iterator code_map = it->begin();
+        /// TODO check members number in list
+        std::string code;
+        code_map.first() >> code;
+        int id = RulesCpp::symbol_ids->get(code);
+        const YAML::Node& symbol_definition = code_map.second();
+        //info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
+        switch (symbol_definition.Type()) {
+        case YAML::NodeType::Scalar:
+            {
+                std::string description;
+                symbol_definition >> description;
+                if (description == "background" || description == "bg") {
+                    backgroundList.push_back(id);
+                    //info("background: "+code);
+                }
             }
-        }
-        else {
-            info("Loading rules...");
-        }
-
-        const YAML::Node *pCodes = doc.FindValue("codes");
-        if (pCodes->Type() != YAML::NodeType::Sequence) {
-            throw Error("Codes list in the rules file not a YAML sequence");
-        }
-        for (YAML::Iterator it = pCodes->begin(); it != pCodes->end(); ++it) {
-            YAML::Iterator code_map = it->begin();
-            /// TODO check members number in list
-            std::string code;
-            code_map.first() >> code;
-            int id = RulesCpp::symbol_ids->get(code);
-            const YAML::Node& symbol_definition = code_map.second();
-            //info(code+"\t"+std::to_string(id)+"\t"+Yaml::type(symbol_definition.Type()));
-            switch (symbol_definition.Type()) {
-            case YAML::NodeType::Scalar:
-                {
-                    std::string description;
-                    symbol_definition >> description;
-                    if (description == "background" || description == "bg") {
-                        backgroundList.push_back(id);
-                        //info("background: "+code);
-                    }
-                }
-                break;
-            case YAML::NodeType::Map:
-                {
-                    parseMap(symbol_definition, id);
-                }
-                break;
-            case YAML::NodeType::Sequence:
-                {
-                    for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
-                        parseMap(*it,id);
-                        /// TODO
-                    }
-                }
-                break;
-            default:
-                throw Error("Illegal YAML node type");
-                break;
+            break;
+        case YAML::NodeType::Map:
+            {
+                parseMap(symbol_definition, id);
             }
+            break;
+        case YAML::NodeType::Sequence:
+            {
+                for (auto it = symbol_definition.begin(); it != symbol_definition.end(); ++it) {
+                    parseMap(*it,id);
+                    /// TODO
+                }
+            }
+            break;
+        default:
+            throw Error("Illegal YAML node type");
+            break;
         }
     }
     idMap.debugPrint();
