@@ -20,7 +20,7 @@ GIT_VERSION = $(shell git describe --abbrev=4 --tags)
 GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
 
 CC          = g++
-CFLAGS      = -Wall -std=c++11 -DVERSION_STRING='"$(GIT_VERSION) $(GIT_TIMESTAMP)"'
+CFLAGS      = -Wall -std=c++11 -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
 #CFLAGS     += -DDEBUG -g
 LDFLAGS     = -lproj -lroxml -lyaml-cpp
 LINKER      = $(CC) -o
