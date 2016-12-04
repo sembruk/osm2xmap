@@ -4,6 +4,10 @@ codes:
     - 110:
         barrier: ditch
 
+    - 202:
+        natural: rock
+        area: yes
+
     - 211:
         landuse: quarry
         resource: sand
@@ -13,6 +17,9 @@ codes:
 
     - 211:
         natural: beach
+
+    - 212:
+        natural: bare_rock
 
     - 301.2:
         landuse: reservoir
@@ -50,13 +57,17 @@ codes:
 
     - 403: background
 
-    - 405:
+    - 404:
+        natural: wood
+        wood:density: sparse
+
+    - 406:
         landuse: forest
 
     - 406:
         natural: wood
 
-    - 405.1:
+    - 406.1:
         natural: tree_row
 
     - 408:
@@ -90,9 +101,6 @@ codes:
     - 503.1:
         highway: unclassified OR residential OR service OR living_street
         surface: compacted OR gravel
-
-    - 504:
-        highway: track
 
     - 504:
         highway: unclassified OR residential OR service OR living_street
@@ -178,9 +186,9 @@ codes:
     - 536:
         amenity: hunting_stand
 
-    - 603.1:
-        place: village OR hamlet OR allotments
-        name:
+    #- 603.1:
+    #    place: village OR hamlet OR allotments
+    #    name:
 
     - 707: background
 
