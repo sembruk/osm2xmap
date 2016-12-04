@@ -192,9 +192,9 @@ const std::string defaultOutXmapFileName  = "out.xmap";
 
 void printUsage(const char* programName) {
     info("Usage:");
-    info("   " + std::string(programName) + " [options]");
+    info("   " + std::string(programName) + " [options] file.osm");
     info("   Options:");
-    info("      -i filename - input OSM filename ('"+defaultInOsmFileName+"' as default);");
+    //info("      -i filename - input OSM filename ('"+defaultInOsmFileName+"' as default);");
     info("      -o filename - output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
     info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
@@ -227,11 +227,7 @@ int main(int argc, const char* argv[])
 
         if (argc > 1) {
             for (int i = 1; i < argc; ++i) {
-                if (std::string(argv[i]) == "-i") {
-                    inOsmFileName = argv[++i];
-                    checkFileName(inOsmFileName,argv[0]);
-                }
-                else if (std::string(argv[i]) == "-o") {
+                if (std::string(argv[i]) == "-o") {
                     outXmapFileName = argv[++i];
                     checkFileName(outXmapFileName,argv[0]);
                 }
@@ -255,8 +251,9 @@ int main(int argc, const char* argv[])
                     return 0;
                 }
                 else {
-                    printUsage(argv[0]);
-                    throw Error("Unknown option '" + std::string(argv[i]) + "'");
+                    inOsmFileName = argv[i];
+                    checkFileName(inOsmFileName,argv[0]);
+                    //throw Error("Unknown option '" + std::string(argv[i]) + "'");
                 }
             }
         }

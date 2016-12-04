@@ -52,7 +52,7 @@ SymbolIdByCodeMap::get(std::string code) const {
     }
     auto it = find(code);
     if (it == end()) {
-        warning("Symbol with code " + code + " didn't find");
+        warning("Symbol with code " + code + " didn't find in the symbol set file");
         return invalid_sym_id;
     }
     return it->second.first;
