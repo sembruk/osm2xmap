@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
 
-GIT_VERSION = $(shell git describe --abbrev=4 --tags)
+GIT_VERSION = $(shell git describe --abbrev=4 --tags | sed 's/^v//')
 GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
 
 CC          = g++
