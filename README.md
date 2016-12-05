@@ -28,6 +28,17 @@ sudo apt-get install libroxml0 libroxml-dev libproj0 libproj-dev libyaml-cpp0.3 
 
 ## Usage
 
+Download OSM data from http://openstreetmap.org/export.
+You can also use [JOSM](https://josm.openstreetmap.de/) editor for download data.
+
+Convert downloaded file with the following command
+
+```bash
+./osm2xmap map.osm
+```
+
+For more options see `./osm2xmap --help`:
+
 ```bash
 ./osm2xmap --help
 Usage:
@@ -41,6 +52,14 @@ Usage:
       -V or --version - print software version;
       --help or -h - this usage.
 ```
+
+You can open and edit resulting file in [OpenOrienteering Mapper](http://www.openorienteering.org/apps/mapper/) v0.6.6 or newer.
+
+## Features
+
+* Supported points, lines and multipolygons.
+* Copies all OSM tags (press Ctrl+Shift+6 in OOM to see).
+* You can configure converting rules (see `*_rules.yaml` file)
 
 ## Todo
 
