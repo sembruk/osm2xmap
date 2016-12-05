@@ -95,6 +95,7 @@ XmapTree::XmapTree(const char * templateFilename)
 void 
 XmapTree::save(const char * outXmapFilename) { ///< void xmapSaveTreeInFile();
     objects.addAttribute<int>("count",objectsCount);
+    info("Saving '"+std::string(outXmapFilename)+"'");
     tree.saveInFile(outXmapFilename,false);
 }
 

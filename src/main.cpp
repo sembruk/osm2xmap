@@ -154,10 +154,10 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
  
     info("Converting nodes...");
     Main::handleOsmData<OsmNode>(inOsmRoot,xmapTree);
-    info("Ok");
+    info("done");
     info("Converting ways...");
     Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree);
-    info("Ok");
+    info("done");
 
     OsmBounds bounds(inOsmRoot);
     Coords left_bottom = bounds.getMin();
@@ -172,7 +172,7 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
 
     info("Converting relations...");
     Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);
-    info("Ok");
+    info("done");
 
     for (const auto id : Main::rules.backgroundList) {
         xmapTree.add(id, min, max);
@@ -192,15 +192,15 @@ const std::string defaultOutXmapFileName  = "out.xmap";
 
 void printUsage(const char* programName) {
     info("Usage:");
-    info("   " + std::string(programName) + " [options] file.osm");
+    info("   " + std::string(programName) + " [options] [file]");
+    info("   file - input OSM filename ('"+defaultInOsmFileName+"' as default);");
     info("   Options:");
-    //info("      -i filename - input OSM filename ('"+defaultInOsmFileName+"' as default);");
     info("      -o filename - output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
     info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
     info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
     info("      -r filename - YAML rules filename ('"+defaultRulesFileName+"' as default);");
-    info("      -v or --version - print software version;");
-    info("      --help, -h or help - this usage.");
+    info("      -V or --version - print software version;");
+    info("      --help or -h - this usage.");
 }
 
 //FIXME
@@ -211,7 +211,7 @@ void checkFileName(const char* fileName, const char* programName) {
     }
     if (fileName[0] == '-') {
         printUsage(programName);
-        throw Error("bad filename");
+        throw Error("bad filename '"+std::string(fileName)+"'");
     }
 }
 
@@ -227,33 +227,35 @@ int main(int argc, const char* argv[])
 
         if (argc > 1) {
             for (int i = 1; i < argc; ++i) {
-                if (std::string(argv[i]) == "-o") {
+                std::string option(argv[i]);
+                if (option == "-o") {
                     outXmapFileName = argv[++i];
                     checkFileName(outXmapFileName,argv[0]);
                 }
-                else if (std::string(argv[i]) == "-s") {
+                else if (option == "-s") {
                     symbolFileName = argv[++i];
                     checkFileName(symbolFileName,argv[0]);
                 }
-                else if (std::string(argv[i]) == "-r") {
+                else if (option == "-r") {
                     rulesFileName = argv[++i];
                     checkFileName(rulesFileName,argv[0]);
                 }
-                else if (std::string(argv[i]) == "-v" ||
-                         std::string(argv[i]) == "--version") {
+                else if (option == "-V" ||
+                         option == "--version") {
                     printVersion();
                     return 0;
                 }
-                else if (std::string(argv[i]) == "--help" ||
-                         std::string(argv[i]) == "-h" ||
-                         std::string(argv[i]) == "help") {
+                else if (option == "--help" ||
+                         option == "-h") {
                     printUsage(argv[0]);
                     return 0;
+                }
+                else if (option[0] == '-') {
+                    throw Error("Invalid option '" + option + "'");
                 }
                 else {
                     inOsmFileName = argv[i];
                     checkFileName(inOsmFileName,argv[0]);
-                    //throw Error("Unknown option '" + std::string(argv[i]) + "'");
                 }
             }
         }

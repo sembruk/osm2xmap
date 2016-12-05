@@ -239,6 +239,7 @@ Rules::Rules(const std::string& rules_file_name, SymbolIdByCodeMap& symbol_ids)
         }
     }
     idMap.debugPrint();
+    info("done");
 }
 
 int 
