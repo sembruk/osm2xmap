@@ -28,19 +28,21 @@ LINKER      = $(CC) -o
 LIBDIRS     = .
 INCLUDEDIRS = .
 
+BIN         = $(DESTDIR)/usr/bin
+SHARE       = $(DESTDIR)/usr/share/osm2xmap
+
 EXECUTABLE  = osm2xmap
 
 SRCDIR      = src
 OBJDIR      = src
-BINDIR      = .
 
 SOURCES  = $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS  = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM       = rm -f
 
-all: $(BINDIR)/$(EXECUTABLE)
+all: $(EXECUTABLE)
 
-$(BINDIR)/$(EXECUTABLE): $(OBJECTS)
+$(EXECUTABLE): $(OBJECTS)
 	@$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
 	@echo "Linking complete!"
 
@@ -55,6 +57,13 @@ clean:
 
 .PHONEY: remove
 remove: clean
-	$(RM) $(BINDIR)/$(EXECUTABLE)
+	$(RM) $(EXECUTABLE)
 	@echo "Executable removed!"
+
+.PHONEY: install
+install: $(EXECUTABLE)
+	install -d $(BIN) $(SHARE)
+	install ./$(EXECUTABLE) $(BIN)
+	install -m644 *.xmap $(SHARE)
+	install -m644 *.yaml $(SHARE)
 
