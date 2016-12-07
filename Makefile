@@ -69,7 +69,7 @@ remove: clean
 
 .PHONEY: install
 install: $(EXECUTABLE)
-	install -d $(INSTALL_BINDIR) $(INSTALL_SHAREDIR) $(INSTALL_CONFDIR)
+	install -d $(INSTALL_BINDIR) $(INSTALL_SHAREDIR) $(INSTALL_CONFDIR) $(INSTALL_MANDIR)
 	install ./$(EXECUTABLE) $(INSTALL_BINDIR)
 	install -m644 *.xmap $(INSTALL_SHAREDIR)
 	install -m644 *.yaml $(INSTALL_CONFDIR)
