@@ -1,0 +1,20 @@
+Source: osm2xmap
+Section: utils
+Priority: optional
+Maintainer: Semyon Yakimov <ya-kimov@mail.ru>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://github.com/sembruk/osm2xmap
+Vcs-Git: http://github.com/sembruk/osm2xmap.git
+Vcs-Browser: https://github.com/sembruk/osm2xmap
+
+Package: osm2xmap
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: openorienteering-mapper (>= 0.6.6)
+Description: OpenStreetMap data to OpenOrienteering Mapper map converter
+ Osm2xmap is an utility for converting OSM data to XMAP format for loading
+ into OpenOrienteering Mapper is an orienteering map drawing software.
+ It supports OSM nodes, ways and multipolygons. You can configure converting
+ rules by YAML rules file.
+
