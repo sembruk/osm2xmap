@@ -23,6 +23,7 @@ SHAREDIR       = /usr/share/osm2xmap
 CONFDIR        = /etc/osm2xmap
 
 INSTALL_BINDIR   = $(DESTDIR)/usr/bin
+INSTALL_MANDIR   = $(DESTDIR)/usr/share/man/man1
 INSTALL_SHAREDIR = $(DESTDIR)$(SHAREDIR)
 INSTALL_CONFDIR  = $(DESTDIR)$(CONFDIR)
 
@@ -72,4 +73,5 @@ install: $(EXECUTABLE)
 	install ./$(EXECUTABLE) $(INSTALL_BINDIR)
 	install -m644 *.xmap $(INSTALL_SHAREDIR)
 	install -m644 *.yaml $(INSTALL_CONFDIR)
+	install -m644 doc/man/*.1 $(INSTALL_MANDIR)
 
