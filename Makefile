@@ -16,25 +16,31 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Osm2xmap.  If not, see <http://www.gnu.org/licenses/>.
 
-GIT_VERSION = $(shell git describe --abbrev=4 --tags | sed 's/^v//')
-GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
-
-CC          = g++
-CFLAGS      = -Wall -std=c++11 -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
-#CFLAGS     += -DDEBUG -g
-LDFLAGS     = -lproj -lroxml -lyaml-cpp
-LINKER      = $(CC) -o
-
 LIBDIRS     = .
 INCLUDEDIRS = .
 
-BIN         = $(DESTDIR)/usr/bin
-SHARE       = $(DESTDIR)/usr/share/osm2xmap
+SHAREDIR       = /usr/share/osm2xmap
+CONFDIR        = /etc/osm2xmap
+
+INSTALL_BINDIR   = $(DESTDIR)/usr/bin
+INSTALL_SHAREDIR = $(DESTDIR)$(SHAREDIR)
+INSTALL_CONFDIR  = $(DESTDIR)$(CONFDIR)
 
 EXECUTABLE  = osm2xmap
 
 SRCDIR      = src
 OBJDIR      = src
+
+GIT_VERSION = $(shell git describe --abbrev=4 --tags | sed 's/^v//')
+GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
+
+CC          = g++
+CFLAGS      = -Wall -std=c++11 -DCONFDIR=\"$(CONFDIR)\" \
+              -DSHAREDIR=\"$(SHAREDIR)\" \
+              -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
+#CFLAGS     += -DDEBUG -g
+LDFLAGS     = -lproj -lroxml -lyaml-cpp
+LINKER      = $(CC) -o
 
 SOURCES  = $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS  = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
@@ -62,8 +68,8 @@ remove: clean
 
 .PHONEY: install
 install: $(EXECUTABLE)
-	install -d $(BIN) $(SHARE)
-	install ./$(EXECUTABLE) $(BIN)
-	install -m644 *.xmap $(SHARE)
-	install -m644 *.yaml $(SHARE)
+	install -d $(INSTALL_BINDIR) $(INSTALL_SHAREDIR) $(INSTALL_CONFDIR)
+	install ./$(EXECUTABLE) $(INSTALL_BINDIR)
+	install -m644 *.xmap $(INSTALL_SHAREDIR)
+	install -m644 *.yaml $(INSTALL_CONFDIR)
 
