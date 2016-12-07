@@ -20,12 +20,10 @@ LIBDIRS     = .
 INCLUDEDIRS = .
 
 SHAREDIR       = /usr/share/osm2xmap
-CONFDIR        = /etc/osm2xmap
 
 INSTALL_BINDIR   = $(DESTDIR)/usr/bin
 INSTALL_MANDIR   = $(DESTDIR)/usr/share/man/man1
 INSTALL_SHAREDIR = $(DESTDIR)$(SHAREDIR)
-INSTALL_CONFDIR  = $(DESTDIR)$(CONFDIR)
 
 EXECUTABLE  = osm2xmap
 
@@ -36,7 +34,7 @@ GIT_VERSION = $(shell git describe --abbrev=4 --tags | sed 's/^v//')
 GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
 
 CC          = g++
-CFLAGS      = -Wall -std=c++11 -DCONFDIR=\"$(CONFDIR)\" \
+CFLAGS      = -Wall -std=c++11 \
               -DSHAREDIR=\"$(SHAREDIR)\" \
               -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
 #CFLAGS     += -DDEBUG -g
@@ -69,9 +67,9 @@ remove: clean
 
 .PHONEY: install
 install: $(EXECUTABLE)
-	install -d $(INSTALL_BINDIR) $(INSTALL_SHAREDIR) $(INSTALL_CONFDIR) $(INSTALL_MANDIR)
+	install -d $(INSTALL_BINDIR) $(INSTALL_SHAREDIR) $(INSTALL_MANDIR)
 	install ./$(EXECUTABLE) $(INSTALL_BINDIR)
 	install -m644 *.xmap $(INSTALL_SHAREDIR)
-	install -m644 *.yaml $(INSTALL_CONFDIR)
+	install -m644 *.yaml $(INSTALL_SHAREDIR)
 	install -m644 doc/man/*.1 $(INSTALL_MANDIR)
 

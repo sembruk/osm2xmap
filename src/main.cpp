@@ -187,12 +187,9 @@ void printVersion() {
 
 #ifdef SHAREDIR
 const std::string defaultSymbolFileName   = SHAREDIR"/ISOM_15000.xmap";
+const std::string defaultRulesFileName    = SHAREDIR"/ISOM_rules.yaml";
 #else
 const std::string defaultSymbolFileName   = "ISOM_15000.xmap";
-#endif
-#ifdef CONFDIR
-const std::string defaultRulesFileName    = CONFDIR"/ISOM_rules.yaml";
-#else
 const std::string defaultRulesFileName    = "ISOM_rules.yaml";
 #endif
 const std::string defaultInOsmFileName    = "in.osm";
