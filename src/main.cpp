@@ -42,24 +42,26 @@ namespace Main {
     Rules rules;
 
     template< typename T >
-    void handle(T&, XmapTree&);
+    void handle(T&, XmapTree&, bool);
 
     template< >
-    void handle(OsmNode& osmNode, XmapTree& xmapTree) {
+    void handle(OsmNode& osmNode, XmapTree& xmapTree, bool show_invalid_sym_id) {
         auto& tagMap = osmNode.getTagMap();
         int id = Main::rules.getSymbolId(tagMap, ElemType::node);
+        if ( id == invalid_sym_id &&
+             (!show_invalid_sym_id || tagMap.empty()) ) {
+            return;
+        }
         Coords coords = osmNode.getCoords();
         coords = Main::transform.geographicToMap(coords);
-        if (id != invalid_sym_id) {
-            if (Main::rules.isText(id)) {
-                const std::string text = osmNode.getName();
-                if (!text.empty()) {
-                    xmapTree.add(id, tagMap, coords, text.c_str());
-                }
+        if (Main::rules.isText(id)) {
+            const std::string text = osmNode.getName();
+            if (!text.empty()) {
+                xmapTree.add(id, tagMap, coords, text.c_str());
             }
-            else {
-                xmapTree.add(id, tagMap, coords);
-            }
+        }
+        else {
+            xmapTree.add(id, tagMap, coords);
         }
     }
 
@@ -82,20 +84,27 @@ namespace Main {
     }
 
     template< >
-    void handle(OsmWay& osmWay, XmapTree& xmapTree) {
+    void handle(OsmWay& osmWay, XmapTree& xmapTree, bool show_invalid_sym_id) {
         auto& tagMap = osmWay.getTagMap();
         int id = Main::rules.getSymbolId(tagMap, ElemType::way);
+        if ( id == invalid_sym_id &&
+             (!show_invalid_sym_id || tagMap.empty()) ) {
+            return;
+        }
         XmapWay way = xmapTree.add(id, tagMap);
         addCoordsToWay(way,id,osmWay);
     }
 
     template< >
-    void handle(OsmRelation& osmRelation, XmapTree& xmapTree) {
+    void handle(OsmRelation& osmRelation, XmapTree& xmapTree, bool show_invalid_sym_id) {
         if (!osmRelation.isMultipolygon()) {
             return;
         }
         auto& tagMap = osmRelation.getTagMap();
         int id = Main::rules.getSymbolId(tagMap, ElemType::area);
+        if (id == invalid_sym_id && !show_invalid_sym_id) {
+            return;
+        }
         XmapWay way = xmapTree.add(id, tagMap);
         OsmMemberList memberList = osmRelation;
         OsmWay& osmWay = memberList.front();
@@ -135,28 +144,28 @@ namespace Main {
     }
 
     template< typename T >
-    void handleOsmData(XmlElement& osmRoot, XmapTree& xmapTree) {
+    void handleOsmData(XmlElement& osmRoot, XmapTree& xmapTree, bool show_invalid_sym_id = true) {
         for ( XmlElement item = osmRoot.getChild();
               !item.isEmpty();
               ++item ) {
             if (item == T::name()) {
                 T obj(item);
-                handle(obj,xmapTree);
+                handle(obj, xmapTree, show_invalid_sym_id);
             }
         }
     }
 }
 
-void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapSymbolFilename, const Georeferencing& georef) {
+void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char * xmapSymbolFilename, const Georeferencing& georef, bool show_invalid_sym_id) {
 
     XmapTree xmapTree(xmapSymbolFilename);
     xmapTree.setGeoreferencing(georef);
  
     info("Converting nodes...");
-    Main::handleOsmData<OsmNode>(inOsmRoot,xmapTree);
+    Main::handleOsmData<OsmNode>(inOsmRoot,xmapTree,show_invalid_sym_id);
     info("done");
     info("Converting ways...");
-    Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree);
+    Main::handleOsmData<OsmWay>(inOsmRoot,xmapTree,show_invalid_sym_id);
     info("done");
 
     OsmBounds bounds(inOsmRoot);
@@ -171,7 +180,7 @@ void osmToXmap(XmlElement& inOsmRoot, const char * outXmapFilename, const char *
                std::max(left_bottom.Y(), right_top.Y()));
 
     info("Converting relations...");
-    Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree);
+    Main::handleOsmData<OsmRelation>(inOsmRoot,xmapTree,show_invalid_sym_id);
     info("done");
 
     for (const auto id : Main::rules.backgroundList) {
@@ -200,12 +209,14 @@ void printUsage(const char* programName) {
     info("   " + std::string(programName) + " [options] [file]");
     info("   file - input OSM filename ('"+defaultInOsmFileName+"' as default);");
     info("   Options:");
-    info("      -o filename - output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
-    info("      -s filename - symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
-    info("                    (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
-    info("      -r filename - YAML rules filename ('"+defaultRulesFileName+"' as default);");
-    info("      -V or --version - print software version;");
-    info("      --help or -h - this usage.");
+    info("      -o filename        output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
+    info("      -s filename        symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
+    info("                         (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
+    info("      -r filename        YAML rules filename ('"+defaultRulesFileName+"' as default);");
+    info("      -n, --no-empty-objects");
+    info("                         don`t convert objects without symbol;");
+    info("      -V, --version      print software version;");
+    info("      -h, --help         this usage.");
 }
 
 //FIXME
@@ -230,6 +241,8 @@ int main(int argc, const char* argv[])
         const char* inOsmFileName    = defaultInOsmFileName.c_str();
         const char* outXmapFileName  = defaultOutXmapFileName.c_str();
 
+        bool show_invalid_sym_id = true;
+
         if (argc > 1) {
             for (int i = 1; i < argc; ++i) {
                 std::string option(argv[i]);
@@ -244,6 +257,10 @@ int main(int argc, const char* argv[])
                 else if (option == "-r") {
                     rulesFileName = argv[++i];
                     checkFileName(rulesFileName,argv[0]);
+                }
+                else if (option == "-n" ||
+                         option == "--no-empty-objects") {
+                    show_invalid_sym_id = false;
                 }
                 else if (option == "-V" ||
                          option == "--version") {
@@ -301,7 +318,7 @@ int main(int argc, const char* argv[])
         SymbolIdByCodeMap symbolIds(inXmapRoot);
         Main::rules = Rules(rulesFileName,symbolIds);
 
-        osmToXmap(inOsmRoot,outXmapFileName,symbolFileName,georef);
+        osmToXmap(inOsmRoot, outXmapFileName, symbolFileName, georef, show_invalid_sym_id);
 
         // FIXME See https://github.com/jbeder/yaml-cpp/wiki/How-To-Parse-A-Document-%28Old-API%29
         // See https://github.com/liosha/osm2mp/blob/master/cfg/polish-mp/ways-roads-common-univ.yml 
