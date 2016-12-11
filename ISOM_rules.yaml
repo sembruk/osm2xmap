@@ -1,22 +1,51 @@
 rules_name: ISOM
 
 codes:
+    - 109:
+        natural: gully
+
     - 110:
         barrier: ditch
 
+    - 112:
+         man_made: mound
+
+    - 112:
+         natural: knoll OR termite_mount OR ant_hill
+
+    - 115:
+        natural: depression OR hollow
+
+    - 201:
+        natural: cliff
+
     - 202:
-        natural: rock
+        natural: rock OR cliff
         area: yes
+
+    - 204:
+        natural: hole
+        rock: NOT no
+
+    - 205:
+        natural: cave_entrance
+
+    - 207:
+        natural: stone
+
+    - 210.1.1:
+        natural: scree
 
     - 211:
         landuse: quarry
         resource: sand
 
     - 211:
-        natural: sand
+        natural: sand OR dune
 
     - 211:
         natural: beach
+        surface: sand
 
     - 212:
         natural: bare_rock
@@ -30,8 +59,12 @@ codes:
     - 301.2:
         waterway: riverbank
 
+    - 303:
+        natural: hole
+        water: yes
+
     - 305:
-        waterway: river
+        waterway: river OR canal
 
     - 306:
         waterway: stream OR drain
@@ -39,18 +72,32 @@ codes:
     - 307:
         waterway: ditch
 
+    - 307:
+        waterway: stream OR drain
+        intermittent: yes
+
+    - 309:
+        natural: wetland
+        foot: impassable
+
     - 310:
         natural: wetland
-        wetland: marsh
 
     - 311:
         natural: wetland
+        intermittent: yes
 
     - 312:
         man_made: water_well
 
+    - 312:
+        amenity: fountain
+
     - 313:
         natural: spring
+
+    - 314:
+        amenity: drinking_water OR watering_place
 
     - 401:
         landuse: meadow
@@ -75,10 +122,30 @@ codes:
 
     - 408:
         natural: wood
-        wood:age: young
+        wood:age: young OR very_young
+
+    - 408:
+        natural: wood
+        wood:density: dense
+
+    - 410:
+        barrier: hedge
+        area: yes
+
+    - 410.1:
+        barrier: hedge
 
     - 412:
         landuse: orchard
+
+    - 413:
+        landuse: vineyard
+
+    - 419:
+        natural: tree
+
+    - 420:
+        natural: bush
 
     - 501.0:
         highway: motorway
@@ -150,41 +217,103 @@ codes:
         man_made: cutline
 
     - 515:
-        railway: rail
+        railway: rail OR disused OR light_rail OR miniature OR narrow_gauge
+
+    - 515:
+        railway: preserved OR tram
 
     - 516:
         power: minor_line
         __dash__:
             power: pole
 
+    - 516:
+        aerialway: NOT no
+        __dash__:
+            aerialway: pylon
+
     - 517:
         power: line
         __dash__:
             power: tower
 
+    - 520:
+        barrier: wall
+        ruins: yes
+
     - 521:
         barrier: wall
+
+    - 523:
+        barrier: fence
+        ruins: yes
 
     - 524:
         barrier: fence
 
     - 526:
-        building: NOT no
+        building: NOT ruins
+
+    - 526:
+        amenity: shelter
+
+    - 526:
+        tourism: alpine_hut OR chalet
 
     - 527:
-        landuse: residential OR allotments OR industrial
+        landuse: residential OR allotments OR industrial OR commercial
 
     - 529.2:
         amenity: parking
 
+    - 530:
+        building: NOT ruins
+        ruins: yes
+
+    - 530:
+        building: NOT ruins
+        historic: ruins
+
+    - 530:
+        building: ruins
+
     - 532.1:
         landuse: cemetery
 
+    - 533:
+        man_made: pipeline
+        location: overhead
+
+    - 534:
+        man_made: pipeline
+        location: overground
+
     - 535:
-        man_made: tower OR water_tower OR chimney
+        man_made: tower OR water_tower OR chimney OR lighthouse OR mast
 
     - 536:
         amenity: hunting_stand
+
+    - 537:
+        historic: boundary_stone
+
+    - 537:
+        highway: milestone
+
+    - 537:
+        man_made: cairn OR survey_point
+
+    - 538:
+        amenity: feeding_place
+
+    - 540:
+        tourism: artwork
+
+    - 540:
+        amenity: bench
+
+    - 540:
+        pipeline: marker
 
     #- 603.1:
     #    place: village OR hamlet OR allotments
