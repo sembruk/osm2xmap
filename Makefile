@@ -48,7 +48,7 @@ RM       = rm -f
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	@$(LINKER) $@ $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
+	@$(LINKER) $(EXECUTABLE) $(OBJECTS) $(LDFLAGS) $(foreach d, $(LIBDIRS), -L$d)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
