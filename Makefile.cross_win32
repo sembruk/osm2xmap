@@ -18,6 +18,8 @@
 
 include Makefile
 
+SHAREDIR    :=
+
 CC          := i686-w64-mingw32-g++
 
 INCLUDEDIRS := lib/proj/                  \

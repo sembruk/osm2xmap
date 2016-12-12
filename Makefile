@@ -19,7 +19,7 @@
 LIBDIRS     = .
 INCLUDEDIRS = .
 
-SHAREDIR       = /usr/share/osm2xmap
+SHAREDIR       = /usr/share/osm2xmap/
 
 INSTALL_BINDIR   = $(DESTDIR)/usr/bin
 INSTALL_MANDIR   = $(DESTDIR)/usr/share/man/man1
@@ -34,9 +34,9 @@ GIT_VERSION = $(shell git describe --abbrev=4 --tags | sed 's/^v//')
 GIT_TIMESTAMP = $(shell git log -n 1 --format=%ai)
 
 CC          = g++
-CFLAGS      = -Wall -std=c++11 \
-              -DSHAREDIR=\"$(SHAREDIR)\" \
-              -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
+CFLAGS      = -Wall -std=c++11
+CFLAGS     += -DSHAREDIR=\"$(SHAREDIR)\"
+CFLAGS     += -DVERSION_STRING='"$(GIT_VERSION) ($(GIT_TIMESTAMP))"'
 #CFLAGS     += -DDEBUG -g
 LDFLAGS     = -lproj -lroxml -lyaml-cpp
 LINKER      = $(CC) -o

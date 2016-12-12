@@ -37,6 +37,10 @@
 #define VERSION_STRING "undefined"
 #endif
 
+#ifndef SHAREDIR
+#define SHAREDIR ""
+#endif
+
 namespace Main {
     CoordsTransform transform;
     Rules rules;
@@ -195,11 +199,8 @@ void printVersion() {
 }
 
 #ifdef SHAREDIR
-const std::string defaultSymbolFileName   = SHAREDIR"/ISOM_15000.xmap";
-const std::string defaultRulesFileName    = SHAREDIR"/ISOM_rules.yaml";
-#else
-const std::string defaultSymbolFileName   = "ISOM_15000.xmap";
-const std::string defaultRulesFileName    = "ISOM_rules.yaml";
+const std::string defaultSymbolFileName   = SHAREDIR "ISOM_15000.xmap";
+const std::string defaultRulesFileName    = SHAREDIR "ISOM_rules.yaml";
 #endif
 const std::string defaultInOsmFileName    = "in.osm";
 const std::string defaultOutXmapFileName  = "out.xmap";
