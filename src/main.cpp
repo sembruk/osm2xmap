@@ -212,7 +212,6 @@ void printUsage(const char* programName) {
     info("   Options:");
     info("      -o filename        output XMAP filename ('"+defaultOutXmapFileName+"' as default);");
     info("      -s filename        symbol set XMAP or OMAP filename ('"+defaultSymbolFileName+"' as default)");
-    info("                         (see /usr/share/openorienteering-mapper/symbol\\ sets/);");
     info("      -r filename        YAML rules filename ('"+defaultRulesFileName+"' as default);");
     info("      -n, --no-empty-objects");
     info("                         don`t convert objects without symbol;");

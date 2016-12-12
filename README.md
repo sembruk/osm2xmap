@@ -9,7 +9,7 @@ See [**Downloads**](https://github.com/sembruk/osm2xmap/releases) or build from 
 ```bash
 git clone https://github.com/sembruk/osm2xmap.git
 cd osm2xmap
-make
+make && make install
 ```
 
 ## Dependencies
@@ -34,24 +34,10 @@ You can also use [JOSM](https://josm.openstreetmap.de/) editor for download data
 Convert downloaded file with the following command
 
 ```bash
-./osm2xmap map.osm
+osm2xmap map.osm
 ```
 
-For more options see `./osm2xmap --help`:
-
-```bash
-./osm2xmap --help
-Usage:
-   ./osm2xmap [options] [file]
-   file - input OSM filename ('in.osm' as default);
-   Options:
-      -o filename - output XMAP filename ('out.xmap' as default);
-      -s filename - symbol set XMAP or OMAP filename ('ISOM_15000.xmap' as default)
-                    (see /usr/share/openorienteering-mapper/symbol\ sets/);
-      -r filename - YAML rules filename ('ISOM_rules.yaml' as default);
-      -V or --version - print software version;
-      --help or -h - this usage.
-```
+For more options see `osm2xmap --help`.
 
 You can open and edit resulting file in [OpenOrienteering Mapper](http://www.openorienteering.org/apps/mapper/) v0.6.6 or newer.
 
