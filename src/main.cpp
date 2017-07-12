@@ -82,7 +82,7 @@ namespace Main {
             Coords coords = osmNode.getCoords();
             lastGeographicCoords = coords;
             coords = Main::transform.geographicToMap(coords);
-            way.addCoord(coords,flags);
+            way.addCoordsToEnd(coords,flags);
         }
         return lastGeographicCoords;
     }

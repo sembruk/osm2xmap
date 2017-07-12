@@ -59,7 +59,10 @@ protected:
  
     XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap);
 public:
-    void addCoord(const Coords& coords, int flags);
+    void addCoordsToEnd(const Coords& coords, int flags);
+    void addCoordsToBegin(const Coords& coords, int flags);
+private:
+    void addCoords(const Coords& coords, bool toBegin, int flags);
 };
 
 class XmapPoint

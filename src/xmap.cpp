@@ -158,25 +158,43 @@ XmapObject::XmapObject(XmapTree* xmapTree, int id, const TagMap& tagMap) {
 }
 
 void
-XmapObject::addCoord(const Coords& coords, int flags=0) {
+XmapObject::addCoords(const Coords& coords, bool toBegin, int flags) {
     if (coordsElement.getChildNumber() == 0) {
         first = coords;
+        last = coords;
     }
-    XmlElement coord(coordsElement.addChild("coord"));
-    coord.addAttribute<int>("x", coords.X());
-    coord.addAttribute<int>("y", coords.Y());
+    XmlElement coordEle;
+    if (toBegin) {
+        coordEle = coordsElement.addChildToBegin("coord");
+        first = coords;
+    }
+    else {
+        coordEle = coordsElement.addChildToEnd("coord");
+        lastCoordElement = coordEle;
+        last = coords;
+    }
+    coordEle.addAttribute<int>("x", coords.X());
+    coordEle.addAttribute<int>("y", coords.Y());
     if (flags != 0) {
-        coord.addAttribute("flags", flags);
+        coordEle.addAttribute("flags", flags);
     }
-    lastCoordElement = coord;
-    last = coords;
+}
+
+void
+XmapObject::addCoordsToEnd(const Coords& coords, int flags=0) {
+    addCoords(coords, false, flags);
+}
+
+void
+XmapObject::addCoordsToBegin(const Coords& coords, int flags=0) {
+    addCoords(coords, true, flags);
 }
 
 XmapPoint::XmapPoint(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords)
 : XmapObject(xmapTree,id,tagMap) {
     objectElement.addAttribute("type",0);
     coordsElement.addAttribute("count",1);
-    addCoord(coords);
+    addCoordsToEnd(coords);
 }
 
 XmapWay::XmapWay(XmapTree* xmapTree, int id, const TagMap& tagMap = {})
@@ -209,11 +227,11 @@ XmapRectagngle::XmapRectagngle(XmapTree* xmapTree, int id, Coords& min, Coords& 
 : XmapWay(xmapTree, id) { ///< xmapAddRectangle()
     Coords left (max.X(), min.Y());
     Coords right(min.X(), max.Y());
-    addCoord(min);
-    addCoord(left);
-    addCoord(max);
-    addCoord(right);
-    addCoord(min); ///< close way
+    addCoordsToEnd(min);
+    addCoordsToEnd(left);
+    addCoordsToEnd(max);
+    addCoordsToEnd(right);
+    addCoordsToEnd(min); ///< close way
 }
 
 XmapText::XmapText(XmapTree* xmapTree, int id, const TagMap& tagMap, Coords& coords, const char * text)
