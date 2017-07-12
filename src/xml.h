@@ -68,6 +68,8 @@ public:
             return false;
     };
 
+    node_t* addChildToBegin(const char * name);
+    node_t* addChildToEnd(const char * name);
     node_t* addChild(const char * name);
     void removeChild(const char * name);
     template< typename T >

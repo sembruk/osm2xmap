@@ -127,9 +127,19 @@ XmlElement::getChildNumber() const {
     return roxml_get_chld_nb(node);
 }
 
+node_t *
+XmlElement::addChildToBegin(const char * name) {
+    return roxml_add_node(node, 1, ROXML_ELM_NODE, (char*)name, nullptr);
+}
+
+node_t *
+XmlElement::addChildToEnd(const char * name) {
+    return roxml_add_node(node, 0, ROXML_ELM_NODE, (char*)name, nullptr);
+}
+
 node_t * 
 XmlElement::addChild(const char * name) {
-    return roxml_add_node(node,0,ROXML_ELM_NODE,(char*)name,nullptr);
+    return addChildToEnd(name);
 }
 
 void
