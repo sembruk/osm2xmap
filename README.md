@@ -1,6 +1,6 @@
 # **Osm2xmap**
 
-Converter [OpenSteerMap](http://www.openstreetmap.org) data to [OpenOrienteering Mapper](https://github.com/OpenOrienteering/mapper) format.
+Converter from [OpenStreetMap](http://www.openstreetmap.org) data to [OpenOrienteering Mapper](https://github.com/OpenOrienteering/mapper) format.
 
 ## Getting
 
