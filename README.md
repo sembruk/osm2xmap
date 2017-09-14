@@ -12,6 +12,8 @@ cd osm2xmap
 make && make install
 ```
 
+Users of Arch Linux may use an [AUR package](https://aur.archlinux.org/packages/osm2xmap/).
+
 ## Dependencies
 
 * [Libroxml](http://www.libroxml.net/)
